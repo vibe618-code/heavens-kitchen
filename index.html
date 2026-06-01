@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Heaven's Kitchen – Premium Menu & Smart Cart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            base: 'var(--color-base)',
+            surface: 'var(--color-surface)',
+            elevated: 'var(--color-elevated)',
+            'text-primary': 'var(--color-text-primary)',
+            'text-secondary': 'var(--color-text-secondary)',
+            'accent-primary': '#4A0E17',
+            'accent-secondary': '#C5A55A',
+            success: '#3C6E47',
+            error: '#A23B3B',
+            amber: '#C7761E',
+            border: 'var(--color-border)',
+          },
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body: ['Inter', 'sans-serif'],
+          },
+          boxShadow: {
+            card: '0 2px 8px rgba(0,0,0,0.05)',
+            elevated: '0 4px 16px rgba(0,0,0,0.08)',
+            drawer: '8px 0 40px rgba(0,0,0,0.18)',
+            glow: '0 0 12px rgba(197,165,90,0.3)',
+          },
+          borderRadius: { card: '12px', btn: '8px', pill: '4px' },
+        },
+      },
+    };
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    :root {
+      --color-base: #FDFBF7;
+      --color-surface: #F5F0E8;
+      --color-elevated: #FFFFFF;
+      --color-text-primary: #2C2420;
+      --color-text-secondary: #6B5E53;
+      --color-border: #E4DDD0;
+      --drawer-bg: #FDFBF7;
+      --gradient-start: #FFF9F0;
+      --gradient-end: #FDF4E3;
+      --glow-color: rgba(197, 165, 90, 0.2);
+    }
+    .dark {
+      --color-base: #1a1817;
+      --color-surface: #252320;
+      --color-elevated: #2d2b27;
+      --color-text-primary: #e8e4df;
+      --color-text-secondary: #a89e94;
+      --color-border: #3d3934;
+      --drawer-bg: #1e1c1a;
+      --gradient-start: #1f1d1b;
+      --gradient-end: #131211;
+      --glow-color: rgba(197, 165, 90, 0.15);
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--color-base);
+      color: var(--color-text-primary);
+      transition: background-color 0.35s ease, color 0.35s ease;
+      position: relative;
+      overflow-x: hidden;
+    }
+    /* animated gradient background overlay */
+    .bg-animated {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(circle at 10% 20%, var(--gradient-start), var(--gradient-end));
+      opacity: 0.6;
+    }
+    .bg-animated::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: radial-gradient(circle at 30% 40%, rgba(197,165,90,0.08) 0%, transparent 60%);
+      animation: slowMove 24s infinite alternate ease-in-out;
+      pointer-events: none;
+    }
+    @keyframes slowMove {
+      0% { transform: translate(0%, 0%) rotate(0deg); }
+      100% { transform: translate(5%, 5%) rotate(2deg); }
+    }
+    /* floating particles */
+    .floating-particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: -1;
+      background: rgba(197, 165, 90, 0.25);
+      border-radius: 50%;
+      filter: blur(4px);
+      animation: floatParticle linear infinite;
+    }
+    @keyframes floatParticle {
+      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.6; }
+      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+    }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* enhanced animations */
+    @keyframes staggerFadeIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes subtleGlow { 0% { box-shadow: 0 0 0 0 var(--glow-color); } 50% { box-shadow: 0 0 0 8px var(--glow-color); } 100% { box-shadow: 0 0 0 0 var(--glow-color); } }
+    .nav-link-animated { animation: staggerFadeIn 0.45s cubic-bezier(0.22,0.61,0.36,1) both; }
+    @keyframes drawerSlideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+    @keyframes drawerSlideOut { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+    .drawer-enter { animation: drawerSlideIn 0.38s cubic-bezier(0.22,0.61,0.36,1) forwards; }
+    .drawer-exit { animation: drawerSlideOut 0.28s cubic-bezier(0.55,0.06,0.68,0.19) forwards; }
+    @keyframes backdropFadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes backdropFadeOut { from { opacity: 1; } to { opacity: 0; } }
+    .backdrop-enter { animation: backdropFadeIn 0.3s ease-out forwards; }
+    .backdrop-exit { animation: backdropFadeOut 0.25s ease-in forwards; }
+    @keyframes pulseDot { 0%,100%{ opacity:1;transform:scale(1); } 50%{ opacity:0.4;transform:scale(1.6); } }
+    .pulse-dot { animation: pulseDot 1.6s ease-in-out infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { border:3px solid rgba(255,255,255,0.25); border-top-color:#fff; border-radius:50%; width:20px; height:20px; animation:spin 0.7s linear infinite; display:inline-block; }
+    
+    /* card hover & motion */
+    .menu-card {
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      will-change: transform;
+    }
+    .menu-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px var(--accent-secondary);
+    }
+    .category-btn {
+      transition: all 0.2s ease;
+    }
+    .category-btn:active {
+      transform: scale(0.96);
+    }
+    .btn-press:active {
+      transform: scale(0.96);
+    }
+    .cart-item {
+      animation: fadeUp 0.35s ease backwards;
+    }
+    .fade-up-item {
+      animation: fadeUp 0.5s ease forwards;
+      opacity: 0;
+    }
+    * { -webkit-tap-highlight-color: transparent; }
+    button { cursor:pointer; user-select:none; }
+    button:active { transform:scale(0.96); transition:transform 0.1s ease; }
+    button:disabled { cursor:not-allowed; opacity:0.55; }
+    button:disabled:active { transform:none; }
+    input[type="range"] { -webkit-appearance:none; appearance:none; height:6px; border-radius:3px; background:var(--color-border); outline:none; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:22px; height:22px; border-radius:50%; background:#C5A55A; cursor:pointer; border:2px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,0.2); }
+  </style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { useState, useEffect, useCallback } = React;
+  const btnPrimaryClasses = 'bg-accent-primary text-white font-semibold py-3 px-6 rounded-btn transition hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed';
+
+  // ========== MENU DATA (PRESERVED ORIGINAL) ==========
+  const menuData = [
+    { sku: 'HSP-CLF', name: 'Chicken Loaded Fries', price: 160, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: "Heaven's Special", inStock: true },
+    { sku: 'HSP-CCF', name: 'Chicken Cheesy Fries', price: 180, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: "Heaven's Special", inStock: true },
+    { sku: 'HSP-FCLF', name: 'Full Chicken Loaded Fries', price: 200, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: "Heaven's Special", inStock: true },
+    { sku: 'HSP-SLC', name: 'Special Loaded Chicken', price: 250, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: "Heaven's Special", inStock: true },
+    { sku: 'BGR-CB', name: 'Chicken Burger', price: 120, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: true },
+    { sku: 'BGR-CNB', name: 'Chicken Nuggets Burger', price: 120, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: true },
+    { sku: 'BGR-CCB', name: 'Chicken Cheesy Burger', price: 130, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: true },
+    { sku: 'BGR-CZB', name: 'Chicken Zinger Burger', price: 130, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: true },
+    { sku: 'BGR-CLB', name: 'Chicken Loaded Burger', price: 150, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: true },
+    { sku: 'BGR-CCL', name: 'Chicken Cheesy Loaded', price: 190, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: false },
+    { sku: 'SDW-VS', name: 'Veg Sandwich', price: 70, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
+    { sku: 'SDW-VCS', name: 'Veg Cheese Sandwich', price: 90, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
+    { sku: 'SDW-CS', name: 'Chicken Sandwich', price: 90, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
+    { sku: 'SDW-BBCS', name: 'BBQ Chicken Sandwich', price: 100, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
+    { sku: 'SDW-CCS', name: 'Chicken Cheesy Sandwich', price: 110, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
+    { sku: 'SDW-HS', name: 'Heavens Sandwich', price: 120, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
+    { sku: 'WRP-CW', name: 'Chicken Wrap', price: 120, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
+    { sku: 'WRP-CBW', name: 'Chicken BBQ Wrap', price: 120, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
+    { sku: 'WRP-CTW', name: 'Chicken Tandoori Wrap', price: 120, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
+    { sku: 'WRP-CNW', name: 'Chicken Nuggets Wrap', price: 130, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
+    { sku: 'WRP-CCW', name: 'Chicken Cheesy Wrap', price: 130, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
+    { sku: 'WRP-CZW', name: 'Chicken Zinger Wrap', price: 130, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
+    { sku: 'WRP-CLW', name: 'Chicken Loaded Wrap', price: 160, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
+    { sku: 'PIZ-VP8', name: 'Veg Pizza 8"', price: 170, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
+    { sku: 'PIZ-M8', name: 'Margherita 8"', price: 170, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
+    { sku: 'PIZ-VHP8', name: 'Veg Heavens Pizza 8"', price: 190, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
+    { sku: 'PIZ-CP8', name: 'Chicken Pizza 8"', price: 190, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
+    { sku: 'PIZ-BBCP8', name: 'BBQ Chicken Pizza 8"', price: 200, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
+    { sku: 'PIZ-CCP8', name: 'Cheesy Chicken Pizza 8"', price: 230, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
+    { sku: 'PIZ-CHP8', name: 'Chicken Heavens Pizza 8"', price: 240, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: false },
+    { sku: 'SLD-CN8', name: 'Chicken Nuggets 8', price: 100, image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop', category: 'Sliders', inStock: true },
+    { sku: 'SLD-CN15', name: 'Chicken Nuggets 15', price: 170, image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop', category: 'Sliders', inStock: true },
+    { sku: 'SLD-POP15', name: 'Chicken Popcorn 15', price: 100, image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop', category: 'Sliders', inStock: true },
+    { sku: 'SLD-STR5', name: 'Chicken Strips 5', price: 200, image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop', category: 'Sliders', inStock: true },
+    { sku: 'MOJ-BC', name: 'Blue Curacao', price: 70, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop', category: 'Mojito', inStock: true },
+    { sku: 'MOJ-WM', name: 'Watermelon', price: 70, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop', category: 'Mojito', inStock: true },
+    { sku: 'MOJ-SB', name: 'Strawberry', price: 70, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop', category: 'Mojito', inStock: true },
+    { sku: 'MOJ-VG', name: 'Virgin', price: 70, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop', category: 'Mojito', inStock: true },
+    { sku: 'MLK-VN', name: 'Vanilla', price: 90, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: true },
+    { sku: 'MLK-SB', name: 'Strawberry', price: 100, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: true },
+    { sku: 'MLK-BS', name: 'Butter Scotch', price: 100, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: true },
+    { sku: 'MLK-BC', name: 'Black Current', price: 100, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: true },
+    { sku: 'MLK-CH', name: 'Chocolate', price: 110, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: true },
+    { sku: 'MLK-OR', name: 'Oreo', price: 120, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: false },
+    { sku: 'FRY-RSL', name: 'Salted Fries (Regular)', price: 70, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: 'Fries', subcategory: 'Regular', inStock: true },
+    { sku: 'FRY-RPP', name: 'Peri Peri Fries (Regular)', price: 90, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: 'Fries', subcategory: 'Regular', inStock: true },
+    { sku: 'FRY-LSL', name: 'Salted Fries (Large)', price: 100, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: 'Fries', subcategory: 'Large', inStock: true },
+    { sku: 'FRY-LPP', name: 'Peri Peri Fries (Large)', price: 130, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: 'Fries', subcategory: 'Large', inStock: true },
+  ];
+
+  const freshEvents = [
+    { message: '🔥 Fresh batch of Chicken Loaded Fries just prepared!', sku: 'HSP-CLF' },
+    { message: '🍔 Chicken Zinger Burgers are hot & ready.', sku: 'BGR-CZB' },
+    { message: '🍕 Cheesy Chicken Pizza out of the oven now!', sku: 'PIZ-CCP8' },
+  ];
+
+  const savedAddresses = [
+    { id: 'addr1', label: 'Home', address: '123, MG Road, Indiranagar, Bangalore 560038', isDefault: true, eta: '25-35 mins' },
+    { id: 'addr2', label: 'Work', address: '456, Koramangala 5th Block, Bangalore 560034', isDefault: false, eta: '30-40 mins' },
+  ];
+
+  const navLinks = [
+    { label: 'Menu', icon: '🍽️', action: 'home' },
+    { label: 'My Orders', icon: '📋', action: 'orders' },
+    { label: 'Favourites', icon: '❤️', action: 'favourites' },
+    { label: 'Addresses', icon: '📍', action: 'addresses' },
+    { label: 'Loyalty & Rewards', icon: '🏆', action: 'loyalty' },
+  ];
+
+  // ========== COMPONENTS ==========
+  const QuantityStepper = ({ qty, onIncrement, onDecrement }) => (
+    <div className="flex items-center gap-2 bg-surface rounded-btn px-2 py-1 border border-border">
+      <button onClick={onDecrement} disabled={qty <= 1} className="w-7 h-7 flex items-center justify-center rounded-full text-text-primary font-bold text-lg transition hover:bg-border disabled:opacity-30">−</button>
+      <span className="w-8 text-center font-semibold text-text-primary text-sm">{qty}</span>
+      <button onClick={onIncrement} className="w-7 h-7 flex items-center justify-center rounded-full text-text-primary font-bold text-lg transition hover:bg-border">+</button>
+    </div>
+  );
+
+  const CartItemRow = ({ item, onIncrement, onDecrement, onRemove, idx }) => (
+    <div className="bg-elevated rounded-card p-4 flex items-center gap-3 border border-border cart-item" style={{animationDelay: `${idx * 0.05}s`}}>
+      <img src={item.image} className="w-14 h-14 rounded-lg object-cover flex-shrink-0" alt={item.name} onError={(e) => e.target.src = 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop'} />
+      <div className="flex-1 min-w-0"><p className="font-semibold text-text-primary text-sm truncate">{item.name}</p><p className="text-xs text-text-secondary">₹{item.price.toFixed(2)} each</p></div>
+      <QuantityStepper qty={item.qty} onIncrement={onIncrement} onDecrement={onDecrement} />
+      <span className="font-semibold text-text-primary text-sm w-16 text-right">₹{(item.price * item.qty).toFixed(2)}</span>
+      <button onClick={onRemove} className="text-error text-lg ml-1 p-1 hover:bg-error/10 rounded-full transition">✕</button>
+    </div>
+  );
+
+  const BillSplitCard = ({ itemTotal, deliveryFee, platformFee, taxRate, discount, loyaltyPointsRedeemed, onRedeemPoints, availablePoints }) => {
+    const taxAmount = Math.round((itemTotal + deliveryFee + platformFee) * taxRate);
+    const grandTotal = Math.max(0, itemTotal + deliveryFee + platformFee + taxAmount - discount);
+    return (
+      <div className="bg-elevated rounded-card p-5 mb-4 border border-border">
+        <h3 className="font-display text-lg font-semibold text-text-primary mb-4">Bill Details</h3>
+        <div className="space-y-2 text-sm">
+          <div className="flex justify-between"><span className="text-text-secondary">Item Total</span><span className="font-medium">₹{itemTotal.toFixed(2)}</span></div>
+          <div className="flex justify-between"><span className="text-text-secondary">Delivery Fee</span><span className="font-medium">{deliveryFee === 0 ? <span className="text-success font-semibold">FREE</span> : `₹${deliveryFee.toFixed(2)}`}</span></div>
+          <div className="flex justify-between"><span className="text-text-secondary">Platform Fee</span><span className="font-medium">₹{platformFee.toFixed(2)}</span></div>
+          <div className="flex justify-between"><span className="text-text-secondary">GST ({(taxRate * 100).toFixed(0)}%)</span><span className="font-medium">₹{taxAmount.toFixed(2)}</span></div>
+          {discount > 0 && <div className="flex justify-between text-success"><span>Loyalty Discount ({loyaltyPointsRedeemed} pts)</span><span className="font-semibold">− ₹{discount.toFixed(2)}</span></div>}
+          <div className="border-t border-border pt-2 mt-2"></div>
+          <div className="flex justify-between text-base"><span className="font-display font-bold">Grand Total</span><span className="font-display font-bold">₹{grandTotal.toFixed(2)}</span></div>
+        </div>
+        {availablePoints >= 100 && (
+          <div className="mt-4 pt-3 border-t border-border">
+            <p className="text-xs text-text-secondary mb-2">Redeem Loyalty Points (100 pts = ₹10 off, max 500 pts)</p>
+            <input type="range" min="0" max={Math.min(availablePoints, 500)} step="100" defaultValue="0" onChange={e => onRedeemPoints(Number(e.target.value))} className="w-full" />
+            <div className="flex justify-between text-xs text-text-secondary mt-1"><span>0 pts</span><span>{Math.min(availablePoints, 500)} pts</span></div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const PaymentMethodSelector = ({ paymentMode, onPaymentModeChange, selectedMethod, onSelectMethod, fulfillmentMode }) => {
+    const isDelivery = fulfillmentMode === 'delivery';
+    const onlineMethods = [
+      { id: 'card1', type: 'card', label: 'Visa •••• 4242', icon: '💳', detail: 'Expires 12/26' },
+      { id: 'card2', type: 'card', label: 'MC •••• 8888', icon: '💳', detail: 'Expires 08/25' },
+      { id: 'upi', type: 'upi', label: 'UPI / Google Pay', icon: '📱', detail: 'Instant payment' },
+    ];
+    const doorstepMethods = [
+      { id: 'cod', type: 'cod', label: 'Cash on Delivery', icon: '💵', detail: 'Pay when you receive' },
+      { id: 'cardAtDoor', type: 'cardAtDoor', label: 'Card at Door', icon: '💳', detail: 'Swipe/Insert card on delivery' },
+    ];
+    const methods = paymentMode === 'online' ? onlineMethods : doorstepMethods;
+    const doorstepLabel = isDelivery ? 'Pay at Doorstep' : 'Pay at Counter';
+    return (
+      <div className="bg-elevated rounded-card p-5 mb-4 border border-border">
+        <h3 className="font-display text-lg font-semibold text-text-primary mb-4">Payment Method</h3>
+        <div className="flex bg-surface rounded-btn p-1 mb-4 border border-border">
+          <button onClick={() => onPaymentModeChange('online')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${paymentMode === 'online' ? 'bg-accent-primary text-white shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>💻 Pay Online</button>
+          <button onClick={() => onPaymentModeChange('doorstep')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${paymentMode === 'doorstep' ? 'bg-accent-primary text-white shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>🚪 {doorstepLabel}</button>
+        </div>
+        <div className="space-y-2">
+          {methods.map(method => (
+            <div key={method.id} onClick={() => onSelectMethod(method)} className={`flex items-center gap-3 p-3 rounded-card cursor-pointer border transition ${selectedMethod?.id === method.id ? 'border-accent-primary bg-accent-primary/5' : 'border-border hover:border-accent-secondary/50'}`}>
+              <span className="text-2xl">{method.icon}</span><div className="flex-1"><p className="font-semibold text-text-primary text-sm">{method.label}</p><p className="text-xs text-text-secondary">{method.detail}</p></div>
+              <div className={`w-5 h-5 rounded-full border-2 ${selectedMethod?.id === method.id ? 'border-accent-primary bg-accent-primary/30' : 'border-border'}`}></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  function SignInPage({ onSignIn }) {
+    const [name, setName] = useState('');
+    const [phone, setPhone] = useState('');
+    const [address, setAddress] = useState('');
+    const [errors, setErrors] = useState({});
+    const validate = () => { const e = {}; if (!name.trim()) e.name = 'Full name required'; if (!phone.trim() || phone.length < 10) e.phone = 'Valid 10-digit phone required'; if (!address.trim()) e.address = 'Delivery address required'; return e; };
+    const handleSubmit = (e) => { e.preventDefault(); const errs = validate(); if (Object.keys(errs).length) { setErrors(errs); return; } const user = { name, phone, address, loyaltyPoints: 450 }; onSignIn(user); };
+    return (<div className="min-h-screen bg-base flex items-center justify-center p-4 relative z-10"><div className="w-full max-w-md bg-elevated rounded-card shadow-elevated p-6 md:p-8 animate-fade-up"><div className="text-center mb-6"><h1 className="font-display text-3xl font-bold text-accent-primary mb-2">Heaven's Kitchen</h1><p className="text-text-secondary text-sm">Sign in to order</p></div><form onSubmit={handleSubmit} className="space-y-4"><div><label className="block text-sm font-medium text-text-secondary mb-1">Full Name</label><input type="text" value={name} onChange={(e)=>setName(e.target.value)} className={`w-full p-3 rounded-btn bg-surface border ${errors.name?'border-error':'border-border'} focus:ring-2 focus:ring-accent-secondary transition`} /></div><div><label className="block text-sm font-medium text-text-secondary mb-1">Phone</label><input type="tel" value={phone} onChange={(e)=>setPhone(e.target.value)} className={`w-full p-3 rounded-btn bg-surface border ${errors.phone?'border-error':'border-border'} focus:ring-2 focus:ring-accent-secondary`} /></div><div><label className="block text-sm font-medium text-text-secondary mb-1">Delivery Address</label><textarea value={address} onChange={(e)=>setAddress(e.target.value)} rows="3" className={`w-full p-3 rounded-btn bg-surface border ${errors.address?'border-error':'border-border'} focus:ring-2 focus:ring-accent-secondary`}></textarea></div><button type="submit" className={`${btnPrimaryClasses} w-full`}>Save & Continue</button></form></div></div>);
+  }
+
+  function App() {
+    const [user, setUser] = useState(() => { const stored = localStorage.getItem('hk_user'); return stored ? JSON.parse(stored) : null; });
+    if (!user) return <SignInPage onSignIn={(userData) => { localStorage.setItem('hk_user', JSON.stringify(userData)); setUser(userData); }} />;
+    return <MainApp user={user} onSignOut={() => { localStorage.removeItem('hk_user'); setUser(null); }} />;
+  }
+
+  function MainApp({ user, onSignOut }) {
+    const [cart, setCart] = useState([]);
+    const [view, setView] = useState('home');
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [closing, setClosing] = useState(false);
+    const [darkMode, setDarkMode] = useState(false);
+    const [fulfillmentMode, setFulfillmentMode] = useState('delivery');
+    const [selectedAddressId, setSelectedAddressId] = useState(savedAddresses[0].id);
+    const [paymentMode, setPaymentMode] = useState('online');
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState({ id: 'card1', type: 'card', label: 'Visa •••• 4242', icon: '💳', detail: 'Expires 12/26' });
+    const [loyaltyPoints, setLoyaltyPoints] = useState(user.loyaltyPoints || 450);
+    const [redeemedPoints, setRedeemedPoints] = useState(0);
+    const [addressModalOpen, setAddressModalOpen] = useState(false);
+
+    useEffect(() => { document.documentElement.classList.toggle('dark', darkMode); }, [darkMode]);
+    const handleCloseDrawer = useCallback(() => { setClosing(true); setTimeout(() => { setDrawerOpen(false); setClosing(false); }, 280); }, []);
+    const addToCart = (product) => { if (!product.inStock) return; setCart(prev => { const exist = prev.find(i => i.sku === product.sku); if (exist) return prev.map(i => i.sku === product.sku ? { ...i, qty: i.qty + 1 } : i); return [...prev, { ...product, qty: 1 }]; }); };
+    const incrementItem = (sku) => setCart(prev => prev.map(i => i.sku === sku ? { ...i, qty: i.qty + 1 } : i));
+    const decrementItem = (sku) => setCart(prev => { const item = prev.find(i => i.sku === sku); if (item.qty === 1) return prev.filter(i => i.sku !== sku); return prev.map(i => i.sku === sku ? { ...i, qty: i.qty - 1 } : i); });
+    const removeItem = (sku) => setCart(prev => prev.filter(i => i.sku !== sku));
+    const cartItemTotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+    const deliveryFee = fulfillmentMode === 'delivery' ? 40 : 0;
+    const platformFee = 15;
+    const taxRate = 0.05;
+    const discount = Math.floor(redeemedPoints / 100) * 10;
+    const selectedAddress = savedAddresses.find(a => a.id === selectedAddressId) || savedAddresses[0];
+    const handleRedeemPoints = (pts) => { if (pts % 100 === 0 && pts <= loyaltyPoints) setRedeemedPoints(pts); else setRedeemedPoints(0); };
+    const handlePlaceOrder = () => {
+      const finalTotal = Math.max(0, cartItemTotal + deliveryFee + platformFee + Math.round((cartItemTotal + deliveryFee + platformFee) * taxRate) - discount);
+      if (cart.length === 0) { alert("Cart is empty"); return; }
+      alert(`✅ Order placed!\nTotal: ₹${finalTotal}\nPayment: ${selectedPaymentMethod.label}\nMode: ${fulfillmentMode === 'delivery' ? 'Delivery' : 'Pickup'}\nLoyalty points used: ${redeemedPoints} (₹${discount} off)\nRemaining points: ${loyaltyPoints - redeemedPoints}`);
+      setLoyaltyPoints(prev => prev - redeemedPoints);
+      setRedeemedPoints(0);
+      setCart([]);
+      setView('home');
+    };
+    const getGreeting = () => { const h = new Date().getHours(); if (h<12) return 'Good Morning'; if (h<17) return 'Good Afternoon'; return 'Good Evening'; };
+
+    // Generate floating particles
+    useEffect(() => {
+      const container = document.body;
+      for (let i = 0; i < 12; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('floating-particle');
+        const size = Math.random() * 40 + 10;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+        particle.style.animationDelay = `${Math.random() * 5}s`;
+        particle.style.opacity = Math.random() * 0.3;
+        container.appendChild(particle);
+        setTimeout(() => particle.remove(), 20000);
+      }
+    }, []);
+
+    return (
+      <div className="min-h-screen bg-base relative">
+        <div className="bg-animated"></div>
+        {(drawerOpen || closing) && (<><div className={`fixed inset-0 z-40 bg-black/60 ${closing ? 'backdrop-exit' : 'backdrop-enter'}`} onClick={handleCloseDrawer}></div><div className={`fixed top-0 left-0 h-full w-72 bg-[var(--drawer-bg)] z-50 shadow-drawer flex flex-col ${closing ? 'drawer-exit' : 'drawer-enter'}`}><button onClick={handleCloseDrawer} className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-surface hover:bg-border text-text-primary">✕</button><div className="p-6 flex-1"><div className="flex justify-between items-center mb-8"><h2 className="font-display text-xl font-bold text-accent-primary">Heaven's Kitchen</h2></div><div className="space-y-2">{navLinks.map((link,i) => (<button key={i} onClick={() => { if(link.action === 'home') setView('home'); else alert(`Navigate to ${link.label} (demo)`); handleCloseDrawer(); }} className="w-full text-left flex items-center gap-3 p-3 rounded-btn hover:bg-surface transition nav-link-animated" style={{animationDelay: `${i*0.08}s`}}><span className="text-xl">{link.icon}</span><span className="font-medium">{link.label}</span></button>))}</div></div><div className="p-6 border-t border-border space-y-4"><button onClick={() => setDarkMode(!darkMode)} className="w-full flex items-center justify-between p-3 rounded-btn bg-surface hover:bg-border transition"><span className="flex items-center gap-2"><span>{darkMode ? '☀️' : '🌙'}</span><span className="text-sm font-medium">{darkMode ? 'Light Mode' : 'Dark Mode'}</span></span><div className={`w-10 h-5 rounded-full relative transition ${darkMode ? 'bg-accent-primary' : 'bg-border'}`}><div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition ${darkMode ? 'left-5' : 'left-0.5'}`}></div></div></button><button onClick={() => onSignOut()} className="w-full flex items-center gap-3 p-3 rounded-btn text-text-secondary hover:text-error hover:bg-surface transition text-sm"><span>🚪</span> Sign Out</button><p className="text-xs text-text-secondary mt-2">Signed in as <strong>{user.name}</strong> | 🏆 {loyaltyPoints} pts</p></div></div></>)}
+        <header className="sticky top-0 z-10 bg-elevated/80 backdrop-blur-sm border-b border-border px-4 py-3"><div className="max-w-lg mx-auto flex items-center justify-between"><button onClick={() => setDrawerOpen(true)} className="p-2 -ml-2 transition hover:scale-105"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" /></svg></button><h1 className="font-display text-2xl font-bold text-accent-primary tracking-tight">Heaven's Kitchen</h1><div className="flex items-center gap-3"><span className="hidden sm:block text-xs font-medium text-text-secondary">👋 {user.name.split(' ')[0]}</span><button onClick={() => setView('cart')} className="relative p-2 transition hover:scale-105"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>{cart.length > 0 && (<span className="absolute -top-1 -right-1 bg-accent-secondary text-text-primary text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center animate-pulse">{cart.reduce((s,i)=>s+i.qty,0)}</span>)}</button></div></div></header>
+        <main className="max-w-lg mx-auto px-4 py-6 relative z-10">
+          {view === 'cart' ? (
+            <CartView cart={cart} onIncrement={incrementItem} onDecrement={decrementItem} onRemove={removeItem} itemTotal={cartItemTotal} deliveryFee={deliveryFee} platformFee={platformFee} taxRate={taxRate} discount={discount} redeemedPoints={redeemedPoints} onRedeemPoints={handleRedeemPoints} availablePoints={loyaltyPoints} fulfillmentMode={fulfillmentMode} setFulfillmentMode={setFulfillmentMode} selectedAddress={selectedAddress} onEditAddress={() => setAddressModalOpen(true)} paymentMode={paymentMode} setPaymentMode={setPaymentMode} selectedPaymentMethod={selectedPaymentMethod} setSelectedPaymentMethod={setSelectedPaymentMethod} onPlaceOrder={handlePlaceOrder} onBack={() => setView('home')} addressModalOpen={addressModalOpen} setAddressModalOpen={setAddressModalOpen} addresses={savedAddresses} setSelectedAddressId={setSelectedAddressId} selectedAddressId={selectedAddressId} />
+          ) : (
+            <HomeView menuData={menuData} freshEvents={freshEvents} onAddToCart={addToCart} />
+          )}
+        </main>
+      </div>
+    );
+  }
+
+  function HomeView({ menuData, freshEvents, onAddToCart }) {
+    const [tickerIndex, setTickerIndex] = useState(0);
+    const categories = [...new Set(menuData.map(item => item.category))];
+    const [activeCategory, setActiveCategory] = useState(categories[0]);
+    useEffect(() => { const interval = setInterval(() => setTickerIndex(i => (i + 1) % freshEvents.length), 4000); return () => clearInterval(interval); }, []);
+    const filtered = menuData.filter(item => item.category === activeCategory);
+    return (<><div className="bg-surface rounded-card p-3 mb-6 overflow-hidden shadow-sm"><div className="flex items-center gap-2"><span className="flex h-2 w-2 rounded-full bg-amber pulse-dot"></span><p className="text-sm font-medium text-text-primary animate-pulse">{freshEvents[tickerIndex].message}</p></div></div><div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-hide">{categories.map(cat => (<button key={cat} onClick={() => setActiveCategory(cat)} className={`category-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${activeCategory === cat ? 'bg-accent-primary text-white shadow-glow' : 'bg-surface text-text-secondary hover:bg-border'}`}>{cat}</button>))}</div><div className="grid grid-cols-2 gap-4">{filtered.map((product, idx) => (<div key={product.sku} className="bg-elevated rounded-card shadow-card overflow-hidden transition-all duration-300 menu-card fade-up-item" style={{animationDelay: `${idx * 0.03}s`, animationFillMode: 'forwards'}}><div className="relative"><img src={product.image} className="w-full h-36 object-cover transition duration-500 hover:scale-105" />{!product.inStock && (<span className="absolute top-2 right-2 bg-error/90 text-white text-xs px-2 py-1 rounded-pill backdrop-blur-sm">Sold out</span>)}</div><div className="p-3"><h3 className="font-medium text-sm line-clamp-1">{product.name}</h3><div className="flex items-center justify-between mt-2"><span className="font-semibold text-sm">₹{product.price}</span><button disabled={!product.inStock} onClick={() => onAddToCart(product)} className="bg-accent-primary text-white text-xs font-semibold py-1.5 px-3 rounded-btn hover:brightness-110 active:scale-95 disabled:opacity-50 transition">Add</button></div></div></div>))}</div></>);
+  }
+
+  function CartView({ cart, onIncrement, onDecrement, onRemove, itemTotal, deliveryFee, platformFee, taxRate, discount, redeemedPoints, onRedeemPoints, availablePoints, fulfillmentMode, setFulfillmentMode, selectedAddress, onEditAddress, paymentMode, setPaymentMode, selectedPaymentMethod, setSelectedPaymentMethod, onPlaceOrder, onBack, addressModalOpen, setAddressModalOpen, addresses, setSelectedAddressId, selectedAddressId }) {
+    const isDelivery = fulfillmentMode === 'delivery';
+    return (
+      <div>
+        <div className="flex items-center gap-3 mb-6"><button onClick={onBack} className="text-accent-primary font-semibold transition hover:translate-x-[-4px]">← Back</button><h2 className="font-display text-2xl font-semibold">Your Cart</h2></div>
+        {cart.length === 0 ? (<div className="text-center py-12"><p className="text-text-secondary mb-4">Your cart is empty</p><button onClick={onBack} className={btnPrimaryClasses}>Explore Menu</button></div>) : (<><div className="space-y-4 mb-4">{cart.map((item, idx) => (<CartItemRow key={item.sku} item={item} onIncrement={() => onIncrement(item.sku)} onDecrement={() => onDecrement(item.sku)} onRemove={() => onRemove(item.sku)} idx={idx} />))}</div><div className="bg-elevated rounded-card p-4 mb-4 border border-border"><div className="flex items-center justify-between mb-3"><h3 className="font-display text-lg font-semibold">Delivery / Pickup</h3>{isDelivery && <button onClick={onEditAddress} className="text-accent-primary text-sm font-semibold hover:underline">Edit / Change</button>}</div>{isDelivery ? (<div className="flex items-start gap-3"><span className="text-2xl mt-1">📍</span><div><p className="font-semibold text-text-primary">{selectedAddress?.label}<span className="ml-2 text-xs bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-pill">{selectedAddress?.eta}</span></p><p className="text-sm text-text-secondary">{selectedAddress?.address}</p></div></div>) : (<div className="flex items-start gap-3"><span className="text-2xl">🏪</span><div><p className="font-semibold">Heaven's Kitchen<span className="ml-2 text-xs bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-pill">Ready in 15-20 mins</span></p><p className="text-sm text-text-secondary">789, Food Street, Indiranagar, Bangalore</p></div></div>)}<div className="flex mt-4 bg-surface rounded-btn p-1 border border-border"><button onClick={() => setFulfillmentMode('delivery')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${fulfillmentMode === 'delivery' ? 'bg-accent-primary text-white' : 'text-text-secondary'}`}>🚀 Delivery</button><button onClick={() => setFulfillmentMode('pickup')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${fulfillmentMode === 'pickup' ? 'bg-accent-primary text-white' : 'text-text-secondary'}`}>🏪 Pickup</button></div></div><BillSplitCard itemTotal={itemTotal} deliveryFee={deliveryFee} platformFee={platformFee} taxRate={taxRate} discount={discount} loyaltyPointsRedeemed={redeemedPoints} onRedeemPoints={onRedeemPoints} availablePoints={availablePoints} /><PaymentMethodSelector paymentMode={paymentMode} onPaymentModeChange={setPaymentMode} selectedMethod={selectedPaymentMethod} onSelectMethod={setSelectedPaymentMethod} fulfillmentMode={fulfillmentMode} /><button onClick={onPlaceOrder} className={`${btnPrimaryClasses} w-full transition-all hover:shadow-glow`}>Place Order</button></>)}
+        {addressModalOpen && (<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"><div className="bg-elevated rounded-card w-80 p-5 shadow-elevated"><h3 className="font-display text-lg mb-3">Select Address</h3>{addresses.map(addr => (<div key={addr.id} className={`p-3 rounded-card border mb-2 cursor-pointer transition ${selectedAddressId === addr.id ? 'border-accent-primary bg-accent-primary/5' : 'border-border'}`} onClick={() => { setSelectedAddressId(addr.id); setAddressModalOpen(false); }}><p className="font-semibold">{addr.label}</p><p className="text-xs text-text-secondary">{addr.address}</p></div>))}<button className="mt-2 text-accent-primary text-sm" onClick={() => setAddressModalOpen(false)}>Cancel</button></div></div>)}
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
