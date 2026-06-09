@@ -1,441 +1,557 @@
 <!DOCTYPE html>
-<html lang="en" class="">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Heaven's Kitchen – Premium Menu & Smart Cart</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            base: 'var(--color-base)',
-            surface: 'var(--color-surface)',
-            elevated: 'var(--color-elevated)',
-            'text-primary': 'var(--color-text-primary)',
-            'text-secondary': 'var(--color-text-secondary)',
-            'accent-primary': '#4A0E17',
-            'accent-secondary': '#C5A55A',
-            success: '#3C6E47',
-            error: '#A23B3B',
-            amber: '#C7761E',
-            border: 'var(--color-border)',
-          },
-          fontFamily: {
-            display: ['Playfair Display', 'serif'],
-            body: ['Inter', 'sans-serif'],
-          },
-          boxShadow: {
-            card: '0 2px 8px rgba(0,0,0,0.05)',
-            elevated: '0 4px 16px rgba(0,0,0,0.08)',
-            drawer: '8px 0 40px rgba(0,0,0,0.18)',
-            glow: '0 0 12px rgba(197,165,90,0.3)',
-          },
-          borderRadius: { card: '12px', btn: '8px', pill: '4px' },
-        },
-      },
-    };
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>
-    :root {
-      --color-base: #FDFBF7;
-      --color-surface: #F5F0E8;
-      --color-elevated: #FFFFFF;
-      --color-text-primary: #2C2420;
-      --color-text-secondary: #6B5E53;
-      --color-border: #E4DDD0;
-      --drawer-bg: #FDFBF7;
-      --gradient-start: #FFF9F0;
-      --gradient-end: #FDF4E3;
-      --glow-color: rgba(197, 165, 90, 0.2);
-    }
-    .dark {
-      --color-base: #1a1817;
-      --color-surface: #252320;
-      --color-elevated: #2d2b27;
-      --color-text-primary: #e8e4df;
-      --color-text-secondary: #a89e94;
-      --color-border: #3d3934;
-      --drawer-bg: #1e1c1a;
-      --gradient-start: #1f1d1b;
-      --gradient-end: #131211;
-      --glow-color: rgba(197, 165, 90, 0.15);
-    }
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: var(--color-base);
-      color: var(--color-text-primary);
-      transition: background-color 0.35s ease, color 0.35s ease;
-      position: relative;
-      overflow-x: hidden;
-    }
-    /* animated gradient background overlay */
-    .bg-animated {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      background: radial-gradient(circle at 10% 20%, var(--gradient-start), var(--gradient-end));
-      opacity: 0.6;
-    }
-    .bg-animated::before {
-      content: '';
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
-      background: radial-gradient(circle at 30% 40%, rgba(197,165,90,0.08) 0%, transparent 60%);
-      animation: slowMove 24s infinite alternate ease-in-out;
-      pointer-events: none;
-    }
-    @keyframes slowMove {
-      0% { transform: translate(0%, 0%) rotate(0deg); }
-      100% { transform: translate(5%, 5%) rotate(2deg); }
-    }
-    /* floating particles */
-    .floating-particle {
-      position: fixed;
-      pointer-events: none;
-      z-index: -1;
-      background: rgba(197, 165, 90, 0.25);
-      border-radius: 50%;
-      filter: blur(4px);
-      animation: floatParticle linear infinite;
-    }
-    @keyframes floatParticle {
-      0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.6; }
-      90% { opacity: 0.6; }
-      100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
-    }
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-    /* enhanced animations */
-    @keyframes staggerFadeIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
-    @keyframes fadeUp { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
-    @keyframes subtleGlow { 0% { box-shadow: 0 0 0 0 var(--glow-color); } 50% { box-shadow: 0 0 0 8px var(--glow-color); } 100% { box-shadow: 0 0 0 0 var(--glow-color); } }
-    .nav-link-animated { animation: staggerFadeIn 0.45s cubic-bezier(0.22,0.61,0.36,1) both; }
-    @keyframes drawerSlideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
-    @keyframes drawerSlideOut { from { transform: translateX(0); } to { transform: translateX(-100%); } }
-    .drawer-enter { animation: drawerSlideIn 0.38s cubic-bezier(0.22,0.61,0.36,1) forwards; }
-    .drawer-exit { animation: drawerSlideOut 0.28s cubic-bezier(0.55,0.06,0.68,0.19) forwards; }
-    @keyframes backdropFadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes backdropFadeOut { from { opacity: 1; } to { opacity: 0; } }
-    .backdrop-enter { animation: backdropFadeIn 0.3s ease-out forwards; }
-    .backdrop-exit { animation: backdropFadeOut 0.25s ease-in forwards; }
-    @keyframes pulseDot { 0%,100%{ opacity:1;transform:scale(1); } 50%{ opacity:0.4;transform:scale(1.6); } }
-    .pulse-dot { animation: pulseDot 1.6s ease-in-out infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spinner { border:3px solid rgba(255,255,255,0.25); border-top-color:#fff; border-radius:50%; width:20px; height:20px; animation:spin 0.7s linear infinite; display:inline-block; }
-    
-    /* card hover & motion */
-    .menu-card {
-      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      will-change: transform;
-    }
-    .menu-card:hover {
-      transform: translateY(-6px) scale(1.02);
-      box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px var(--accent-secondary);
-    }
-    .category-btn {
-      transition: all 0.2s ease;
-    }
-    .category-btn:active {
-      transform: scale(0.96);
-    }
-    .btn-press:active {
-      transform: scale(0.96);
-    }
-    .cart-item {
-      animation: fadeUp 0.35s ease backwards;
-    }
-    .fade-up-item {
-      animation: fadeUp 0.5s ease forwards;
-      opacity: 0;
-    }
-    * { -webkit-tap-highlight-color: transparent; }
-    button { cursor:pointer; user-select:none; }
-    button:active { transform:scale(0.96); transition:transform 0.1s ease; }
-    button:disabled { cursor:not-allowed; opacity:0.55; }
-    button:disabled:active { transform:none; }
-    input[type="range"] { -webkit-appearance:none; appearance:none; height:6px; border-radius:3px; background:var(--color-border); outline:none; }
-    input[type="range"]::-webkit-slider-thumb { -webkit-appearance:none; appearance:none; width:22px; height:22px; border-radius:50%; background:#C5A55A; cursor:pointer; border:2px solid #fff; box-shadow:0 1px 4px rgba(0,0,0,0.2); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Cloud Kitchen Co. | Our Story & Testimonials</title>
+    <meta name="description" content="Gourmet cloud kitchen with full cart, loyalty coins, chef's story, and customer reviews.">
+    <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Cloud%20Kitchen%22%2C%22short_name%22%3A%22CK%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%7D">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { 'display': ['"Playfair Display"', 'Georgia', 'serif'], 'body': ['"Inter"', 'system-ui', 'sans-serif'], 'vintage': ['"Cormorant Garamond"', 'Georgia', 'serif'] },
+                    colors: { 'velvet-red': '#8B1E2D', 'cream': '#FFF5E6', 'soft-beige': '#EADCC6', 'red-velvet': '#B0303A', 'dark-chocolate': '#4A2C2A', 'order-bg': '#FAF9F6', 'accent-primary': '#8B1E2D', 'accent-secondary': '#C5A55A', success: '#3C6E47', error: '#A23B3B' },
+                    animation: { 'fade-in': 'fadeIn 0.8s ease-out forwards', 'slide-up': 'slideUp 0.8s ease-out forwards', 'scale-in': 'scaleIn 0.6s ease-out forwards', 'pulse-soft': 'pulseSoft 3s ease-in-out infinite', 'drawer-slide': 'drawerSlideIn 0.38s cubic-bezier(0.22,0.61,0.36,1) forwards', 'backdrop-fade': 'backdropFadeIn 0.3s ease-out forwards', 'coin-pulse': 'coinPulse 0.5s ease-out', 'tick-bounce': 'tickBounce 0.6s ease-out', 'check-draw': 'checkDraw 0.8s ease-out forwards' },
+                    keyframes: { fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } }, slideUp: { '0%': { opacity: '0', transform: 'translateY(40px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }, scaleIn: { '0%': { opacity: '0', transform: 'scale(0.9)' }, '100%': { opacity: '1', transform: 'scale(1)' } }, pulseSoft: { '0%, 100%': { opacity: '0.6', transform: 'scale(1)' }, '50%': { opacity: '1', transform: 'scale(1.05)' } }, drawerSlideIn: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(0)' } }, backdropFadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } }, coinPulse: { '0%': { transform: 'scale(0.8)', opacity: '0' }, '50%': { transform: 'scale(1.2)', opacity: '1' }, '100%': { transform: 'scale(1)', opacity: '1' } }, tickBounce: { '0%': { transform: 'scale(0) rotate(-45deg)', opacity: '0' }, '60%': { transform: 'scale(1.2) rotate(0deg)', opacity: '1' }, '100%': { transform: 'scale(1) rotate(0deg)', opacity: '1' } }, checkDraw: { '0%': { strokeDashoffset: '100' }, '100%': { strokeDashoffset: '0' } } }
+                }
+            }
+        };
+    </script>
+    <style>
+        :root { --glass-bg-light: rgba(255, 245, 230, 0.7); --glass-bg-dark: rgba(74, 44, 42, 0.7); --glass-border-light: rgba(255, 245, 230, 0.6); --glass-border-dark: rgba(234, 220, 198, 0.15); --drawer-bg-light: #FFF5E6; --drawer-bg-dark: #2d221f; }
+        * { scroll-behavior: smooth; }
+        body { font-family: 'Inter', system-ui, sans-serif; transition: background-color 0.5s, color 0.5s; overflow-x: hidden; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+        .font-display { font-family: 'Playfair Display', Georgia, serif; }
+        .glass { background: var(--glass-bg-light); backdrop-filter: blur(20px); border: 1px solid var(--glass-border-light); }
+        .dark .glass { background: var(--glass-bg-dark); border: 1px solid var(--glass-border-dark); }
+        .glass-card { background: rgba(255, 245, 230, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 245, 230, 0.4); transition: all 0.4s; }
+        .dark .glass-card { background: rgba(74, 44, 42, 0.6); border: 1px solid rgba(234, 220, 198, 0.15); }
+        .glass-card:hover { background: rgba(255, 245, 230, 0.8); transform: translateY(-4px); }
+        .masonry-grid { column-count: 3; column-gap: 1.5rem; }
+        @media (max-width: 1024px) { .masonry-grid { column-count: 2; } }
+        @media (max-width: 640px) { .masonry-grid { column-count: 1; } }
+        .masonry-item { break-inside: avoid; margin-bottom: 1.5rem; }
+        .image-hover-zoom { overflow: hidden; }
+        .image-hover-zoom img { transition: transform 0.7s; }
+        .image-hover-zoom:hover img { transform: scale(1.08); }
+        .loading-screen { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; background: #4A2C2A; transition: opacity 0.6s; }
+        .loading-screen.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-dot { width: 8px; height: 8px; border-radius: 50%; background: #B0303A; animation: loaderBounce 1.4s infinite; }
+        .loader-dot:nth-child(1) { animation-delay: -0.32s; }
+        .loader-dot:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes loaderBounce { 0%, 80%, 100% { transform: scale(0.3); opacity: 0.4; } 40% { transform: scale(1); opacity: 1; } }
+        .floating-item { position: fixed; bottom: -40px; font-size: 2.5rem; opacity: 0.25; pointer-events: none; z-index: 0; animation: floatUp 8s infinite linear; color: #8B1E2D; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.1)); }
+        .dark .floating-item { opacity: 0.15; color: #C5A55A; }
+        @keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0.2; } 20% { opacity: 0.35; } 80% { opacity: 0.3; } 100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; } }
+        .matte-glossy-bg { background: radial-gradient(circle at 30% 40%, #3a1e1c 0%, #0d0707 45%, #000000 100%); }
+        .sparkle-dot { position: absolute; border-radius: 50%; background: radial-gradient(circle, #8B1E2D 0%, #4A2C2A 80%); box-shadow: 0 0 6px rgba(176, 48, 58, 0.5); opacity: 0; animation: sparkleDrift 8s infinite; pointer-events: none; }
+        @keyframes sparkleDrift { 0% { transform: translate(0, 0) scale(0.2); opacity: 0; } 10% { opacity: 0.8; transform: translate(2vw, -2vh) scale(1); } 50% { opacity: 1; transform: translate(10vw, -15vh) scale(1.2); } 90% { opacity: 0.3; transform: translate(20vw, -25vh) scale(0.7); } 100% { transform: translate(30vw, -35vh) scale(0); opacity: 0; } }
+        .custom-cursor { position: fixed; width: 20px; height: 20px; border-radius: 50%; background: #8B1E2D; mix-blend-mode: difference; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: transform 0.1s; }
+        .custom-cursor.hover { transform: translate(-50%, -50%) scale(1.5); }
+        @media (hover: none) and (pointer: coarse) { .custom-cursor { display: none; } }
+        .category-tag { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; letter-spacing: 0.02em; }
+        .menu-item-bar { background-color: #FAF9F6; transition: background 0.2s; }
+        .dark .menu-item-bar { background-color: #2d221f; }
+        .add-to-cart-btn { background-color: #FAF9F6 !important; color: #4A2C2A !important; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,0.05); transition: all 0.2s; border: 1px solid rgba(0,0,0,0.05); }
+        .add-to-cart-btn:hover { background-color: #e9e5da !important; transform: scale(0.96); }
+        .dark .add-to-cart-btn { background-color: #3e2e2a !important; color: #FAF9F6 !important; border-color: #5a3e38; }
+        .menu-item-title { font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 700; font-size: 1.2rem; }
+        .drawer-enter { animation: drawerSlideIn 0.38s cubic-bezier(0.22,0.61,0.36,1) forwards; }
+        .drawer-exit { animation: slideOut 0.28s ease-in forwards; }
+        @keyframes slideOut { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+        .backdrop-enter { animation: backdropFadeIn 0.3s ease-out forwards; }
+        .backdrop-exit { animation: fadeOut 0.25s ease-in forwards; }
+        @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+        .cart-drawer-enter { animation: cartSlideIn 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards; }
+        @keyframes cartSlideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .spinner { border: 3px solid rgba(255,255,255,0.25); border-top-color: #fff; border-radius: 50%; width: 20px; height: 20px; animation: spin 0.7s linear infinite; display: inline-block; }
+        .cart-hd-text { font-weight: 600; letter-spacing: -0.01em; font-feature-settings: 'kern' 1; text-shadow: 0 0 0.5px rgba(0,0,0,0.1); }
+        .cart-total-hd { font-weight: 800; letter-spacing: -0.02em; }
+        .hamburger-icon { width: 24px; height: 20px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
+        .hamburger-line { width: 100%; height: 2px; background-color: currentColor; border-radius: 2px; transition: all 0.2s; }
+        .slim-sidebar { width: 280px; max-width: 85vw; }
+        .testimonial-track { display: flex; transition: transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        .testimonial-slide { flex: 0 0 100%; padding: 0 1rem; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; background: #EADCC6; transition: all 0.3s; cursor: pointer; }
+        .dot.active { background: #8B1E2D; width: 32px; }
+        .dark .dot { background: #5a4a42; }
+        .dark .dot.active { background: #C5A55A; }
+        .checkmark-circle { stroke-dasharray: 166; stroke-dashoffset: 166; animation: checkCircle 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+        .checkmark-check { stroke-dasharray: 48; stroke-dashoffset: 48; animation: checkCheck 0.4s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards; }
+        @keyframes checkCircle { 0% { stroke-dashoffset: 166; } 100% { stroke-dashoffset: 0; } }
+        @keyframes checkCheck { 0% { stroke-dashoffset: 48; } 100% { stroke-dashoffset: 0; } }
+    </style>
 </head>
-<body>
-<div id="root"></div>
-<script type="text/babel">
-  const { useState, useEffect, useCallback } = React;
-  const btnPrimaryClasses = 'bg-accent-primary text-white font-semibold py-3 px-6 rounded-btn transition hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed';
+<body class="bg-cream text-dark-chocolate dark:bg-[#3A1E1C] dark:text-cream transition-colors duration-500">
+    <div id="root"></div>
+    <div id="cursor" class="custom-cursor"></div>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useMemo, useCallback } = React;
 
-  // ========== MENU DATA (PRESERVED ORIGINAL) ==========
-  const menuData = [
-    { sku: 'HSP-CLF', name: 'Chicken Loaded Fries', price: 160, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: "Heaven's Special", inStock: true },
-    { sku: 'HSP-CCF', name: 'Chicken Cheesy Fries', price: 180, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: "Heaven's Special", inStock: true },
-    { sku: 'HSP-FCLF', name: 'Full Chicken Loaded Fries', price: 200, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: "Heaven's Special", inStock: true },
-    { sku: 'HSP-SLC', name: 'Special Loaded Chicken', price: 250, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: "Heaven's Special", inStock: true },
-    { sku: 'BGR-CB', name: 'Chicken Burger', price: 120, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: true },
-    { sku: 'BGR-CNB', name: 'Chicken Nuggets Burger', price: 120, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: true },
-    { sku: 'BGR-CCB', name: 'Chicken Cheesy Burger', price: 130, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: true },
-    { sku: 'BGR-CZB', name: 'Chicken Zinger Burger', price: 130, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: true },
-    { sku: 'BGR-CLB', name: 'Chicken Loaded Burger', price: 150, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: true },
-    { sku: 'BGR-CCL', name: 'Chicken Cheesy Loaded', price: 190, image: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop', category: 'Burger', inStock: false },
-    { sku: 'SDW-VS', name: 'Veg Sandwich', price: 70, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
-    { sku: 'SDW-VCS', name: 'Veg Cheese Sandwich', price: 90, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
-    { sku: 'SDW-CS', name: 'Chicken Sandwich', price: 90, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
-    { sku: 'SDW-BBCS', name: 'BBQ Chicken Sandwich', price: 100, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
-    { sku: 'SDW-CCS', name: 'Chicken Cheesy Sandwich', price: 110, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
-    { sku: 'SDW-HS', name: 'Heavens Sandwich', price: 120, image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=400&h=300&fit=crop', category: 'Sandwich', inStock: true },
-    { sku: 'WRP-CW', name: 'Chicken Wrap', price: 120, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
-    { sku: 'WRP-CBW', name: 'Chicken BBQ Wrap', price: 120, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
-    { sku: 'WRP-CTW', name: 'Chicken Tandoori Wrap', price: 120, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
-    { sku: 'WRP-CNW', name: 'Chicken Nuggets Wrap', price: 130, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
-    { sku: 'WRP-CCW', name: 'Chicken Cheesy Wrap', price: 130, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
-    { sku: 'WRP-CZW', name: 'Chicken Zinger Wrap', price: 130, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
-    { sku: 'WRP-CLW', name: 'Chicken Loaded Wrap', price: 160, image: 'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=400&h=300&fit=crop', category: 'Wrap', inStock: true },
-    { sku: 'PIZ-VP8', name: 'Veg Pizza 8"', price: 170, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
-    { sku: 'PIZ-M8', name: 'Margherita 8"', price: 170, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
-    { sku: 'PIZ-VHP8', name: 'Veg Heavens Pizza 8"', price: 190, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
-    { sku: 'PIZ-CP8', name: 'Chicken Pizza 8"', price: 190, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
-    { sku: 'PIZ-BBCP8', name: 'BBQ Chicken Pizza 8"', price: 200, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
-    { sku: 'PIZ-CCP8', name: 'Cheesy Chicken Pizza 8"', price: 230, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: true },
-    { sku: 'PIZ-CHP8', name: 'Chicken Heavens Pizza 8"', price: 240, image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop', category: 'Pizza', inStock: false },
-    { sku: 'SLD-CN8', name: 'Chicken Nuggets 8', price: 100, image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop', category: 'Sliders', inStock: true },
-    { sku: 'SLD-CN15', name: 'Chicken Nuggets 15', price: 170, image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop', category: 'Sliders', inStock: true },
-    { sku: 'SLD-POP15', name: 'Chicken Popcorn 15', price: 100, image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop', category: 'Sliders', inStock: true },
-    { sku: 'SLD-STR5', name: 'Chicken Strips 5', price: 200, image: 'https://images.unsplash.com/photo-1562967914-608f82629710?w=400&h=300&fit=crop', category: 'Sliders', inStock: true },
-    { sku: 'MOJ-BC', name: 'Blue Curacao', price: 70, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop', category: 'Mojito', inStock: true },
-    { sku: 'MOJ-WM', name: 'Watermelon', price: 70, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop', category: 'Mojito', inStock: true },
-    { sku: 'MOJ-SB', name: 'Strawberry', price: 70, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop', category: 'Mojito', inStock: true },
-    { sku: 'MOJ-VG', name: 'Virgin', price: 70, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop', category: 'Mojito', inStock: true },
-    { sku: 'MLK-VN', name: 'Vanilla', price: 90, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: true },
-    { sku: 'MLK-SB', name: 'Strawberry', price: 100, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: true },
-    { sku: 'MLK-BS', name: 'Butter Scotch', price: 100, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: true },
-    { sku: 'MLK-BC', name: 'Black Current', price: 100, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: true },
-    { sku: 'MLK-CH', name: 'Chocolate', price: 110, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: true },
-    { sku: 'MLK-OR', name: 'Oreo', price: 120, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=400&h=300&fit=crop', category: 'Milkshake', inStock: false },
-    { sku: 'FRY-RSL', name: 'Salted Fries (Regular)', price: 70, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: 'Fries', subcategory: 'Regular', inStock: true },
-    { sku: 'FRY-RPP', name: 'Peri Peri Fries (Regular)', price: 90, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: 'Fries', subcategory: 'Regular', inStock: true },
-    { sku: 'FRY-LSL', name: 'Salted Fries (Large)', price: 100, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: 'Fries', subcategory: 'Large', inStock: true },
-    { sku: 'FRY-LPP', name: 'Peri Peri Fries (Large)', price: 130, image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=300&fit=crop', category: 'Fries', subcategory: 'Large', inStock: true },
-  ];
+        const t = {
+            loading: "CLOUD KITCHEN", loginWelcome: "Welcome", loginText: "Enter any name, phone or address to continue",
+            name: "Name", phone: "Phone", address: "Address", login: "Login", menu: "Menu",
+            prevOrders: "Previous Orders", loyalty: "Loyalty Coins", fav: "Favourites",
+            darkMode: "Dark Mode", signOut: "Sign Out", heroTag: "Premium Cloud Kitchen · Delivery Only",
+            heroTitle: "Elevating Everyday Dining", heroSub: "Flavor-packed meals from our kitchen to yours.",
+            viewMenu: "Full Menu", aiSuggester: "AI Menu Recommender", cuisinePref: "Filter by category",
+            suggest: "Suggest Dishes", orderNow: "Add to Cart", customize: "Customize",
+            addTruffle: "Extra Cheese (+₹20)", addCheese: "Extra Sauce (+₹15)", noOnion: "No Onion",
+            addToCart: "Add to Cart", cart: "Cart", checkout: "Proceed to Checkout", itemTotal: "Item Total", placeOrder: "Place Order",
+            orderSuccess: "Order Placed Successfully!", coinsEarnedMsg: "+10 Coins earned",
+            trackOrder: "Track Order", confirmed: "Confirmed", preparing: "Preparing", out: "Out for Delivery", delivered: "Delivered",
+            coinsEarned: "Coins Earned", noOrders: "No previous orders", noFav: "No favourites yet", noCoins: "No coins earned yet", emptyCart: "Your cart is empty",
+            redeemPoints: "Redeem Points", pointsAvailable: "Loyalty Coins available", redeemNote: "10 pts = ₹10 off (max 50 pts)"
+        };
 
-  const freshEvents = [
-    { message: '🔥 Fresh batch of Chicken Loaded Fries just prepared!', sku: 'HSP-CLF' },
-    { message: '🍔 Chicken Zinger Burgers are hot & ready.', sku: 'BGR-CZB' },
-    { message: '🍕 Cheesy Chicken Pizza out of the oven now!', sku: 'PIZ-CCP8' },
-  ];
+        const buildFullMenu = () => {
+            let id = 1; const items = [];
+            const imgMap = { Mojito:"https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=80", Milkshake:"https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&q=80", Fries:"https://images.unsplash.com/photo-1585109649139-366815a0d713?w=600&q=80", "Special Fries":"https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=600&q=80", Burger:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80", Sandwich:"https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600&q=80", Wrap:"https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=600&q=80", Pizza:"https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80", "Sliders / Sides":"https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=600&q=80" };
+            ["Blue Curacao","Watermelon","Strawberry","Virgin"].forEach(n=>items.push({id:id++,category:"Mojito",title:`${n} Mojito`,price:70,image:imgMap.Mojito}));
+            [["Vanilla",90],["Strawberry",100],["Butter Scotch",100],["Black Current",100],["Chocolate",110],["Oreo",120]].forEach(([n,p])=>items.push({id:id++,category:"Milkshake",title:`${n} Milkshake`,price:p,image:imgMap.Milkshake}));
+            items.push({id:id++,category:"Fries",title:"Salted Fries (Regular)",price:70,image:imgMap.Fries},{id:id++,category:"Fries",title:"Salted Fries (Large)",price:100,image:imgMap.Fries});
+            items.push({id:id++,category:"Fries",title:"Peri Peri Fries (Regular)",price:90,image:imgMap.Fries},{id:id++,category:"Fries",title:"Peri Peri Fries (Large)",price:130,image:imgMap.Fries});
+            items.push({id:id++,category:"Special Fries",title:"Chicken Loaded Fries",price:160,image:imgMap["Special Fries"]},{id:id++,category:"Special Fries",title:"Chicken Cheesy Fries",price:180,image:imgMap["Special Fries"]});
+            items.push({id:id++,category:"Special Fries",title:"Full Chicken Loaded Fries",price:200,image:imgMap["Special Fries"]},{id:id++,category:"Special Fries",title:"Special Loaded Chicken",price:250,image:imgMap["Special Fries"]});
+            [["Chicken Burger",120],["Chicken Nuggets Burger",120],["Chicken Cheesy Burger",130],["Chicken Zinger Burger",130],["Chicken Loaded Burger",150],["Chicken Cheesy Loaded",190]].forEach(([n,p])=>items.push({id:id++,category:"Burger",title:n,price:p,image:imgMap.Burger}));
+            [["Veg Sandwich",70],["Veg Cheese Sandwich",90],["Chicken Sandwich",90],["BBQ Chicken Sandwich",100],["Chicken Cheesy Sandwich",110],["Heavens Sandwich",120]].forEach(([n,p])=>items.push({id:id++,category:"Sandwich",title:n,price:p,image:imgMap.Sandwich}));
+            [["Chicken Wrap",120],["Chicken BBQ Wrap",120],["Chicken Tandoori Wrap",120],["Chicken Nuggets Wrap",130],["Chicken Cheesy Wrap",130],["Chicken Zinger Wrap",130],["Chicken Loaded Wrap",160]].forEach(([n,p])=>items.push({id:id++,category:"Wrap",title:n,price:p,image:imgMap.Wrap}));
+            [["Veg Pizza 8\"",170],["Magrherita 8\"",170],["Veg Heavens Pizza 8\"",190],["Chicken Pizza 8\"",190],["BBQ Chicken Pizza 8\"",200],["Cheesy Chicken Pizza 8\"",230],["Chicken Heavens Pizza 8\"",240]].forEach(([n,p])=>items.push({id:id++,category:"Pizza",title:n,price:p,image:imgMap.Pizza}));
+            items.push({id:id++,category:"Sliders / Sides",title:"Chicken Nuggets (8 Pcs)",price:100,image:imgMap["Sliders / Sides"]},{id:id++,category:"Sliders / Sides",title:"Chicken Nuggets (15 Pcs)",price:170,image:imgMap["Sliders / Sides"]});
+            items.push({id:id++,category:"Sliders / Sides",title:"Chicken Popcorn (15 Pcs)",price:100,image:imgMap["Sliders / Sides"]},{id:id++,category:"Sliders / Sides",title:"Chicken Strips (5 Pcs)",price:200,image:imgMap["Sliders / Sides"]});
+            return items;
+        };
+        const menuDishes = buildFullMenu();
 
-  const savedAddresses = [
-    { id: 'addr1', label: 'Home', address: '123, MG Road, Indiranagar, Bangalore 560038', isDefault: true, eta: '25-35 mins' },
-    { id: 'addr2', label: 'Work', address: '456, Koramangala 5th Block, Bangalore 560034', isDefault: false, eta: '30-40 mins' },
-  ];
-
-  const navLinks = [
-    { label: 'Menu', icon: '🍽️', action: 'home' },
-    { label: 'My Orders', icon: '📋', action: 'orders' },
-    { label: 'Favourites', icon: '❤️', action: 'favourites' },
-    { label: 'Addresses', icon: '📍', action: 'addresses' },
-    { label: 'Loyalty & Rewards', icon: '🏆', action: 'loyalty' },
-  ];
-
-  // ========== COMPONENTS ==========
-  const QuantityStepper = ({ qty, onIncrement, onDecrement }) => (
-    <div className="flex items-center gap-2 bg-surface rounded-btn px-2 py-1 border border-border">
-      <button onClick={onDecrement} disabled={qty <= 1} className="w-7 h-7 flex items-center justify-center rounded-full text-text-primary font-bold text-lg transition hover:bg-border disabled:opacity-30">−</button>
-      <span className="w-8 text-center font-semibold text-text-primary text-sm">{qty}</span>
-      <button onClick={onIncrement} className="w-7 h-7 flex items-center justify-center rounded-full text-text-primary font-bold text-lg transition hover:bg-border">+</button>
-    </div>
-  );
-
-  const CartItemRow = ({ item, onIncrement, onDecrement, onRemove, idx }) => (
-    <div className="bg-elevated rounded-card p-4 flex items-center gap-3 border border-border cart-item" style={{animationDelay: `${idx * 0.05}s`}}>
-      <img src={item.image} className="w-14 h-14 rounded-lg object-cover flex-shrink-0" alt={item.name} onError={(e) => e.target.src = 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop'} />
-      <div className="flex-1 min-w-0"><p className="font-semibold text-text-primary text-sm truncate">{item.name}</p><p className="text-xs text-text-secondary">₹{item.price.toFixed(2)} each</p></div>
-      <QuantityStepper qty={item.qty} onIncrement={onIncrement} onDecrement={onDecrement} />
-      <span className="font-semibold text-text-primary text-sm w-16 text-right">₹{(item.price * item.qty).toFixed(2)}</span>
-      <button onClick={onRemove} className="text-error text-lg ml-1 p-1 hover:bg-error/10 rounded-full transition">✕</button>
-    </div>
-  );
-
-  const BillSplitCard = ({ itemTotal, deliveryFee, platformFee, taxRate, discount, loyaltyPointsRedeemed, onRedeemPoints, availablePoints }) => {
-    const taxAmount = Math.round((itemTotal + deliveryFee + platformFee) * taxRate);
-    const grandTotal = Math.max(0, itemTotal + deliveryFee + platformFee + taxAmount - discount);
-    return (
-      <div className="bg-elevated rounded-card p-5 mb-4 border border-border">
-        <h3 className="font-display text-lg font-semibold text-text-primary mb-4">Bill Details</h3>
-        <div className="space-y-2 text-sm">
-          <div className="flex justify-between"><span className="text-text-secondary">Item Total</span><span className="font-medium">₹{itemTotal.toFixed(2)}</span></div>
-          <div className="flex justify-between"><span className="text-text-secondary">Delivery Fee</span><span className="font-medium">{deliveryFee === 0 ? <span className="text-success font-semibold">FREE</span> : `₹${deliveryFee.toFixed(2)}`}</span></div>
-          <div className="flex justify-between"><span className="text-text-secondary">Platform Fee</span><span className="font-medium">₹{platformFee.toFixed(2)}</span></div>
-          <div className="flex justify-between"><span className="text-text-secondary">GST ({(taxRate * 100).toFixed(0)}%)</span><span className="font-medium">₹{taxAmount.toFixed(2)}</span></div>
-          {discount > 0 && <div className="flex justify-between text-success"><span>Loyalty Discount ({loyaltyPointsRedeemed} pts)</span><span className="font-semibold">− ₹{discount.toFixed(2)}</span></div>}
-          <div className="border-t border-border pt-2 mt-2"></div>
-          <div className="flex justify-between text-base"><span className="font-display font-bold">Grand Total</span><span className="font-display font-bold">₹{grandTotal.toFixed(2)}</span></div>
-        </div>
-        {availablePoints >= 100 && (
-          <div className="mt-4 pt-3 border-t border-border">
-            <p className="text-xs text-text-secondary mb-2">Redeem Loyalty Points (100 pts = ₹10 off, max 500 pts)</p>
-            <input type="range" min="0" max={Math.min(availablePoints, 500)} step="100" defaultValue="0" onChange={e => onRedeemPoints(Number(e.target.value))} className="w-full" />
-            <div className="flex justify-between text-xs text-text-secondary mt-1"><span>0 pts</span><span>{Math.min(availablePoints, 500)} pts</span></div>
-          </div>
-        )}
-      </div>
-    );
-  };
-
-  const PaymentMethodSelector = ({ paymentMode, onPaymentModeChange, selectedMethod, onSelectMethod, fulfillmentMode }) => {
-    const isDelivery = fulfillmentMode === 'delivery';
-    const onlineMethods = [
-      { id: 'card1', type: 'card', label: 'Visa •••• 4242', icon: '💳', detail: 'Expires 12/26' },
-      { id: 'card2', type: 'card', label: 'MC •••• 8888', icon: '💳', detail: 'Expires 08/25' },
-      { id: 'upi', type: 'upi', label: 'UPI / Google Pay', icon: '📱', detail: 'Instant payment' },
-    ];
-    const doorstepMethods = [
-      { id: 'cod', type: 'cod', label: 'Cash on Delivery', icon: '💵', detail: 'Pay when you receive' },
-      { id: 'cardAtDoor', type: 'cardAtDoor', label: 'Card at Door', icon: '💳', detail: 'Swipe/Insert card on delivery' },
-    ];
-    const methods = paymentMode === 'online' ? onlineMethods : doorstepMethods;
-    const doorstepLabel = isDelivery ? 'Pay at Doorstep' : 'Pay at Counter';
-    return (
-      <div className="bg-elevated rounded-card p-5 mb-4 border border-border">
-        <h3 className="font-display text-lg font-semibold text-text-primary mb-4">Payment Method</h3>
-        <div className="flex bg-surface rounded-btn p-1 mb-4 border border-border">
-          <button onClick={() => onPaymentModeChange('online')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${paymentMode === 'online' ? 'bg-accent-primary text-white shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>💻 Pay Online</button>
-          <button onClick={() => onPaymentModeChange('doorstep')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${paymentMode === 'doorstep' ? 'bg-accent-primary text-white shadow-sm' : 'text-text-secondary hover:text-text-primary'}`}>🚪 {doorstepLabel}</button>
-        </div>
-        <div className="space-y-2">
-          {methods.map(method => (
-            <div key={method.id} onClick={() => onSelectMethod(method)} className={`flex items-center gap-3 p-3 rounded-card cursor-pointer border transition ${selectedMethod?.id === method.id ? 'border-accent-primary bg-accent-primary/5' : 'border-border hover:border-accent-secondary/50'}`}>
-              <span className="text-2xl">{method.icon}</span><div className="flex-1"><p className="font-semibold text-text-primary text-sm">{method.label}</p><p className="text-xs text-text-secondary">{method.detail}</p></div>
-              <div className={`w-5 h-5 rounded-full border-2 ${selectedMethod?.id === method.id ? 'border-accent-primary bg-accent-primary/30' : 'border-border'}`}></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  function SignInPage({ onSignIn }) {
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [address, setAddress] = useState('');
-    const [errors, setErrors] = useState({});
-    const validate = () => { const e = {}; if (!name.trim()) e.name = 'Full name required'; if (!phone.trim() || phone.length < 10) e.phone = 'Valid 10-digit phone required'; if (!address.trim()) e.address = 'Delivery address required'; return e; };
-    const handleSubmit = (e) => { e.preventDefault(); const errs = validate(); if (Object.keys(errs).length) { setErrors(errs); return; } const user = { name, phone, address, loyaltyPoints: 450 }; onSignIn(user); };
-    return (<div className="min-h-screen bg-base flex items-center justify-center p-4 relative z-10"><div className="w-full max-w-md bg-elevated rounded-card shadow-elevated p-6 md:p-8 animate-fade-up"><div className="text-center mb-6"><h1 className="font-display text-3xl font-bold text-accent-primary mb-2">Heaven's Kitchen</h1><p className="text-text-secondary text-sm">Sign in to order</p></div><form onSubmit={handleSubmit} className="space-y-4"><div><label className="block text-sm font-medium text-text-secondary mb-1">Full Name</label><input type="text" value={name} onChange={(e)=>setName(e.target.value)} className={`w-full p-3 rounded-btn bg-surface border ${errors.name?'border-error':'border-border'} focus:ring-2 focus:ring-accent-secondary transition`} /></div><div><label className="block text-sm font-medium text-text-secondary mb-1">Phone</label><input type="tel" value={phone} onChange={(e)=>setPhone(e.target.value)} className={`w-full p-3 rounded-btn bg-surface border ${errors.phone?'border-error':'border-border'} focus:ring-2 focus:ring-accent-secondary`} /></div><div><label className="block text-sm font-medium text-text-secondary mb-1">Delivery Address</label><textarea value={address} onChange={(e)=>setAddress(e.target.value)} rows="3" className={`w-full p-3 rounded-btn bg-surface border ${errors.address?'border-error':'border-border'} focus:ring-2 focus:ring-accent-secondary`}></textarea></div><button type="submit" className={`${btnPrimaryClasses} w-full`}>Save & Continue</button></form></div></div>);
-  }
-
-  function App() {
-    const [user, setUser] = useState(() => { const stored = localStorage.getItem('hk_user'); return stored ? JSON.parse(stored) : null; });
-    if (!user) return <SignInPage onSignIn={(userData) => { localStorage.setItem('hk_user', JSON.stringify(userData)); setUser(userData); }} />;
-    return <MainApp user={user} onSignOut={() => { localStorage.removeItem('hk_user'); setUser(null); }} />;
-  }
-
-  function MainApp({ user, onSignOut }) {
-    const [cart, setCart] = useState([]);
-    const [view, setView] = useState('home');
-    const [drawerOpen, setDrawerOpen] = useState(false);
-    const [closing, setClosing] = useState(false);
-    const [darkMode, setDarkMode] = useState(false);
-    const [fulfillmentMode, setFulfillmentMode] = useState('delivery');
-    const [selectedAddressId, setSelectedAddressId] = useState(savedAddresses[0].id);
-    const [paymentMode, setPaymentMode] = useState('online');
-    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState({ id: 'card1', type: 'card', label: 'Visa •••• 4242', icon: '💳', detail: 'Expires 12/26' });
-    const [loyaltyPoints, setLoyaltyPoints] = useState(user.loyaltyPoints || 450);
-    const [redeemedPoints, setRedeemedPoints] = useState(0);
-    const [addressModalOpen, setAddressModalOpen] = useState(false);
-
-    useEffect(() => { document.documentElement.classList.toggle('dark', darkMode); }, [darkMode]);
-    const handleCloseDrawer = useCallback(() => { setClosing(true); setTimeout(() => { setDrawerOpen(false); setClosing(false); }, 280); }, []);
-    const addToCart = (product) => { if (!product.inStock) return; setCart(prev => { const exist = prev.find(i => i.sku === product.sku); if (exist) return prev.map(i => i.sku === product.sku ? { ...i, qty: i.qty + 1 } : i); return [...prev, { ...product, qty: 1 }]; }); };
-    const incrementItem = (sku) => setCart(prev => prev.map(i => i.sku === sku ? { ...i, qty: i.qty + 1 } : i));
-    const decrementItem = (sku) => setCart(prev => { const item = prev.find(i => i.sku === sku); if (item.qty === 1) return prev.filter(i => i.sku !== sku); return prev.map(i => i.sku === sku ? { ...i, qty: i.qty - 1 } : i); });
-    const removeItem = (sku) => setCart(prev => prev.filter(i => i.sku !== sku));
-    const cartItemTotal = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-    const deliveryFee = fulfillmentMode === 'delivery' ? 40 : 0;
-    const platformFee = 15;
-    const taxRate = 0.05;
-    const discount = Math.floor(redeemedPoints / 100) * 10;
-    const selectedAddress = savedAddresses.find(a => a.id === selectedAddressId) || savedAddresses[0];
-    const handleRedeemPoints = (pts) => { if (pts % 100 === 0 && pts <= loyaltyPoints) setRedeemedPoints(pts); else setRedeemedPoints(0); };
-    const handlePlaceOrder = () => {
-      const finalTotal = Math.max(0, cartItemTotal + deliveryFee + platformFee + Math.round((cartItemTotal + deliveryFee + platformFee) * taxRate) - discount);
-      if (cart.length === 0) { alert("Cart is empty"); return; }
-      alert(`✅ Order placed!\nTotal: ₹${finalTotal}\nPayment: ${selectedPaymentMethod.label}\nMode: ${fulfillmentMode === 'delivery' ? 'Delivery' : 'Pickup'}\nLoyalty points used: ${redeemedPoints} (₹${discount} off)\nRemaining points: ${loyaltyPoints - redeemedPoints}`);
-      setLoyaltyPoints(prev => prev - redeemedPoints);
-      setRedeemedPoints(0);
-      setCart([]);
-      setView('home');
-    };
-    const getGreeting = () => { const h = new Date().getHours(); if (h<12) return 'Good Morning'; if (h<17) return 'Good Afternoon'; return 'Good Evening'; };
-
-    // Generate floating particles
-    useEffect(() => {
-      const container = document.body;
-      for (let i = 0; i < 12; i++) {
-        const particle = document.createElement('div');
-        particle.classList.add('floating-particle');
-        const size = Math.random() * 40 + 10;
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
-        particle.style.animationDelay = `${Math.random() * 5}s`;
-        particle.style.opacity = Math.random() * 0.3;
-        container.appendChild(particle);
-        setTimeout(() => particle.remove(), 20000);
-      }
-    }, []);
-
-    return (
-      <div className="min-h-screen bg-base relative">
-        <div className="bg-animated"></div>
-        {(drawerOpen || closing) && (<><div className={`fixed inset-0 z-40 bg-black/60 ${closing ? 'backdrop-exit' : 'backdrop-enter'}`} onClick={handleCloseDrawer}></div><div className={`fixed top-0 left-0 h-full w-72 bg-[var(--drawer-bg)] z-50 shadow-drawer flex flex-col ${closing ? 'drawer-exit' : 'drawer-enter'}`}><button onClick={handleCloseDrawer} className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-surface hover:bg-border text-text-primary">✕</button><div className="p-6 flex-1"><div className="flex justify-between items-center mb-8"><h2 className="font-display text-xl font-bold text-accent-primary">Heaven's Kitchen</h2></div><div className="space-y-2">{navLinks.map((link,i) => (<button key={i} onClick={() => { if(link.action === 'home') setView('home'); else alert(`Navigate to ${link.label} (demo)`); handleCloseDrawer(); }} className="w-full text-left flex items-center gap-3 p-3 rounded-btn hover:bg-surface transition nav-link-animated" style={{animationDelay: `${i*0.08}s`}}><span className="text-xl">{link.icon}</span><span className="font-medium">{link.label}</span></button>))}</div></div><div className="p-6 border-t border-border space-y-4"><button onClick={() => setDarkMode(!darkMode)} className="w-full flex items-center justify-between p-3 rounded-btn bg-surface hover:bg-border transition"><span className="flex items-center gap-2"><span>{darkMode ? '☀️' : '🌙'}</span><span className="text-sm font-medium">{darkMode ? 'Light Mode' : 'Dark Mode'}</span></span><div className={`w-10 h-5 rounded-full relative transition ${darkMode ? 'bg-accent-primary' : 'bg-border'}`}><div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition ${darkMode ? 'left-5' : 'left-0.5'}`}></div></div></button><button onClick={() => onSignOut()} className="w-full flex items-center gap-3 p-3 rounded-btn text-text-secondary hover:text-error hover:bg-surface transition text-sm"><span>🚪</span> Sign Out</button><p className="text-xs text-text-secondary mt-2">Signed in as <strong>{user.name}</strong> | 🏆 {loyaltyPoints} pts</p></div></div></>)}
-        <header className="sticky top-0 z-10 bg-elevated/80 backdrop-blur-sm border-b border-border px-4 py-3"><div className="max-w-lg mx-auto flex items-center justify-between"><button onClick={() => setDrawerOpen(true)} className="p-2 -ml-2 transition hover:scale-105"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 6h16M4 12h16M4 18h16" /></svg></button><h1 className="font-display text-2xl font-bold text-accent-primary tracking-tight">Heaven's Kitchen</h1><div className="flex items-center gap-3"><span className="hidden sm:block text-xs font-medium text-text-secondary">👋 {user.name.split(' ')[0]}</span><button onClick={() => setView('cart')} className="relative p-2 transition hover:scale-105"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" /></svg>{cart.length > 0 && (<span className="absolute -top-1 -right-1 bg-accent-secondary text-text-primary text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center animate-pulse">{cart.reduce((s,i)=>s+i.qty,0)}</span>)}</button></div></div></header>
-        <main className="max-w-lg mx-auto px-4 py-6 relative z-10">
-          {view === 'cart' ? (
-            <CartView cart={cart} onIncrement={incrementItem} onDecrement={decrementItem} onRemove={removeItem} itemTotal={cartItemTotal} deliveryFee={deliveryFee} platformFee={platformFee} taxRate={taxRate} discount={discount} redeemedPoints={redeemedPoints} onRedeemPoints={handleRedeemPoints} availablePoints={loyaltyPoints} fulfillmentMode={fulfillmentMode} setFulfillmentMode={setFulfillmentMode} selectedAddress={selectedAddress} onEditAddress={() => setAddressModalOpen(true)} paymentMode={paymentMode} setPaymentMode={setPaymentMode} selectedPaymentMethod={selectedPaymentMethod} setSelectedPaymentMethod={setSelectedPaymentMethod} onPlaceOrder={handlePlaceOrder} onBack={() => setView('home')} addressModalOpen={addressModalOpen} setAddressModalOpen={setAddressModalOpen} addresses={savedAddresses} setSelectedAddressId={setSelectedAddressId} selectedAddressId={selectedAddressId} />
-          ) : (
-            <HomeView menuData={menuData} freshEvents={freshEvents} onAddToCart={addToCart} />
-          )}
-        </main>
-      </div>
-    );
-  }
-
-  function HomeView({ menuData, freshEvents, onAddToCart }) {
-    const [tickerIndex, setTickerIndex] = useState(0);
-    const categories = [...new Set(menuData.map(item => item.category))];
-    const [activeCategory, setActiveCategory] = useState(categories[0]);
-    useEffect(() => { const interval = setInterval(() => setTickerIndex(i => (i + 1) % freshEvents.length), 4000); return () => clearInterval(interval); }, []);
-    const filtered = menuData.filter(item => item.category === activeCategory);
-    return (<><div className="bg-surface rounded-card p-3 mb-6 overflow-hidden shadow-sm"><div className="flex items-center gap-2"><span className="flex h-2 w-2 rounded-full bg-amber pulse-dot"></span><p className="text-sm font-medium text-text-primary animate-pulse">{freshEvents[tickerIndex].message}</p></div></div><div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-hide">{categories.map(cat => (<button key={cat} onClick={() => setActiveCategory(cat)} className={`category-btn px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all duration-200 ${activeCategory === cat ? 'bg-accent-primary text-white shadow-glow' : 'bg-surface text-text-secondary hover:bg-border'}`}>{cat}</button>))}</div><div className="grid grid-cols-2 gap-4">{filtered.map((product, idx) => (<div key={product.sku} className="bg-elevated rounded-card shadow-card overflow-hidden transition-all duration-300 menu-card fade-up-item" style={{animationDelay: `${idx * 0.03}s`, animationFillMode: 'forwards'}}><div className="relative"><img src={product.image} className="w-full h-36 object-cover transition duration-500 hover:scale-105" />{!product.inStock && (<span className="absolute top-2 right-2 bg-error/90 text-white text-xs px-2 py-1 rounded-pill backdrop-blur-sm">Sold out</span>)}</div><div className="p-3"><h3 className="font-medium text-sm line-clamp-1">{product.name}</h3><div className="flex items-center justify-between mt-2"><span className="font-semibold text-sm">₹{product.price}</span><button disabled={!product.inStock} onClick={() => onAddToCart(product)} className="bg-accent-primary text-white text-xs font-semibold py-1.5 px-3 rounded-btn hover:brightness-110 active:scale-95 disabled:opacity-50 transition">Add</button></div></div></div>))}</div></>);
-  }
-
-  function CartView({ cart, onIncrement, onDecrement, onRemove, itemTotal, deliveryFee, platformFee, taxRate, discount, redeemedPoints, onRedeemPoints, availablePoints, fulfillmentMode, setFulfillmentMode, selectedAddress, onEditAddress, paymentMode, setPaymentMode, selectedPaymentMethod, setSelectedPaymentMethod, onPlaceOrder, onBack, addressModalOpen, setAddressModalOpen, addresses, setSelectedAddressId, selectedAddressId }) {
-    const isDelivery = fulfillmentMode === 'delivery';
-    return (
-      <div>
-        <div className="flex items-center gap-3 mb-6"><button onClick={onBack} className="text-accent-primary font-semibold transition hover:translate-x-[-4px]">← Back</button><h2 className="font-display text-2xl font-semibold">Your Cart</h2></div>
-        {cart.length === 0 ? (<div className="text-center py-12"><p className="text-text-secondary mb-4">Your cart is empty</p><button onClick={onBack} className={btnPrimaryClasses}>Explore Menu</button></div>) : (<><div className="space-y-4 mb-4">{cart.map((item, idx) => (<CartItemRow key={item.sku} item={item} onIncrement={() => onIncrement(item.sku)} onDecrement={() => onDecrement(item.sku)} onRemove={() => onRemove(item.sku)} idx={idx} />))}</div><div className="bg-elevated rounded-card p-4 mb-4 border border-border"><div className="flex items-center justify-between mb-3"><h3 className="font-display text-lg font-semibold">Delivery / Pickup</h3>{isDelivery && <button onClick={onEditAddress} className="text-accent-primary text-sm font-semibold hover:underline">Edit / Change</button>}</div>{isDelivery ? (<div className="flex items-start gap-3"><span className="text-2xl mt-1">📍</span><div><p className="font-semibold text-text-primary">{selectedAddress?.label}<span className="ml-2 text-xs bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-pill">{selectedAddress?.eta}</span></p><p className="text-sm text-text-secondary">{selectedAddress?.address}</p></div></div>) : (<div className="flex items-start gap-3"><span className="text-2xl">🏪</span><div><p className="font-semibold">Heaven's Kitchen<span className="ml-2 text-xs bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-pill">Ready in 15-20 mins</span></p><p className="text-sm text-text-secondary">789, Food Street, Indiranagar, Bangalore</p></div></div>)}<div className="flex mt-4 bg-surface rounded-btn p-1 border border-border"><button onClick={() => setFulfillmentMode('delivery')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${fulfillmentMode === 'delivery' ? 'bg-accent-primary text-white' : 'text-text-secondary'}`}>🚀 Delivery</button><button onClick={() => setFulfillmentMode('pickup')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${fulfillmentMode === 'pickup' ? 'bg-accent-primary text-white' : 'text-text-secondary'}`}>🏪 Pickup</button></div></div><BillSplitCard itemTotal={itemTotal} deliveryFee={deliveryFee} platformFee={platformFee} taxRate={taxRate} discount={discount} loyaltyPointsRedeemed={redeemedPoints} onRedeemPoints={onRedeemPoints} availablePoints={availablePoints} /><PaymentMethodSelector paymentMode={paymentMode} onPaymentModeChange={setPaymentMode} selectedMethod={selectedPaymentMethod} onSelectMethod={setSelectedPaymentMethod} fulfillmentMode={fulfillmentMode} /><button onClick={onPlaceOrder} className={`${btnPrimaryClasses} w-full transition-all hover:shadow-glow`}>Place Order</button></>)}
-        {addressModalOpen && (<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"><div className="bg-elevated rounded-card w-80 p-5 shadow-elevated"><h3 className="font-display text-lg mb-3">Select Address</h3>{addresses.map(addr => (<div key={addr.id} className={`p-3 rounded-card border mb-2 cursor-pointer transition ${selectedAddressId === addr.id ? 'border-accent-primary bg-accent-primary/5' : 'border-border'}`} onClick={() => { setSelectedAddressId(addr.id); setAddressModalOpen(false); }}><p className="font-semibold">{addr.label}</p><p className="text-xs text-text-secondary">{addr.address}</p></div>))}<button className="mt-2 text-accent-primary text-sm" onClick={() => setAddressModalOpen(false)}>Cancel</button></div></div>)}
-      </div>
-    );
-  }
-
-  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-</script>
+        const useInView = (threshold=0.2) => { const [inView, setInView] = useState(false); const ref = useRef(null); useEffect(() => { const el = ref.current; if(!el) return; const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting){ setInView(true); obs.unobserve(el); } }, { threshold }); obs.observe(el); return () => obs.disconnect(); }, []); return [ref, inView]; };
+        const Cursor = () => { const [pos, setPos] = useState({x:0,y:0}); const [hover, setHover] = useState(false); useEffect(() => { const move = (e) => setPos({x:e.clientX, y:e.clientY}); const over = (e) => { if(e.target.closest('a,button,[role=button],input,select')) setHover(true); }; const out = () => setHover(false); window.addEventListener('mousemove',move); document.addEventListener('mouseover',over); document.addEventListener('mouseout',out); return () => { window.removeEventListener('mousemove',move); document.removeEventListener('mouseover',over); document.removeEventListener('mouseout',out); }; },[]); return <div className={`custom-cursor ${hover ? 'hover' : ''}`} style={{left:pos.x+'px',top:pos.y+'px'}}/>; };
+        const SparkleField = () => { const sparkles = useMemo(() => Array.from({length:45},(_,i)=>({ id:i, left:Math.random()*100, top:Math.random()*100, size:2+Math.random()*5, delay:Math.random()*8, duration:5+Math.random()*12 })), []); return <div className="absolute inset-0 overflow-hidden pointer-events-none">{sparkles.map(s=><div key={s.id} className="sparkle-dot" style={{left:s.left+'%',top:s.top+'%',width:s.size+'px',height:s.size+'px',animationDelay:s.delay+'s',animationDuration:s.duration+'s'}}/>)}</div>; };
+        const LoadingScreen = ({ onComplete }) => { const [hidden, setHidden] = useState(false); useEffect(() => { const timer = setTimeout(() => { setHidden(true); setTimeout(onComplete, 550); }, 1700); return () => clearTimeout(timer); }, []); return ( <div className={`loading-screen ${hidden ? 'hidden' : ''}`}> <div className="text-center"> <h1 className="font-display text-4xl md:text-5xl font-bold text-cream mb-6">{t.loading}<span className="text-red-velvet">.</span></h1> <div className="flex gap-2 justify-center"><div className="loader-dot"></div><div className="loader-dot"></div><div className="loader-dot"></div></div> </div> </div> ); };
+        const LoginScreen = ({ onLogin, setUserName }) => { const [form, setForm] = useState({name:'',phone:'',address:''}); const handleSubmit = (e) => { e.preventDefault(); setUserName(form.name || "Foodie"); onLogin(); }; return ( <div className="fixed inset-0 z-50 flex items-center justify-center p-4"> <div className="absolute inset-0 matte-glossy-bg"></div> <SparkleField /> <div className="relative z-10 glass-card rounded-3xl p-8 md:p-10 w-full max-w-md animate-scale-in shadow-2xl"> <h2 className="font-display text-3xl font-bold text-dark-chocolate dark:text-cream text-center mb-6">{t.loginWelcome}<span className="text-red-velvet">.</span></h2> <p className="text-center text-dark-chocolate/80 dark:text-cream/80 text-sm mb-8 font-semibold">{t.loginText}</p> <form onSubmit={handleSubmit} className="space-y-5"> <div><label className="block text-sm font-bold">{t.name}</label><input type="text" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border border-dark-chocolate/20" placeholder="Your name"/></div> <div><label className="block text-sm font-bold">{t.phone}</label><input type="text" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border border-dark-chocolate/20" placeholder="+91 98765 43210"/></div> <div><label className="block text-sm font-bold">{t.address}</label><input type="text" value={form.address} onChange={e=>setForm({...form,address:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border border-dark-chocolate/20" placeholder="Your delivery address"/></div> <button type="submit" className="w-full py-3.5 bg-velvet-red text-white rounded-xl font-semibold hover:bg-red-velvet shadow-lg">{t.login}</button> </form> </div> </div> ); };
+        
+        const CustomizeModal = ({ dish, onClose, onAddToCart }) => {
+            const [custom, setCustom] = useState({truffle:false, cheese:false, noOnion:false});
+            const extraCost = (custom.truffle ? 20 : 0) + (custom.cheese ? 15 : 0);
+            const finalPrice = dish.price + extraCost;
+            const handleAdd = () => {
+                const additions = [];
+                if(custom.truffle) additions.push("Extra Cheese (+₹20)");
+                if(custom.cheese) additions.push("Extra Sauce (+₹15)");
+                if(custom.noOnion) additions.push("No Onion");
+                onAddToCart(dish, additions.join(', '), finalPrice);
+                onClose();
+            };
+            return ( <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}> <div className="bg-cream dark:bg-dark-chocolate rounded-3xl p-6 max-w-sm w-full animate-scale-in" onClick={e=>e.stopPropagation()}> <h3 className="font-display text-2xl font-bold mb-2">{dish.title}</h3> <p className="text-velvet-red font-bold text-xl mb-4">₹{dish.price}</p> <p className="text-sm text-text-secondary mb-2">Customizations will add to price</p> <div className="space-y-3 mb-6"> <label className="flex items-center gap-2"><input type="checkbox" checked={custom.truffle} onChange={e=>setCustom({...custom,truffle:e.target.checked})} />{t.addTruffle}</label> <label className="flex items-center gap-2"><input type="checkbox" checked={custom.cheese} onChange={e=>setCustom({...custom,cheese:e.target.checked})} />{t.addCheese}</label> <label className="flex items-center gap-2"><input type="checkbox" checked={custom.noOnion} onChange={e=>setCustom({...custom,noOnion:e.target.checked})} />{t.noOnion}</label> </div> <div className="mb-4 text-right font-semibold">Total: ₹{finalPrice}</div> <button onClick={handleAdd} className="w-full py-3 bg-velvet-red text-white rounded-xl font-semibold">{t.addToCart}</button> </div> </div> );
+        };
+        
+        const QuantityStepper = ({ qty, onIncrement, onDecrement }) => ( <div className="flex items-center gap-2 bg-surface rounded-btn px-2 py-1 border border-border"> <button onClick={onDecrement} disabled={qty<=1} className="w-7 h-7 flex items-center justify-center rounded-full font-bold text-lg transition hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-30">−</button> <span className="w-8 text-center font-semibold text-sm">{qty}</span> <button onClick={onIncrement} className="w-7 h-7 flex items-center justify-center rounded-full font-bold text-lg transition hover:bg-gray-200 dark:hover:bg-gray-700">+</button> </div> );
+        const CartItemRow = ({ item, onIncrement, onDecrement, onRemove }) => ( <div className="bg-elevated rounded-card p-4 flex items-center gap-3 border border-border"> <img src={item.image} className="w-14 h-14 rounded-lg object-cover flex-shrink-0" alt={item.name} onError={(e)=>e.target.src='https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop'} /> <div className="flex-1 min-w-0"> <p className="font-semibold text-text-primary text-sm truncate cart-hd-text">{item.name}</p> <p className="text-xs text-text-secondary">₹{item.unitPrice} each</p> {item.customizations && <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">{item.customizations}</p>} </div> <QuantityStepper qty={item.qty} onIncrement={()=>onIncrement(item.sku, item.customizations)} onDecrement={()=>onDecrement(item.sku, item.customizations)} /> <span className="font-semibold text-text-primary text-sm w-16 text-right cart-hd-text">₹{(item.unitPrice * item.qty).toFixed(2)}</span> <button onClick={()=>onRemove(item.sku, item.customizations)} className="text-error text-lg ml-1 p-1 hover:bg-error/10 rounded-full transition"><i className="fas fa-trash-alt"></i></button> </div> );
+        
+        const AddressBar = ({ address, fulfillmentMode, onEditAddress, onChangeFulfillment }) => { const isDelivery = fulfillmentMode==='delivery'; return ( <div className="bg-elevated rounded-card p-4 mb-4 border border-border"> <div className="flex items-center justify-between mb-3"><h3 className="font-display text-lg font-semibold">{isDelivery?'Delivery Address':'Pickup Location'}</h3>{isDelivery && <button onClick={onEditAddress} className="text-accent-primary text-sm font-semibold hover:underline">Edit / Change</button>}</div> {isDelivery?(<div className="flex items-start gap-3"><i className="fas fa-map-marker-alt text-2xl mt-1 text-accent-secondary"></i><div><p className="font-semibold cart-hd-text">{address?.label||'Home'}<span className="ml-2 text-xs bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-pill font-medium">{address?.eta||'25-35 mins'}</span></p><p className="text-sm text-text-secondary mt-0.5">{address?.address||'Add your delivery address'}</p></div></div>):(<div className="flex items-start gap-3"><i className="fas fa-store text-2xl mt-1 text-accent-secondary"></i><div><p className="font-semibold cart-hd-text">Heaven's Kitchen<span className="ml-2 text-xs bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-pill font-medium">Ready in 15-20 mins</span></p><p className="text-sm text-text-secondary mt-0.5">789, Food Street, Indiranagar, Bangalore 560038</p></div></div>)} <div className="flex mt-4 bg-surface rounded-btn p-1 border border-border"> <button onClick={()=>onChangeFulfillment('delivery')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${isDelivery?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-truck mr-1"></i> Doorstep Delivery</button> <button onClick={()=>onChangeFulfillment('pickup')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${!isDelivery?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-utensils mr-1"></i> Self-Pickup</button> </div> </div> ); };
+        
+        const BillSplitCard = ({ itemTotal, deliveryFee, platformFee, taxRate, discount, loyaltyPointsRedeemed, onRedeemPoints, availablePoints, initialRedeem=0 }) => {
+            const [redeem, setRedeem] = useState(initialRedeem);
+            const taxAmount = Math.round((itemTotal+deliveryFee+platformFee)*taxRate);
+            const grandTotal = Math.max(0, itemTotal+deliveryFee+platformFee+taxAmount-discount);
+            useEffect(() => { onRedeemPoints(redeem); }, [redeem]);
+            return (
+                <div className="bg-elevated rounded-card p-5 mb-4 border border-border">
+                    <h3 className="font-display text-lg font-semibold mb-4">Bill Details</h3>
+                    <div className="space-y-2 text-sm">
+                        <div className="flex justify-between"><span className="text-text-secondary">Item Total</span><span className="font-medium cart-hd-text">₹{itemTotal.toFixed(2)}</span></div>
+                        <div className="flex justify-between"><span className="text-text-secondary">Delivery Fee</span><span className="font-medium">{deliveryFee===0?(<span className="text-success font-semibold">FREE</span>):`₹${deliveryFee.toFixed(2)}`}</span></div>
+                        <div className="flex justify-between"><span className="text-text-secondary">Platform Fee</span><span className="font-medium">₹{platformFee.toFixed(2)}</span></div>
+                        <div className="flex justify-between"><span className="text-text-secondary">GST ({(taxRate*100).toFixed(0)}%)</span><span className="font-medium">₹{taxAmount.toFixed(2)}</span></div>
+                        {discount>0 && (
+                            <div className="flex justify-between text-success animate-coin-pulse">
+                                <span>Loyalty Discount ({loyaltyPointsRedeemed} pts)</span>
+                                <span className="font-semibold">− ₹{discount.toFixed(2)}</span>
+                            </div>
+                        )}
+                        <div className="border-t border-border pt-2 mt-2"></div>
+                        <div className="flex justify-between text-base"><span className="font-display font-bold">Grand Total</span><span className="font-display font-bold cart-total-hd">₹{grandTotal.toFixed(2)}</span></div>
+                    </div>
+                    {availablePoints>=10 && (
+                        <div className="mt-4 pt-3 border-t border-border">
+                            <p className="text-xs text-text-secondary mb-2">{t.redeemNote}</p>
+                            <input type="range" min="0" max={Math.min(availablePoints, 50)} step="10" value={redeem} onChange={e=>setRedeem(Number(e.target.value))} className="w-full" />
+                            <div className="flex justify-between text-xs text-text-secondary mt-1"><span>0 pts</span><span>{Math.min(availablePoints, 50)} pts</span></div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+        
+        const PaymentMethodSelector = ({ paymentMode, onPaymentModeChange, selectedMethod, onSelectMethod, fulfillmentMode }) => { const isDelivery = fulfillmentMode==='delivery'; const onlineMethods = [ { id:'card1', label:'Visa •••• 4242', icon:'fab fa-cc-visa', detail:'Expires 12/26' }, { id:'upi', label:'UPI / Google Pay', icon:'fas fa-mobile-alt', detail:'Instant payment' } ]; const doorstepMethods = [ { id:'cod', label:'Cash on Delivery', icon:'fas fa-money-bill-wave', detail:'Pay when you receive' }, { id:'cardAtDoor', label:'Card at Door', icon:'fas fa-credit-card', detail:'Swipe/Insert card on delivery' } ]; const methods = paymentMode==='online'?onlineMethods:doorstepMethods; return ( <div className="bg-elevated rounded-card p-5 mb-4 border border-border"> <h3 className="font-display text-lg font-semibold mb-4">Payment Method</h3> <div className="flex bg-surface rounded-btn p-1 mb-4 border border-border"> <button onClick={()=>onPaymentModeChange('online')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${paymentMode==='online'?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-globe mr-1"></i> Pay Online</button> <button onClick={()=>onPaymentModeChange('doorstep')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${paymentMode==='doorstep'?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-hand-holding-usd mr-1"></i> {isDelivery?'Pay at Doorstep':'Pay at Counter'}</button> </div> <div className="space-y-2"> {methods.map(method=> ( <div key={method.id} onClick={()=>onSelectMethod(method)} className={`flex items-center gap-3 p-3 rounded-card cursor-pointer border transition ${selectedMethod?.id===method.id?'border-accent-primary bg-accent-primary/5':'border-border hover:border-accent-secondary/50'}`}> <i className={`${method.icon} text-2xl`}></i> <div className="flex-1"><p className="font-semibold text-sm cart-hd-text">{method.label}</p><p className="text-xs text-text-secondary">{method.detail}</p></div> <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedMethod?.id===method.id?'border-accent-primary':'border-border'}`}> {selectedMethod?.id===method.id && <div className="w-3 h-3 rounded-full bg-accent-primary"></div>} </div> </div> ))} </div> </div> ); };
+        
+        const StickyBottomCTA = ({ grandTotal, isProcessing, disabled, onPlaceOrder }) => ( <div className="sticky bottom-0 z-20 bg-elevated border-t border-border px-4 py-4 shadow-elevated"> <div className="max-w-lg mx-auto"> <button onClick={onPlaceOrder} disabled={disabled||isProcessing} className={`w-full font-semibold py-4 px-6 rounded-btn text-base transition flex items-center justify-center gap-2 ${disabled?'bg-border text-text-secondary cursor-not-allowed':'bg-accent-primary text-white hover:brightness-110 active:scale-[0.98]'}`}> {isProcessing?(<><span className="spinner"></span> Processing...</>):`Proceed to Pay ₹${grandTotal.toFixed(2)}`} </button> {disabled && !isProcessing && <p className="text-xs text-error text-center mt-2">⚠️ Please select a payment method</p>} </div> </div> );
+        
+        // Animated checkmark SVG component
+        const AnimatedCheckmark = () => (
+            <svg className="w-24 h-24" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+                <circle className="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#3C6E47" strokeWidth="3" />
+                <path className="checkmark-check" fill="none" stroke="#3C6E47" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" d="M14 27l7 7 16-16" />
+            </svg>
+        );
+        
+        // OrderConfirmation with animated delivery progress bar filling in real minutes
+        const OrderConfirmation = ({ order, coinsEarned, onBack }) => {
+            const [showTracking, setShowTracking] = useState(false);
+            const [progress, setProgress] = useState(0);
+            const etaMatch = order.eta.match(/(\d+)/);
+            const etaMinutes = etaMatch ? parseInt(etaMatch[0], 10) : 30;
+            // total animation time = etaMinutes * 60000 ms (real minutes)
+            const totalDuration = etaMinutes * 60000;
+            
+            useEffect(() => {
+                const timer = setTimeout(() => setShowTracking(true), 3000);
+                return () => clearTimeout(timer);
+            }, []);
+            
+            useEffect(() => {
+                if (!showTracking) return;
+                const stepMs = 100;
+                const totalSteps = totalDuration / stepMs;
+                let currentStep = 0;
+                const interval = setInterval(() => {
+                    currentStep++;
+                    const pct = Math.min(100, (currentStep / totalSteps) * 100);
+                    setProgress(pct);
+                    if (currentStep >= totalSteps) clearInterval(interval);
+                }, stepMs);
+                return () => clearInterval(interval);
+            }, [showTracking, totalDuration]);
+            
+            const getStatusText = () => {
+                if (progress < 25) return t.confirmed;
+                if (progress < 50) return t.preparing;
+                if (progress < 75) return t.out;
+                return t.delivered;
+            };
+            
+            const items = order.items || [];
+            const total = order.total || 0;
+            return (
+                <div className="min-h-screen bg-base p-6 flex flex-col items-center justify-center">
+                    <div className="max-w-lg w-full bg-elevated rounded-card p-8 shadow-card border border-border text-center">
+                        <div className="flex justify-center mb-4">
+                            <AnimatedCheckmark />
+                        </div>
+                        <h2 className="font-display text-3xl font-bold text-text-primary mb-2">{t.orderSuccess}</h2>
+                        <p className="text-success font-semibold text-lg mb-6">+{coinsEarned} Coins earned</p>
+                        
+                        <div className="text-left space-y-3 mb-6">
+                            {items.map((item, idx) => (
+                                <div key={idx} className="flex items-center gap-3 p-2 glass-card rounded-xl">
+                                    <img src={item.image} className="w-12 h-12 rounded-lg object-cover" alt={item.name} />
+                                    <div className="flex-1">
+                                        <p className="font-semibold text-sm">{item.name} x {item.qty}</p>
+                                        <p className="text-xs text-text-secondary">₹{item.unitPrice} each</p>
+                                    </div>
+                                    <p className="font-semibold">₹{(item.unitPrice * item.qty).toFixed(2)}</p>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="border-t border-border pt-3 mb-6 flex justify-between font-bold">
+                            <span>Total Bill</span>
+                            <span className="cart-total-hd">₹{total.toFixed(2)}</span>
+                        </div>
+                        
+                        {showTracking && (
+                            <div className="animate-fade-in">
+                                <h3 className="font-display text-xl font-semibold mb-4">Delivery Status</h3>
+                                <div className="flex items-center gap-4 bg-surface rounded-card p-4 border border-border mb-6">
+                                    <i className="fas fa-motorcycle text-3xl text-accent-primary"></i>
+                                    <div className="text-left">
+                                        <p className="font-bold text-text-primary">{getStatusText()}</p>
+                                        <p className="text-sm text-text-secondary">ETA: <strong className="text-accent-primary">{order.eta}</strong></p>
+                                    </div>
+                                </div>
+                                <div className="w-full bg-border rounded-full h-3 mb-3 overflow-hidden">
+                                    <div className="bg-success h-full rounded-full transition-all duration-300 ease-linear" style={{width:`${progress}%`}}></div>
+                                </div>
+                                <div className="flex justify-between text-xs text-text-secondary">
+                                    <span>Placed</span><span>Preparing</span><span>On the way</span><span>Delivered</span>
+                                </div>
+                            </div>
+                        )}
+                        
+                        <button onClick={onBack} className="mt-6 w-full py-3 bg-velvet-red text-white rounded-xl font-semibold hover:bg-red-velvet transition">
+                            Back to Menu
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+        
+        const FloatingItems = () => {
+            const items = useMemo(() => [
+                { icon: "fa-burger", left: "5%", delay: "0s", duration: "8s" },
+                { icon: "fa-french-fries", left: "20%", delay: "1s", duration: "9s" },
+                { icon: "fa-mug-saucer", left: "45%", delay: "2s", duration: "7.5s" },
+                { icon: "fa-pizza-slice", left: "70%", delay: "0.5s", duration: "10s" },
+                { icon: "fa-taco", left: "85%", delay: "1.5s", duration: "8.5s" },
+                { icon: "fa-ice-cream", left: "15%", delay: "2.5s", duration: "9.5s" },
+                { icon: "fa-drumstick-bite", left: "60%", delay: "3s", duration: "7s" },
+                { icon: "fa-carrot", left: "40%", delay: "0.8s", duration: "8.2s" }
+            ], []);
+            return <>{items.map((item, idx) => <div key={idx} className="floating-item" style={{ left: item.left, animationDelay: item.delay, animationDuration: item.duration }}><i className={`fas ${item.icon}`}></i></div>)}</>;
+        };
+        
+        const OurStory = () => {
+            const [ref, inView] = useInView(0.2);
+            return (
+                <section ref={ref} className="w-full max-w-7xl mx-auto px-6 py-16 md:py-24">
+                    <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+                        <div className="relative order-2 md:order-1">
+                            <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl image-hover-zoom">
+                                <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80" alt="Chef plating a gourmet dish" className="w-full h-full object-cover" />
+                            </div>
+                            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-velvet-red/20 rounded-3xl -z-10 hidden lg:block"></div>
+                            <div className="absolute -top-6 -left-6 w-28 h-28 bg-soft-beige rounded-3xl -z-10 hidden lg:block"></div>
+                        </div>
+                        <div className="order-1 md:order-2">
+                            <p className="text-velvet-red uppercase tracking-[0.25em] text-sm font-semibold mb-4">Our Story</p>
+                            <h2 className="font-display text-4xl md:text-5xl font-bold text-dark-chocolate dark:text-cream mb-6 leading-tight">
+                                Redefining Gourmet <span className="italic text-velvet-red">Delivery</span>
+                            </h2>
+                            <p className="text-dark-chocolate/70 dark:text-cream/70 leading-relaxed mb-5 text-lg">
+                                Founded in 2021, Cloud Kitchen Co. was born from a passion for exceptional food and a desire to make fine dining accessible at home.
+                            </p>
+                            <p className="text-dark-chocolate/70 dark:text-cream/70 leading-relaxed mb-8 text-lg">
+                                Our team of award‑winning chefs sources the finest ingredients and crafts menus that blend global techniques with local flavours.
+                            </p>
+                            <div className="grid grid-cols-3 gap-6 pt-4">
+                                <div className="text-center"><p className="font-display text-3xl lg:text-4xl font-bold text-velvet-red">10k+</p><p className="text-sm text-dark-chocolate/60 dark:text-cream/60 mt-1">Orders Delivered</p></div>
+                                <div className="text-center"><p className="font-display text-3xl lg:text-4xl font-bold text-velvet-red">4.9</p><p className="text-sm text-dark-chocolate/60 dark:text-cream/60 mt-1">Average Rating</p></div>
+                                <div className="text-center"><p className="font-display text-3xl lg:text-4xl font-bold text-velvet-red">5</p><p className="text-sm text-dark-chocolate/60 dark:text-cream/60 mt-1">Cities Served</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            );
+        };
+        
+        const TestimonialsSlider = () => {
+            const testimonials = [
+                { name: 'Riya & Arjun Mehta', location: 'Mumbai', text: 'The food from Cloud Kitchen Co. rivals any fine dining restaurant. Every bite was a revelation!', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80' },
+                { name: 'Vikram Singh', location: 'Delhi', text: 'I ordered the truffle risotto for a date night at home – perfection. Delivery was prompt and hot.', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80' },
+                { name: 'Ananya Patel', location: 'Bangalore', text: 'Their event catering transformed our anniversary dinner. Five stars! Unforgettable experience.', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80' }
+            ];
+            const [current, setCurrent] = useState(0);
+            const trackStyle = {
+                transform: `translateX(-${current * 100}%)`,
+                transition: 'transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1)'
+            };
+            useEffect(() => {
+                const interval = setInterval(() => { setCurrent((prev) => (prev + 1) % testimonials.length); }, 5000);
+                return () => clearInterval(interval);
+            }, [testimonials.length]);
+            return (
+                <section className="w-full max-w-5xl mx-auto px-6 py-16 md:py-24 text-center">
+                    <p className="text-velvet-red uppercase tracking-[0.25em] text-sm font-semibold mb-4">Testimonials</p>
+                    <h2 className="font-display text-4xl md:text-5xl font-bold text-dark-chocolate dark:text-cream mb-12">What Our <span className="italic text-velvet-red">Customers</span> Say</h2>
+                    <div className="relative overflow-hidden min-h-[320px]">
+                        <div className="testimonial-track" style={trackStyle}>
+                            {testimonials.map((t, idx) => (
+                                <div key={idx} className="testimonial-slide">
+                                    <div className="glass-card rounded-3xl p-8 md:p-10 max-w-2xl mx-auto">
+                                        <div className="flex justify-center mb-4 text-velvet-red text-2xl">
+                                            {"★".repeat(5)}
+                                        </div>
+                                        <p className="text-dark-chocolate/80 dark:text-cream/80 text-lg leading-relaxed italic mb-6">&ldquo;{t.text}&rdquo;</p>
+                                        <div className="flex items-center justify-center gap-4">
+                                            <img src={t.image} alt={t.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-velvet-red/40" />
+                                            <div className="text-left"><p className="font-semibold text-dark-chocolate dark:text-cream">{t.name}</p><p className="text-sm text-dark-chocolate/50 dark:text-cream/50">{t.location}</p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex justify-center gap-3 mt-8">
+                        {testimonials.map((_, idx) => (<div key={idx} className={`dot ${idx === current ? 'active' : ''}`} onClick={() => setCurrent(idx)}></div>))}
+                    </div>
+                </section>
+            );
+        };
+        
+        const HamburgerMenu = ({ isOpen, onClose, darkMode, onToggleDarkMode, onNavigate, userName, loyaltyPoints }) => {
+            const [closing, setClosing] = useState(false);
+            const handleClose = useCallback(() => { setClosing(true); setTimeout(() => { setClosing(false); onClose(); }, 280); }, [onClose]);
+            useEffect(() => { document.body.style.overflow = isOpen ? 'hidden' : ''; return () => { document.body.style.overflow = ''; }; }, [isOpen]);
+            if (!isOpen && !closing) return null;
+            const greeting = () => { const hour = new Date().getHours(); if (hour < 12) return 'Good Morning'; if (hour < 17) return 'Good Afternoon'; return 'Good Evening'; };
+            return ( <div className="fixed inset-0 z-50 flex"> <div className={`absolute inset-0 bg-black/60 ${closing ? 'backdrop-exit' : 'backdrop-enter'}`} onClick={handleClose}></div> <div className={`relative slim-sidebar h-full overflow-y-auto shadow-2xl flex flex-col ${closing ? 'drawer-exit' : 'drawer-enter'}`} style={{ backgroundColor: darkMode ? '#2d221f' : '#FFF5E6', color: darkMode ? '#e8e4df' : '#2C2420' }}> <button onClick={handleClose} className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-surface hover:bg-border transition text-text-primary text-xl"><i className="fas fa-times"></i></button> <div className="px-5 pt-10 pb-6 border-b border-gray-300 dark:border-gray-700"> <div className="flex items-center gap-3"> <div className="relative"><div className="w-12 h-12 rounded-full bg-velvet-red flex items-center justify-center text-white text-lg font-bold">{userName?.charAt(0)||'G'}</div><div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-accent-secondary flex items-center justify-center text-[10px] font-bold text-dark-chocolate border-2 border-white"><i className="fas fa-star text-[8px]"></i></div></div> <div><p className="font-display text-base font-semibold">{greeting()}, {userName||'Guest'}</p><span className="inline-block mt-0.5 text-[10px] font-semibold bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-full">Gold • {loyaltyPoints} pts</span></div> </div> </div> <nav className="px-3 mt-5 flex-1 space-y-0.5"> {[{action:'orders', label:t.prevOrders, icon:'fas fa-clipboard-list'},{action:'loyalty', label:t.loyalty, icon:'fas fa-coins'},{action:'fav', label:t.fav, icon:'fas fa-heart'}].map((link,i)=> ( <div key={link.action} style={{ animationDelay:`${i*70}ms` }} className="opacity-100"> <button onClick={()=>{ onNavigate(link.action); handleClose(); }} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition text-left"> <i className={`${link.icon} text-base w-5`}></i><span className="font-body text-sm font-medium cart-hd-text">{link.label}</span><i className="fas fa-chevron-right ml-auto text-text-secondary text-xs"></i> </button> </div> ))} </nav> <div className="px-4 py-5 border-t border-gray-300 dark:border-gray-700 mt-auto space-y-2"> <button onClick={onToggleDarkMode} className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-white/30 dark:bg-black/20 hover:bg-white/40 transition text-sm"> <span className="flex items-center gap-2"><i className={`fas ${darkMode?'fa-sun':'fa-moon'} text-base`}></i><span className="font-medium text-sm cart-hd-text">{t.darkMode}</span></span> <div className={`w-9 h-5 rounded-full relative transition ${darkMode?'bg-velvet-red':'bg-gray-400'}`}><div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition ${darkMode?'left-4':'left-0.5'}`}></div></div> </button> <button onClick={()=>{ onNavigate('signout'); handleClose(); }} className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-white/20 transition text-sm"><i className="fas fa-sign-out-alt text-sm"></i><span>{t.signOut}</span></button> </div> </div> </div> );
+        };
+        
+        const FeatureModal = ({ type, onClose, orders, coins, favorites }) => { let content = null; if (type === 'orders') { content = ( <div className="max-h-[70vh] overflow-y-auto pr-2"><h3 className="font-display text-2xl font-bold mb-4">{t.prevOrders}</h3>{orders.length === 0 ? <p>{t.noOrders}</p> : orders.map(order => (<div key={order.id} className="glass-card rounded-2xl p-3 flex gap-3 mb-3"><img src={order.items?.[0]?.image} className="w-14 h-14 rounded-xl object-cover" /><div className="flex-1"><p className="font-semibold cart-hd-text">{order.items?.map(i=>i.name).join(', ')} (₹{order.total})</p><p className="text-xs">{order.time}</p></div></div>))}</div> ); } else if (type === 'loyalty') { content = ( <div className="text-center py-6"><h3 className="font-display text-3xl font-bold mb-4">{t.loyalty}</h3><p className="text-6xl font-bold text-velvet-red">{coins}</p><p className="mt-3">{t.coinsEarned}</p>{coins === 0 && <p className="text-sm mt-2">{t.noCoins}</p>}</div> ); } else if (type === 'fav') { const favDishes = menuDishes.filter(d => favorites.includes(d.id)); content = ( <div className="max-h-[70vh] overflow-y-auto"><h3 className="font-display text-2xl font-bold mb-4">{t.fav}</h3>{favDishes.length === 0 ? <p>{t.noFav}</p> : (<div className="grid grid-cols-1 gap-3">{favDishes.map(dish => (<div key={dish.id} className="glass-card rounded-xl p-2 flex gap-3"><img src={dish.image} className="w-16 h-16 rounded-lg object-cover" /><div><p className="font-bold cart-hd-text">{dish.title}</p><p className="text-velvet-red">₹{dish.price}</p></div></div>))}</div>)}</div> ); } return ( <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}> <div className="bg-cream dark:bg-dark-chocolate rounded-3xl p-6 max-w-lg w-full max-h-[85vh] animate-scale-in" onClick={e=>e.stopPropagation()}> {content} <button onClick={onClose} className="mt-5 w-full py-2 border rounded-xl">Close</button> </div> </div> ); };
+        
+        const MainApp = ({ darkMode, toggleDarkMode, onSignOut, weatherGreeting, userName }) => {
+            const [sidebarOpen, setSidebarOpen] = useState(false);
+            const [cartOpen, setCartOpen] = useState(false);
+            const [customizeModal, setCustomizeModal] = useState(null);
+            const [showAI, setShowAI] = useState(false);
+            const [toasts, setToasts] = useState([]);
+            const [featureModal, setFeatureModal] = useState(null);
+            const [orders, setOrders] = useState(() => JSON.parse(localStorage.getItem('ck_orders')) || []);
+            const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem('ck_fav')) || []);
+            const [coins, setCoins] = useState(() => { const stored = localStorage.getItem('ck_coins'); return stored ? parseInt(stored) : 580; });
+            const [cartItems, setCartItems] = useState([]);
+            const [checkoutActive, setCheckoutActive] = useState(false);
+            const [trackingOrder, setTrackingOrder] = useState(null);
+            
+            const [fulfillmentMode, setFulfillmentMode] = useState('delivery');
+            const [selectedAddress, setSelectedAddress] = useState({ id:'addr1', label:'Home', address:'123, MG Road, Indiranagar, Bangalore 560038', eta:'25-35 mins' });
+            const [addressSheetOpen, setAddressSheetOpen] = useState(false);
+            const [paymentMode, setPaymentMode] = useState('online');
+            const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+            const [redeemPoints, setRedeemPoints] = useState(0);
+            const discount = redeemPoints;
+            const [isProcessing, setIsProcessing] = useState(false);
+            
+            const savedAddresses = [
+                { id:'addr1', label:'Home', address:'123, MG Road, Indiranagar, Bangalore 560038', eta:'25-35 mins' },
+                { id:'addr2', label:'Work', address:'456, Koramangala 5th Block, Bangalore 560034', eta:'30-40 mins' }
+            ];
+            
+            useEffect(() => { localStorage.setItem('ck_orders', JSON.stringify(orders)); }, [orders]);
+            useEffect(() => { localStorage.setItem('ck_fav', JSON.stringify(favorites)); }, [favorites]);
+            useEffect(() => { localStorage.setItem('ck_coins', coins); }, [coins]);
+            
+            useEffect(() => { setSelectedPaymentMethod(null); }, [paymentMode]);
+            useEffect(() => { setSelectedPaymentMethod(null); }, [fulfillmentMode]);
+            
+            const addToCart = (dish, customizations, finalPrice) => {
+                const toastId = Date.now();
+                setCartItems(prev => {
+                    const existing = prev.find(i => i.sku === dish.id && i.customizations === customizations);
+                    if(existing) return prev.map(i => i.sku === dish.id && i.customizations === customizations ? {...i, qty: i.qty+1} : i);
+                    return [...prev, { sku: dish.id, name: dish.title, image: dish.image, unitPrice: finalPrice, qty: 1, customizations: customizations || 'Standard' }];
+                });
+                setToasts(prev => [...prev, {id: toastId, msg: `${dish.title} added to cart`}]);
+                setTimeout(() => setToasts(prev => prev.filter(t => t.id !== toastId)), 2500);
+            };
+            const updateQuantity = (sku, delta, customKey) => { setCartItems(prev => prev.map(i => (i.sku === sku && i.customizations === customKey) ? {...i, qty: Math.max(1, i.qty+delta)} : i)); };
+            const removeItem = (sku, customKey) => { setCartItems(prev => prev.filter(i => !(i.sku === sku && i.customizations === customKey))); };
+            
+            const itemTotal = cartItems.reduce((s,i)=>s + i.unitPrice * i.qty, 0);
+            const cartDisplayTotal = itemTotal;
+            
+            const proceedToCheckout = () => {
+                setCartOpen(false);
+                setCheckoutActive(true);
+            };
+            
+            const deliveryFee = fulfillmentMode === 'pickup' ? 0 : (itemTotal >= 300 ? 0 : 40);
+            const platformFee = 10;
+            const taxRate = 0.05;
+            const taxAmount = Math.round((itemTotal+deliveryFee+platformFee)*taxRate);
+            const grandTotal = Math.max(0, itemTotal+deliveryFee+platformFee+taxAmount-discount);
+            
+            const handlePlaceOrder = () => {
+                if (!selectedPaymentMethod) return;
+                setIsProcessing(true);
+                setTimeout(() => {
+                    setIsProcessing(false);
+                    const coinsEarned = 10;
+                    const newOrder = {
+                        id: Date.now(),
+                        items: cartItems.map(i=>({...i, totalPrice: i.unitPrice*i.qty})),
+                        total: itemTotal,
+                        time: new Date().toLocaleTimeString(),
+                        status: 'confirmed',
+                        eta: fulfillmentMode==='delivery'?'25-35 mins':'15-20 mins'
+                    };
+                    setOrders(prev => [newOrder, ...prev]);
+                    setCoins(prev => prev - redeemPoints + coinsEarned);
+                    setCartItems([]);
+                    setCheckoutActive(false);
+                    setTrackingOrder({ order: newOrder, coinsEarned });
+                    setRedeemPoints(0);
+                }, 1500);
+            };
+            
+            const toggleFavorite = (dishId) => { setFavorites(prev => prev.includes(dishId) ? prev.filter(id=>id!==dishId) : [...prev, dishId]); };
+            const handleNavigate = (action) => { if (action === 'orders') setFeatureModal('orders'); else if (action === 'loyalty') setFeatureModal('loyalty'); else if (action === 'fav') setFeatureModal('fav'); else if (action === 'signout') onSignOut(); };
+            const cartCount = cartItems.reduce((s,i)=>s+i.qty,0);
+            
+            if (trackingOrder) return <OrderConfirmation order={trackingOrder.order} coinsEarned={trackingOrder.coinsEarned} onBack={() => setTrackingOrder(null)} />;
+            if (checkoutActive) {
+                return (
+                    <div className="min-h-screen bg-base relative">
+                        <header className="sticky top-0 z-10 bg-elevated border-b border-border px-4 py-3">
+                            <div className="max-w-lg mx-auto flex items-center justify-between">
+                                <button onClick={() => setCheckoutActive(false)} className="text-accent-primary font-semibold text-sm"><i className="fas fa-arrow-left mr-1"></i> Back to Cart</button>
+                                <span className="font-display text-xl font-bold text-accent-primary">Checkout</span>
+                                <div className="w-8"></div>
+                            </div>
+                        </header>
+                        <main className="max-w-lg mx-auto px-4 py-6 pb-24">
+                            {cartItems.length === 0 ? (
+                                <div className="text-center py-12"><p className="text-text-secondary mb-4">Your cart is empty.</p><button onClick={()=>setCheckoutActive(false)} className="bg-accent-primary text-white py-2 px-6 rounded-btn">Back to Menu</button></div>
+                            ) : (
+                                <>
+                                    <AddressBar address={selectedAddress} fulfillmentMode={fulfillmentMode} onEditAddress={()=>setAddressSheetOpen(true)} onChangeFulfillment={setFulfillmentMode} />
+                                    <div className="mb-4 space-y-2">{cartItems.map(item=> <CartItemRow key={item.sku+item.customizations} item={item} onIncrement={(sku,custom)=>updateQuantity(sku,1,custom)} onDecrement={(sku,custom)=>updateQuantity(sku,-1,custom)} onRemove={removeItem} />)}</div>
+                                    <BillSplitCard itemTotal={itemTotal} deliveryFee={deliveryFee} platformFee={platformFee} taxRate={taxRate} discount={discount} loyaltyPointsRedeemed={redeemPoints} onRedeemPoints={setRedeemPoints} availablePoints={coins} initialRedeem={0} />
+                                    <PaymentMethodSelector paymentMode={paymentMode} onPaymentModeChange={setPaymentMode} selectedMethod={selectedPaymentMethod} onSelectMethod={setSelectedPaymentMethod} fulfillmentMode={fulfillmentMode} />
+                                    <StickyBottomCTA grandTotal={grandTotal} isProcessing={isProcessing} disabled={!selectedPaymentMethod} onPlaceOrder={handlePlaceOrder} />
+                                </>
+                            )}
+                            {addressSheetOpen && (
+                                <div className="fixed inset-0 z-40 flex items-end sm:items-center justify-center">
+                                    <div className="absolute inset-0 bg-black/50" onClick={()=>setAddressSheetOpen(false)}></div>
+                                    <div className="relative bg-elevated rounded-t-2xl sm:rounded-2xl w-full max-w-md p-5 shadow-elevated border border-border animate-slide-up">
+                                        <h4 className="font-display text-lg font-semibold mb-3">Saved Addresses</h4>
+                                        {savedAddresses.map(addr=> (<div key={addr.id} onClick={()=>{setSelectedAddress(addr); setAddressSheetOpen(false);}} className={`p-3 rounded-card cursor-pointer mb-2 border transition ${selectedAddress?.id===addr.id?'border-accent-primary bg-accent-primary/5':'border-border hover:border-accent-secondary/50'}`}><p className="font-semibold text-sm cart-hd-text">{addr.label}{addr.isDefault&&<span className="ml-2 text-xs text-accent-secondary">Default</span>}</p><p className="text-xs text-text-secondary mt-0.5">{addr.address}</p><p className="text-xs text-accent-secondary mt-1">ETA: {addr.eta}</p></div>))}
+                                        <button onClick={()=>setAddressSheetOpen(false)} className="w-full mt-3 py-3 text-sm font-semibold text-text-secondary hover:text-text-primary transition">Cancel</button>
+                                    </div>
+                                </div>
+                            )}
+                        </main>
+                    </div>
+                );
+            }
+            
+            return ( <div className="relative"> <FloatingItems /> <header className="fixed top-0 left-0 right-0 z-30 glass shadow-lg py-3"><div className="max-w-7xl mx-auto px-6 flex items-center justify-between"><div className="flex items-center gap-4"><button onClick={()=>setSidebarOpen(true)} className="p-2 rounded-full glass-card focus:outline-none"><div className="hamburger-icon"><span className="hamburger-line"></span><span className="hamburger-line"></span><span className="hamburger-line"></span></div></button><a href="#hero" className="font-display text-2xl font-bold">CLOUD KITCHEN<span className="text-red-velvet">.</span></a></div><div className="flex items-center gap-4"><span className="text-sm italic hidden sm:inline cart-hd-text">{weatherGreeting}</span><button onClick={()=>setCartOpen(true)} className="relative p-2 rounded-full glass-card"><i className="fas fa-shopping-cart text-xl"></i>{cartCount>0 && <span className="absolute -top-1 -right-1 bg-red-velvet text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">{cartCount}</span>}</button></div></div></header> <HamburgerMenu isOpen={sidebarOpen} onClose={()=>setSidebarOpen(false)} darkMode={darkMode} onToggleDarkMode={toggleDarkMode} onNavigate={handleNavigate} userName={userName} loyaltyPoints={coins} /> <div className={`fixed inset-0 z-50 flex justify-end ${cartOpen ? 'visible' : 'invisible'}`}> {cartOpen && <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={()=>setCartOpen(false)}></div>} <div className={`relative w-full max-w-md bg-cream dark:bg-dark-chocolate shadow-2xl h-full flex flex-col ${cartOpen ? 'cart-drawer-enter' : ''}`}> <div className="flex justify-between items-center p-5 border-b border-border"> <h2 className="font-display text-2xl font-bold flex items-center gap-2"><i className="fas fa-shopping-bag"></i> {t.cart} <span className="text-sm font-normal">({cartCount})</span></h2> <button onClick={()=>setCartOpen(false)} className="text-2xl"><i className="fas fa-times"></i></button> </div> <div className="flex-1 overflow-y-auto p-4 space-y-3"> {cartItems.length===0 ? <p className="text-center text-text-secondary py-8 cart-hd-text">{t.emptyCart}</p> : cartItems.map(item=> ( <div key={item.sku+item.customizations} className="bg-elevated rounded-card p-3 flex gap-3 items-center border border-border"> <img src={item.image} className="w-16 h-16 rounded-lg object-cover" /> <div className="flex-1"><p className="font-semibold cart-hd-text">{item.name}</p><p className="text-sm text-velvet-red">₹{item.unitPrice}</p><p className="text-xs text-text-secondary">{item.customizations || ''}</p></div> <div className="flex items-center gap-2"><button onClick={()=>updateQuantity(item.sku, -1, item.customizations)} className="w-7 h-7 rounded-full bg-soft-beige dark:bg-dark-chocolate/60 font-bold">−</button><span>{item.qty}</span><button onClick={()=>updateQuantity(item.sku, 1, item.customizations)} className="w-7 h-7 rounded-full bg-soft-beige dark:bg-dark-chocolate/60 font-bold">+</button></div> <button onClick={()=>removeItem(item.sku, item.customizations)} className="text-error text-lg"><i className="fas fa-trash-alt"></i></button> </div> )) } </div>
+                <div className="p-5 border-t border-border space-y-3">
+                    <div className="flex justify-between font-bold text-lg cart-hd-text"><span>{t.itemTotal}</span><span className="cart-total-hd">₹{cartDisplayTotal.toFixed(2)}</span></div>
+                    <button onClick={proceedToCheckout} disabled={cartItems.length===0} className="w-full py-3 bg-velvet-red text-white rounded-xl font-semibold disabled:opacity-50 transition hover:brightness-110">{t.checkout}</button>
+                </div>
+            </div> </div> {customizeModal && <CustomizeModal dish={customizeModal} onClose={()=>setCustomizeModal(null)} onAddToCart={addToCart} />} {showAI && <AISuggester onClose={()=>setShowAI(false)} />} {featureModal && <FeatureModal type={featureModal} onClose={()=>setFeatureModal(null)} orders={orders} coins={coins} favorites={favorites} />} <ToastContainer toasts={toasts} /> <main className="pt-20"><Hero /><MenuGallery onOrder={(dish)=>setCustomizeModal(dish)} favorites={favorites} toggleFavorite={toggleFavorite} /><SignatureDishes onOrder={(dish)=>setCustomizeModal(dish)} /><OurStory /><TestimonialsSlider /><Footer /></main> <button onClick={()=>setShowAI(true)} className="fixed bottom-8 right-8 z-40 bg-velvet-red text-white p-4 rounded-full shadow-2xl hover:bg-red-velvet animate-pulse-soft"><i className="fas fa-robot text-xl"></i></button> </div> );
+        };
+        
+        const ToastContainer = ({ toasts }) => ( <div className="fixed bottom-24 left-4 z-50 space-y-2"> {toasts.map(toast => (<div key={toast.id} className="bg-velvet-red text-white px-4 py-2 rounded-full shadow-lg animate-slide-up text-sm cart-hd-text">{toast.msg}</div>))} </div> );
+        const Hero = () => { const [ref, inView] = useInView(0.1); return ( <section id="hero" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden"> <div className="absolute inset-0"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&q=80" className="w-full h-full object-cover"/><div className="absolute inset-0 bg-gradient-to-b from-dark-chocolate/80 to-dark-chocolate/90"></div></div> <div className="relative z-10 text-center px-6 max-w-4xl mx-auto"> <p className={`text-cream uppercase tracking-[0.3em] text-sm mb-6 transition-all ${inView?'opacity-100':'opacity-0 translate-y-6'}`}>{t.heroTag}</p> <h1 className={`font-display text-5xl md:text-7xl font-bold text-white mb-8 transition-all ${inView?'opacity-100':'opacity-0 translate-y-8'}`}>{t.heroTitle}</h1> <p className={`text-cream/80 text-lg mb-10 transition-all ${inView?'opacity-100':'opacity-0 translate-y-6'}`}>{t.heroSub}</p> <a href="#menu" className="px-10 py-4 bg-velvet-red text-white rounded-full font-semibold shadow-xl">{t.viewMenu}</a> </div> </section> ); };
+        const MenuGallery = ({ onOrder, favorites, toggleFavorite }) => { const [filter, setFilter] = useState('All'); const categories = ['All', ...new Set(menuDishes.map(d=>d.category))]; const filtered = filter === 'All' ? menuDishes : menuDishes.filter(d => d.category === filter); return ( <section id="menu" className="py-24 bg-soft-beige dark:bg-dark-chocolate/60 px-6"> <div className="max-w-7xl mx-auto"> <h2 className="font-display text-4xl font-bold text-center mb-8">{t.viewMenu}</h2> <div className="flex flex-wrap justify-center gap-3 mb-10"> {categories.map(c => <button key={c} onClick={()=>setFilter(c)} className={`category-tag px-6 py-2 rounded-full text-base font-semibold tracking-wide transition ${filter===c?'bg-velvet-red text-white':'bg-white dark:bg-dark-chocolate text-dark-chocolate dark:text-cream'}`}>{c}</button>)} </div> <div className="masonry-grid"> {filtered.map(dish => ( <div key={dish.id} className="masonry-item rounded-2xl overflow-hidden shadow-lg group"> <div className="image-hover-zoom"><img src={dish.image} className="w-full h-56 object-cover"/></div> <div className="menu-item-bar p-4 flex justify-between items-center"> <div><h3 className="menu-item-title font-bold text-xl text-dark-chocolate dark:text-cream">{dish.title}</h3><p className="text-sm font-bold text-velvet-red">₹{dish.price}</p></div> <div className="flex gap-2 items-center"><button onClick={()=>toggleFavorite(dish.id)} className="text-xl"><i className={`fas fa-heart ${favorites.includes(dish.id)?'text-velvet-red':'text-gray-500'}`}></i></button><button onClick={()=>onOrder(dish)} className="add-to-cart-btn px-4 py-1.5 rounded-full text-sm font-semibold shadow-md">{t.orderNow}</button></div> </div> </div> ))} </div> </div> </section> ); };
+        const SignatureDishes = ({ onOrder }) => { const specials = menuDishes.filter(d => d.category === 'Special Fries' || d.category === 'Burger').slice(0,3); return ( <section className="py-24 px-6"><h2 className="font-display text-4xl font-bold text-center mb-10">Chef's <span className="italic text-velvet-red">Specials</span></h2><div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">{specials.map(dish=>(<div key={dish.id} className="glass-card rounded-2xl overflow-hidden"><div className="image-hover-zoom h-64"><img src={dish.image} className="w-full h-full object-cover"/></div><div className="p-6"><h3 className="menu-item-title font-bold text-xl">{dish.title}</h3><p className="text-velvet-red font-bold text-lg">₹{dish.price}</p><button onClick={()=>onOrder(dish)} className="add-to-cart-btn mt-3 px-4 py-2 rounded-full text-sm font-semibold">{t.orderNow}</button></div></div>))}</div></section> ); };
+        const Footer = () => ( <footer className="py-12 border-t text-center"><div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4"><a href="#hero" className="font-display text-2xl font-bold">CLOUD KITCHEN<span className="text-red-velvet">.</span></a><p>&copy; 2026 Cloud Kitchen Co.</p><div className="flex gap-6"><a href="#">Privacy</a><a href="#">Terms</a></div></div></footer> );
+        const AISuggester = ({ onClose }) => { const [category, setCategory] = useState(''); const categories = ['All','Mojito','Milkshake','Fries','Special Fries','Burger','Sandwich','Wrap','Pizza','Sliders / Sides']; const [results, setResults] = useState([]); const handleSuggest = () => { if(!category || category === 'All') setResults(menuDishes.slice(0,8)); else setResults(menuDishes.filter(d => d.category === category)); }; return ( <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}> <div className="bg-cream dark:bg-dark-chocolate rounded-3xl p-6 max-w-md w-full animate-scale-in" onClick={e=>e.stopPropagation()}> <h3 className="font-display text-2xl font-bold mb-4">{t.aiSuggester}</h3> <div className="space-y-4"> <select className="w-full p-2 rounded-xl bg-white dark:bg-dark-chocolate border" value={category} onChange={e=>setCategory(e.target.value)}> <option value="">{t.cuisinePref}</option> {categories.map(c=><option key={c}>{c}</option>)} </select> <button onClick={handleSuggest} className="w-full py-3 bg-velvet-red text-white rounded-xl font-semibold">{t.suggest}</button> </div> {results.length>0 && (<div className="mt-4 space-y-2 max-h-48 overflow-auto"> {results.map(dish => (<div key={dish.id} className="flex gap-3 items-center p-2 glass-card rounded-xl"><img src={dish.image} className="w-12 h-12 rounded-lg object-cover" /><div><div className="font-semibold menu-item-title">{dish.title}</div><div className="text-xs">₹{dish.price}</div></div></div>))} </div>)} </div> </div> ); };
+        
+        const App = () => {
+            const [darkMode, setDarkMode] = useState(false);
+            const [loading, setLoading] = useState(true);
+            const [authenticated, setAuthenticated] = useState(false);
+            const [userName, setUserName] = useState("Guest");
+            const [weatherGreeting, setWeatherGreeting] = useState("");
+            useEffect(() => { document.documentElement.classList.toggle('dark', darkMode); }, [darkMode]);
+            useEffect(() => { if ("geolocation" in navigator) { navigator.geolocation.getCurrentPosition(() => setWeatherGreeting("Fresh delivery ready"), () => setWeatherGreeting("")); } }, []);
+            if (loading) return <LoadingScreen onComplete={() => setLoading(false)} />;
+            if (!authenticated) return <LoginScreen onLogin={() => setAuthenticated(true)} setUserName={setUserName} />;
+            return <><Cursor /><MainApp darkMode={darkMode} toggleDarkMode={() => setDarkMode(!darkMode)} onSignOut={() => setAuthenticated(false)} weatherGreeting={weatherGreeting} userName={userName} /></>;
+        };
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
 </body>
 </html>
