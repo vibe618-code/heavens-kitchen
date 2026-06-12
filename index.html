@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Cloud Kitchen Co. | Our Story & Testimonials</title>
-    <meta name="description" content="Gourmet cloud kitchen with full cart, loyalty coins, chef's story, and customer reviews.">
+    <title>Cloud Kitchen Co. | Full App + Admin Panel</title>
+    <meta name="description" content="Gourmet cloud kitchen with cart, loyalty, admin dashboard, live tracker.">
     <link rel="manifest" href="data:application/json,%7B%22name%22%3A%22Cloud%20Kitchen%22%2C%22short_name%22%3A%22CK%22%2C%22start_url%22%3A%22.%2F%22%2C%22display%22%3A%22standalone%22%7D">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -16,7 +16,7 @@
             theme: {
                 extend: {
                     fontFamily: { 'display': ['"Playfair Display"', 'Georgia', 'serif'], 'body': ['"Inter"', 'system-ui', 'sans-serif'], 'vintage': ['"Cormorant Garamond"', 'Georgia', 'serif'] },
-                    colors: { 'velvet-red': '#8B1E2D', 'cream': '#FFF5E6', 'soft-beige': '#EADCC6', 'red-velvet': '#B0303A', 'dark-chocolate': '#4A2C2A', 'order-bg': '#FAF9F6', 'accent-primary': '#8B1E2D', 'accent-secondary': '#C5A55A', success: '#3C6E47', error: '#A23B3B' },
+                    colors: { 'velvet-red': '#8B1E2D', 'cream': '#FFF5E6', 'soft-beige': '#EADCC6', 'red-velvet': '#B0303A', 'dark-chocolate': '#4A2C2A', 'order-bg': '#FAF9F6', 'accent-primary': '#8B1E2D', 'accent-secondary': '#C5A55A', success: '#3C6E47', error: '#A23B3B', sidebar: '#1a1a2e', 'sidebar-hover': '#16213e', 'sidebar-text': '#e0e0e0' },
                     animation: { 'fade-in': 'fadeIn 0.8s ease-out forwards', 'slide-up': 'slideUp 0.8s ease-out forwards', 'scale-in': 'scaleIn 0.6s ease-out forwards', 'pulse-soft': 'pulseSoft 3s ease-in-out infinite', 'drawer-slide': 'drawerSlideIn 0.38s cubic-bezier(0.22,0.61,0.36,1) forwards', 'backdrop-fade': 'backdropFadeIn 0.3s ease-out forwards', 'coin-pulse': 'coinPulse 0.5s ease-out', 'tick-bounce': 'tickBounce 0.6s ease-out', 'check-draw': 'checkDraw 0.8s ease-out forwards' },
                     keyframes: { fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } }, slideUp: { '0%': { opacity: '0', transform: 'translateY(40px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }, scaleIn: { '0%': { opacity: '0', transform: 'scale(0.9)' }, '100%': { opacity: '1', transform: 'scale(1)' } }, pulseSoft: { '0%, 100%': { opacity: '0.6', transform: 'scale(1)' }, '50%': { opacity: '1', transform: 'scale(1.05)' } }, drawerSlideIn: { '0%': { transform: 'translateX(-100%)' }, '100%': { transform: 'translateX(0)' } }, backdropFadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } }, coinPulse: { '0%': { transform: 'scale(0.8)', opacity: '0' }, '50%': { transform: 'scale(1.2)', opacity: '1' }, '100%': { transform: 'scale(1)', opacity: '1' } }, tickBounce: { '0%': { transform: 'scale(0) rotate(-45deg)', opacity: '0' }, '60%': { transform: 'scale(1.2) rotate(0deg)', opacity: '1' }, '100%': { transform: 'scale(1) rotate(0deg)', opacity: '1' } }, checkDraw: { '0%': { strokeDashoffset: '100' }, '100%': { strokeDashoffset: '0' } } }
                 }
@@ -24,9 +24,54 @@
         };
     </script>
     <style>
+        /* ====== MISSING UTILITY CLASSES ====== */
+        .bg-elevated {
+            background-color: #ffffff;
+        }
+        .dark .bg-elevated {
+            background-color: #2d2d2d;
+        }
+        .bg-surface {
+            background-color: #f3f4f6;
+        }
+        .dark .bg-surface {
+            background-color: #374151;
+        }
+        .border-border {
+            border-color: #e5e7eb;
+        }
+        .dark .border-border {
+            border-color: #4b5563;
+        }
+        .rounded-card {
+            border-radius: 1rem;
+        }
+        .rounded-btn {
+            border-radius: 0.75rem;
+        }
+        .bg-base {
+            background-color: #FFF5E6;
+        }
+        .dark .bg-base {
+            background-color: #3A1E1C;
+        }
+        .shadow-elevated {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .text-text-primary {
+            color: inherit;
+        }
+        .text-text-secondary {
+            color: #6b7280;
+        }
+        .dark .text-text-secondary {
+            color: #9ca3af;
+        }
+
+        /* Original styles unchanged */
         :root { --glass-bg-light: rgba(255, 245, 230, 0.7); --glass-bg-dark: rgba(74, 44, 42, 0.7); --glass-border-light: rgba(255, 245, 230, 0.6); --glass-border-dark: rgba(234, 220, 198, 0.15); --drawer-bg-light: #FFF5E6; --drawer-bg-dark: #2d221f; }
         * { scroll-behavior: smooth; }
-        body { font-family: 'Inter', system-ui, sans-serif; transition: background-color 0.5s, color 0.5s; overflow-x: hidden; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+        body { font-family: 'Inter', system-ui, sans-serif; transition: background-color 0.5s, color 0.5s; overflow-x: hidden; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
         .font-display { font-family: 'Playfair Display', Georgia, serif; }
         .glass { background: var(--glass-bg-light); backdrop-filter: blur(20px); border: 1px solid var(--glass-border-light); }
         .dark .glass { background: var(--glass-bg-dark); border: 1px solid var(--glass-border-dark); }
@@ -72,7 +117,7 @@
         @keyframes cartSlideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
         @keyframes spin { to { transform: rotate(360deg); } }
         .spinner { border: 3px solid rgba(255,255,255,0.25); border-top-color: #fff; border-radius: 50%; width: 20px; height: 20px; animation: spin 0.7s linear infinite; display: inline-block; }
-        .cart-hd-text { font-weight: 600; letter-spacing: -0.01em; font-feature-settings: 'kern' 1; text-shadow: 0 0 0.5px rgba(0,0,0,0.1); }
+        .cart-hd-text { font-weight: 600; letter-spacing: -0.01em; text-shadow: 0 0 0.5px rgba(0,0,0,0.1); }
         .cart-total-hd { font-weight: 800; letter-spacing: -0.02em; }
         .hamburger-icon { width: 24px; height: 20px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; }
         .hamburger-line { width: 100%; height: 2px; background-color: currentColor; border-radius: 2px; transition: all 0.2s; }
@@ -89,6 +134,13 @@
         @keyframes checkCheck { 0% { stroke-dashoffset: 48; } 100% { stroke-dashoffset: 0; } }
         .float-frame { animation: floatGentle 5s ease-in-out infinite; }
         @keyframes floatGentle { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+        .admin-sidebar { background: linear-gradient(180deg, #0f0f23 0%, #1a1a2e 100%); }
+        .sidebar-link { transition: all 0.2s; border-left: 3px solid transparent; }
+        .sidebar-link:hover, .sidebar-link.active { background: rgba(255,255,255,0.05); border-left-color: #8B1E2D; }
+        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); }
+        .order-row { transition: background 0.2s; }
+        .order-row:hover { background: rgba(255,255,255,0.02); }
+        .status-badge { padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
     </style>
 </head>
 <body class="bg-cream text-dark-chocolate dark:bg-[#3A1E1C] dark:text-cream transition-colors duration-500">
@@ -98,28 +150,28 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
+        // ---------- Constants & Globals ----------
         const { useState, useEffect, useRef, useMemo, useCallback } = React;
-
         const supabaseUrl = 'https://jqeqcsmaqsvbmqseqvxl.supabase.co';
         const supabaseAnonKey = 'sb_publishable_1pBjAuW8Rl88H9jyg2yBug_d7y_D6Ld';
         const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
         const t = {
-            loading: "CLOUD KITCHEN", loginWelcome: "Welcome", loginText: "Enter your details to continue",
-            name: "Name *", phone: "Phone *", address: "Address *", email: "Email *", password: "Password *",
+            loading: "CLOUD KITCHEN", name: "Name *", phone: "Phone *", address: "Address *", password: "Password *",
             login: "Login", signup: "Sign Up", noAccount: "Don't have an account? Sign up",
-            hasAccount: "Already have an account? Log in",
-            menu: "Menu", prevOrders: "Previous Orders", loyalty: "Loyalty Coins", fav: "Favourites",
-            darkMode: "Dark Mode", signOut: "Sign Out", heroTag: "Premium Cloud Kitchen · Delivery Only",
-            heroTitle: "Elevating Everyday Dining", heroSub: "Flavor-packed meals from our kitchen to yours.",
-            viewMenu: "Full Menu", aiSuggester: "AI Menu Recommender", cuisinePref: "Filter by category",
-            suggest: "Suggest Dishes", orderNow: "Add to Cart", customize: "Customize",
-            addTruffle: "Extra Cheese (+₹20)", addCheese: "Extra Sauce (+₹15)", noOnion: "No Onion",
-            addToCart: "Add to Cart", cart: "Cart", checkout: "Proceed to Checkout", itemTotal: "Item Total", placeOrder: "Place Order",
+            hasAccount: "Already have an account? Log in", menu: "Menu", prevOrders: "Previous Orders",
+            loyalty: "Loyalty Coins", fav: "Favourites", darkMode: "Dark Mode", signOut: "Sign Out",
+            heroTag: "Premium Cloud Kitchen · Delivery Only", heroTitle: "Elevating Everyday Dining",
+            heroSub: "Flavor-packed meals from our kitchen to yours.", viewMenu: "Full Menu",
+            aiSuggester: "AI Menu Recommender", cuisinePref: "Filter by category", suggest: "Suggest Dishes",
+            orderNow: "Add to Cart", customize: "Customize", addTruffle: "Extra Cheese (+₹20)",
+            addCheese: "Extra Sauce (+₹15)", noOnion: "No Onion", addToCart: "Add to Cart", cart: "Cart",
+            checkout: "Proceed to Checkout", itemTotal: "Item Total", placeOrder: "Place Order",
             orderSuccess: "Order Placed Successfully!", coinsEarnedMsg: "+10 Coins earned",
-            trackOrder: "Track Order", confirmed: "Confirmed", preparing: "Preparing", out: "Out for Delivery", delivered: "Delivered",
-            coinsEarned: "Coins Earned", noOrders: "No previous orders", noFav: "No favourites yet", noCoins: "No coins earned yet", emptyCart: "Your cart is empty",
-            redeemPoints: "Redeem Points", pointsAvailable: "Loyalty Coins available", redeemNote: "10 pts = ₹10 off (max 50 pts)"
+            trackOrder: "Track Order", confirmed: "Confirmed", preparing: "Preparing", out: "Out for Delivery",
+            delivered: "Delivered", coinsEarned: "Coins Earned", noOrders: "No previous orders",
+            noFav: "No favourites yet", noCoins: "No coins earned yet", emptyCart: "Your cart is empty",
+            redeemPoints: "Redeem Points", redeemNote: "10 pts = ₹10 off (max 50 pts)"
         };
 
         const buildFullMenu = () => {
@@ -139,359 +191,271 @@
             items.push({id:id++,category:"Sliders / Sides",title:"Chicken Popcorn (15 Pcs)",price:100,image:imgMap["Sliders / Sides"]},{id:id++,category:"Sliders / Sides",title:"Chicken Strips (5 Pcs)",price:200,image:imgMap["Sliders / Sides"]});
             return items;
         };
-
         const allDishes = buildFullMenu();
-        const specialsTitles = ["Chicken Loaded Fries", "Chicken Cheesy Fries", "Full Chicken Loaded Fries", "Special Loaded Chicken"];
+        const specialsTitles = ["Chicken Loaded Fries","Chicken Cheesy Fries","Full Chicken Loaded Fries","Special Loaded Chicken"];
         const specialsDishes = allDishes.filter(d => specialsTitles.includes(d.title));
         const menuDishes = allDishes.filter(d => !specialsTitles.includes(d.title));
+        const categoryOrder = ["Sandwich","Burger","Fries","Pizza","Wrap","Sliders / Sides","Milkshake","Mojito"];
 
-        // Define desired category order for the full menu
-        const categoryOrder = ["Sandwich", "Burger", "Fries", "Pizza", "Wrap", "Sliders / Sides", "Milkshake", "Mojito"];
-
+        // ---------- Custom Hooks ----------
         const useInView = (threshold=0.2) => { const [inView, setInView] = useState(false); const ref = useRef(null); useEffect(() => { const el = ref.current; if(!el) return; const obs = new IntersectionObserver(([e]) => { if(e.isIntersecting){ setInView(true); obs.unobserve(el); } }, { threshold }); obs.observe(el); return () => obs.disconnect(); }, []); return [ref, inView]; };
 
+        // ---------- UI Atoms ----------
         const Cursor = () => { const [pos, setPos] = useState({x:0,y:0}); const [hover, setHover] = useState(false); useEffect(() => { const move = (e) => setPos({x:e.clientX, y:e.clientY}); const over = (e) => { if(e.target.closest('a,button,[role=button],input,select')) setHover(true); }; const out = () => setHover(false); window.addEventListener('mousemove',move); document.addEventListener('mouseover',over); document.addEventListener('mouseout',out); return () => { window.removeEventListener('mousemove',move); document.removeEventListener('mouseover',over); document.removeEventListener('mouseout',out); }; },[]); return <div className={`custom-cursor ${hover ? 'hover' : ''}`} style={{left:pos.x+'px',top:pos.y+'px'}}/>; };
         const SparkleField = () => { const sparkles = useMemo(() => Array.from({length:45},(_,i)=>({ id:i, left:Math.random()*100, top:Math.random()*100, size:2+Math.random()*5, delay:Math.random()*8, duration:5+Math.random()*12 })), []); return <div className="absolute inset-0 overflow-hidden pointer-events-none">{sparkles.map(s=><div key={s.id} className="sparkle-dot" style={{left:s.left+'%',top:s.top+'%',width:s.size+'px',height:s.size+'px',animationDelay:s.delay+'s',animationDuration:s.duration+'s'}}/>)}</div>; };
-        const LoadingScreen = ({ onComplete }) => { const [hidden, setHidden] = useState(false); useEffect(() => { const timer = setTimeout(() => { setHidden(true); setTimeout(onComplete, 550); }, 1700); return () => clearTimeout(timer); }, []); return ( <div className={`loading-screen ${hidden ? 'hidden' : ''}`}> <div className="text-center"> <h1 className="font-display text-4xl md:text-5xl font-bold text-cream mb-6">{t.loading}<span className="text-red-velvet">.</span></h1> <div className="flex gap-2 justify-center"><div className="loader-dot"></div><div className="loader-dot"></div><div className="loader-dot"></div></div> </div> </div> ); };
-        
+        const LoadingScreen = ({ onComplete }) => { const [hidden, setHidden] = useState(false); useEffect(() => { const timer = setTimeout(() => { setHidden(true); setTimeout(onComplete, 550); }, 1700); return () => clearTimeout(timer); }, []); return (<div className={`loading-screen ${hidden ? 'hidden' : ''}`}><div className="text-center"><h1 className="font-display text-4xl md:text-5xl font-bold text-cream mb-6">{t.loading}<span className="text-red-velvet">.</span></h1><div className="flex gap-2 justify-center"><div className="loader-dot"></div><div className="loader-dot"></div><div className="loader-dot"></div></div></div></div>); };
+        const ToastContainer = ({ toasts }) => (<div className="fixed bottom-24 left-4 z-50 space-y-2">{toasts.map(toast => (<div key={toast.id} className="bg-velvet-red text-white px-4 py-2 rounded-full shadow-lg animate-slide-up text-sm cart-hd-text">{toast.msg}</div>))}</div>);
+        const AnimatedCheckmark = () => (<svg className="w-24 h-24" viewBox="0 0 52 52"><circle className="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#3C6E47" strokeWidth="3" /><path className="checkmark-check" fill="none" stroke="#3C6E47" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" d="M14 27l7 7 16-16" /></svg>);
+        const QuantityStepper = ({ qty, onIncrement, onDecrement }) => (<div className="flex items-center gap-2 bg-surface rounded-btn px-2 py-1 border border-border"><button onClick={onDecrement} disabled={qty<=1} className="w-7 h-7 flex items-center justify-center rounded-full font-bold text-lg transition hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-30">−</button><span className="w-8 text-center font-semibold text-sm">{qty}</span><button onClick={onIncrement} className="w-7 h-7 flex items-center justify-center rounded-full font-bold text-lg transition hover:bg-gray-200 dark:hover:bg-gray-700">+</button></div>);
+        const FloatingItems = () => { const items = useMemo(() => [{ icon: "fa-burger", left: "5%", delay: "0s", duration: "8s" },{ icon: "fa-french-fries", left: "20%", delay: "1s", duration: "9s" },{ icon: "fa-mug-saucer", left: "45%", delay: "2s", duration: "7.5s" },{ icon: "fa-pizza-slice", left: "70%", delay: "0.5s", duration: "10s" },{ icon: "fa-taco", left: "85%", delay: "1.5s", duration: "8.5s" },{ icon: "fa-ice-cream", left: "15%", delay: "2.5s", duration: "9.5s" },{ icon: "fa-drumstick-bite", left: "60%", delay: "3s", duration: "7s" },{ icon: "fa-carrot", left: "40%", delay: "0.8s", duration: "8.2s" }], []); return <>{items.map((item, idx) => <div key={idx} className="floating-item" style={{ left: item.left, animationDelay: item.delay, animationDuration: item.duration }}><i className={`fas ${item.icon}`}></i></div>)}</>; };
+
+        // ---------- Auth ----------
         const AuthScreen = ({ onLogin, onSkip, setUserName }) => {
             const [mode, setMode] = useState('login');
             const [form, setForm] = useState({ phone: '', password: '', name: '', address: '' });
             const [error, setError] = useState('');
             const [loading, setLoading] = useState(false);
-
             const generateEmail = (phone) => `user_${phone.replace(/[^0-9]/g,'')}@cloudkitchen.user`;
-
             const handleSubmit = async (e) => {
-                e.preventDefault();
-                setError('');
-                setLoading(true);
+                e.preventDefault(); setError(''); setLoading(true);
                 try {
                     const email = generateEmail(form.phone);
                     if (mode === 'signup') {
-                        const { data: authData, error: authError } = await supabase.auth.signUp({
-                            email: email, password: form.password,
-                        });
+                        const { data: authData, error: authError } = await supabase.auth.signUp({ email, password: form.password });
                         if (authError) throw authError;
-                        const { error: profileError } = await supabase.from('profiles').insert([{
-                            id: authData.user.id, name: form.name, phone: form.phone, address: form.address, loyalty_coins: 0
-                        }]);
-                        if (profileError) throw profileError;
-                        setUserName(form.name);
-                        onLogin();
+                        await supabase.from('profiles').insert([{ id: authData.user.id, name: form.name, phone: form.phone, address: form.address, loyalty_coins: 0 }]);
+                        setUserName(form.name); onLogin();
                     } else {
-                        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-                            email: email, password: form.password,
-                        });
+                        const { data: authData, error: authError } = await supabase.auth.signInWithPassword({ email, password: form.password });
                         if (authError) throw authError;
-                        const { data: profile, error: profileError } = await supabase
-                            .from('profiles').select('name').eq('id', authData.user.id).single();
-                        if (profileError) throw new Error('Profile not found. Please sign up first.');
-                        setUserName(profile.name);
-                        onLogin();
+                        const { data: profile } = await supabase.from('profiles').select('name').eq('id', authData.user.id).single();
+                        if (!profile) throw new Error('Profile not found.');
+                        setUserName(profile.name); onLogin();
                     }
-                } catch (err) {
-                    setError(err.message || 'An error occurred');
-                } finally {
-                    setLoading(false);
-                }
+                } catch (err) { setError(err.message); } finally { setLoading(false); }
             };
-
             return (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    <div className="absolute inset-0 matte-glossy-bg"></div>
-                    <SparkleField />
+                    <div className="absolute inset-0 matte-glossy-bg"></div><SparkleField />
                     <div className="relative z-10 glass-card rounded-3xl p-8 md:p-10 w-full max-w-md animate-scale-in shadow-2xl">
-                        <h2 className="font-display text-3xl font-bold text-dark-chocolate dark:text-cream text-center mb-6">
-                            {mode === 'login' ? 'Welcome Back' : 'Create Account'}<span className="text-red-velvet">.</span>
-                        </h2>
+                        <h2 className="font-display text-3xl font-bold text-dark-chocolate dark:text-cream text-center mb-6">{mode==='login'?'Welcome Back':'Create Account'}<span className="text-red-velvet">.</span></h2>
                         {error && <div className="bg-error/20 text-error p-3 rounded-lg mb-4 text-sm">{error}</div>}
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            <div><label className="block text-sm font-bold">Phone *</label>
-                            <input type="tel" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border border-dark-chocolate/20" placeholder="+91 98765 43210" required /></div>
-                            <div><label className="block text-sm font-bold">{t.password}</label>
-                            <input type="password" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border border-dark-chocolate/20" placeholder="••••••••" required minLength={6} /></div>
-                            {mode === 'signup' && (<>
-                                <div><label className="block text-sm font-bold">{t.name}</label><input type="text" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border border-dark-chocolate/20" placeholder="Your name" required /></div>
-                                <div><label className="block text-sm font-bold">{t.address}</label><input type="text" value={form.address} onChange={e=>setForm({...form,address:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border border-dark-chocolate/20" placeholder="Your delivery address" required /></div>
-                            </>)}
-                            <button type="submit" disabled={loading} className={`w-full py-3.5 rounded-xl font-semibold shadow-lg transition ${loading ? 'bg-gray-400 cursor-wait' : 'bg-velvet-red text-white hover:bg-red-velvet'}`}>
-                                {loading ? 'Processing...' : mode === 'login' ? t.login : t.signup}
-                            </button>
+                            <div><label className="block text-sm font-bold">Phone *</label><input type="tel" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border border-dark-chocolate/20" required /></div>
+                            <div><label className="block text-sm font-bold">{t.password}</label><input type="password" value={form.password} onChange={e=>setForm({...form,password:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border" required minLength={6} /></div>
+                            {mode==='signup' && (<><div><label className="block text-sm font-bold">{t.name}</label><input type="text" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border" required /></div><div><label className="block text-sm font-bold">{t.address}</label><input type="text" value={form.address} onChange={e=>setForm({...form,address:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border" required /></div></>)}
+                            <button type="submit" disabled={loading} className={`w-full py-3.5 rounded-xl font-semibold shadow-lg transition ${loading?'bg-gray-400':'bg-velvet-red text-white hover:bg-red-velvet'}`}>{loading?'Processing...':mode==='login'?t.login:t.signup}</button>
                         </form>
-                        <div className="mt-6 text-center">
-                            <button onClick={() => { setMode(mode === 'login' ? 'signup' : 'login'); setError(''); }} className="text-sm text-dark-chocolate/70 dark:text-cream/70 hover:underline">
-                                {mode === 'login' ? t.noAccount : t.hasAccount}
-                            </button>
-                        </div>
-                        <div className="mt-6 text-center">
-                            <button onClick={onSkip} className="text-sm text-dark-chocolate/50 dark:text-cream/50 hover:text-dark-chocolate dark:hover:text-cream underline underline-offset-2 transition">
-                                Skip for now
-                            </button>
-                        </div>
+                        <div className="mt-6 text-center"><button onClick={()=>{ setMode(mode==='login'?'signup':'login'); setError(''); }} className="text-sm text-dark-chocolate/70 dark:text-cream/70 hover:underline">{mode==='login'?t.noAccount:t.hasAccount}</button></div>
+                        <div className="mt-6 text-center"><button onClick={onSkip} className="text-sm text-dark-chocolate/50 dark:text-cream/50 hover:text-dark-chocolate dark:hover:text-cream underline">Skip for now</button></div>
                     </div>
                 </div>
             );
         };
-        
+
+        // ---------- Cart / Checkout Components ----------
         const CustomizeModal = ({ dish, onClose, onAddToCart }) => {
             const [custom, setCustom] = useState({truffle:false, cheese:false, noOnion:false});
-            const extraCost = (custom.truffle ? 20 : 0) + (custom.cheese ? 15 : 0);
+            const extraCost = (custom.truffle?20:0)+(custom.cheese?15:0);
             const finalPrice = dish.price + extraCost;
             const handleAdd = () => {
                 const additions = [];
                 if(custom.truffle) additions.push("Extra Cheese (+₹20)");
                 if(custom.cheese) additions.push("Extra Sauce (+₹15)");
                 if(custom.noOnion) additions.push("No Onion");
-                onAddToCart(dish, additions.join(', '), finalPrice);
-                onClose();
+                onAddToCart(dish, additions.join(', '), finalPrice); onClose();
             };
-            return ( <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}> <div className="bg-cream dark:bg-dark-chocolate rounded-3xl p-6 max-w-sm w-full animate-scale-in" onClick={e=>e.stopPropagation()}> <h3 className="font-display text-2xl font-bold mb-2">{dish.title}</h3> <p className="text-velvet-red font-bold text-xl mb-4">₹{dish.price}</p> <p className="text-sm text-text-secondary mb-2">Customizations will add to price</p> <div className="space-y-3 mb-6"> <label className="flex items-center gap-2"><input type="checkbox" checked={custom.truffle} onChange={e=>setCustom({...custom,truffle:e.target.checked})} />{t.addTruffle}</label> <label className="flex items-center gap-2"><input type="checkbox" checked={custom.cheese} onChange={e=>setCustom({...custom,cheese:e.target.checked})} />{t.addCheese}</label> <label className="flex items-center gap-2"><input type="checkbox" checked={custom.noOnion} onChange={e=>setCustom({...custom,noOnion:e.target.checked})} />{t.noOnion}</label> </div> <div className="mb-4 text-right font-semibold">Total: ₹{finalPrice}</div> <button onClick={handleAdd} className="w-full py-3 bg-velvet-red text-white rounded-xl font-semibold">{t.addToCart}</button> </div> </div> );
+            return (<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}><div className="bg-cream dark:bg-dark-chocolate rounded-3xl p-6 max-w-sm w-full animate-scale-in" onClick={e=>e.stopPropagation()}><h3 className="font-display text-2xl font-bold mb-2">{dish.title}</h3><p className="text-velvet-red font-bold text-xl mb-4">₹{dish.price}</p><div className="space-y-3 mb-6"><label className="flex items-center gap-2"><input type="checkbox" checked={custom.truffle} onChange={e=>setCustom({...custom,truffle:e.target.checked})}/>{t.addTruffle}</label><label className="flex items-center gap-2"><input type="checkbox" checked={custom.cheese} onChange={e=>setCustom({...custom,cheese:e.target.checked})}/>{t.addCheese}</label><label className="flex items-center gap-2"><input type="checkbox" checked={custom.noOnion} onChange={e=>setCustom({...custom,noOnion:e.target.checked})}/>{t.noOnion}</label></div><div className="mb-4 text-right font-semibold">Total: ₹{finalPrice}</div><button onClick={handleAdd} className="w-full py-3 bg-velvet-red text-white rounded-xl font-semibold">{t.addToCart}</button></div></div>);
         };
-        const QuantityStepper = ({ qty, onIncrement, onDecrement }) => ( <div className="flex items-center gap-2 bg-surface rounded-btn px-2 py-1 border border-border"> <button onClick={onDecrement} disabled={qty<=1} className="w-7 h-7 flex items-center justify-center rounded-full font-bold text-lg transition hover:bg-gray-200 dark:hover:bg-gray-700 disabled:opacity-30">−</button> <span className="w-8 text-center font-semibold text-sm">{qty}</span> <button onClick={onIncrement} className="w-7 h-7 flex items-center justify-center rounded-full font-bold text-lg transition hover:bg-gray-200 dark:hover:bg-gray-700">+</button> </div> );
-        const CartItemRow = ({ item, onIncrement, onDecrement, onRemove }) => ( <div className="bg-elevated rounded-card p-4 flex items-center gap-3 border border-border"> <img src={item.image} className="w-14 h-14 rounded-lg object-cover flex-shrink-0" alt={item.name} onError={(e)=>e.target.src='https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop'} /> <div className="flex-1 min-w-0"> <p className="font-semibold text-text-primary text-sm truncate cart-hd-text">{item.name}</p> <p className="text-xs text-text-secondary">₹{item.unitPrice} each</p> {item.customizations && <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">{item.customizations}</p>} </div> <QuantityStepper qty={item.qty} onIncrement={()=>onIncrement(item.sku, item.customizations)} onDecrement={()=>onDecrement(item.sku, item.customizations)} /> <span className="font-semibold text-text-primary text-sm w-16 text-right cart-hd-text">₹{(item.unitPrice * item.qty).toFixed(2)}</span> <button onClick={()=>onRemove(item.sku, item.customizations)} className="text-error text-lg ml-1 p-1 hover:bg-error/10 rounded-full transition"><i className="fas fa-trash-alt"></i></button> </div> );
-        const AddressBar = ({ address, fulfillmentMode, onEditAddress, onChangeFulfillment }) => { const isDelivery = fulfillmentMode==='delivery'; return ( <div className="bg-elevated rounded-card p-4 mb-4 border border-border"> <div className="flex items-center justify-between mb-3"><h3 className="font-display text-lg font-semibold">{isDelivery?'Delivery Address':'Pickup Location'}</h3>{isDelivery && <button onClick={onEditAddress} className="text-accent-primary text-sm font-semibold hover:underline">Edit / Change</button>}</div> {isDelivery?(<div className="flex items-start gap-3"><i className="fas fa-map-marker-alt text-2xl mt-1 text-accent-secondary"></i><div><p className="font-semibold cart-hd-text">{address?.label||'Home'}<span className="ml-2 text-xs bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-pill font-medium">{address?.eta||'25-35 mins'}</span></p><p className="text-sm text-text-secondary mt-0.5">{address?.address||'Add your delivery address'}</p></div></div>):(<div className="flex items-start gap-3"><i className="fas fa-store text-2xl mt-1 text-accent-secondary"></i><div><p className="font-semibold cart-hd-text">Heaven's Kitchen<span className="ml-2 text-xs bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-pill font-medium">Ready in 15-20 mins</span></p><p className="text-sm text-text-secondary mt-0.5">789, Food Street, Indiranagar, Bangalore 560038</p></div></div>)} <div className="flex mt-4 bg-surface rounded-btn p-1 border border-border"> <button onClick={()=>onChangeFulfillment('delivery')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${isDelivery?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-truck mr-1"></i> Doorstep Delivery</button> <button onClick={()=>onChangeFulfillment('pickup')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${!isDelivery?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-utensils mr-1"></i> Self-Pickup</button> </div> </div> ); };
-        const BillSplitCard = ({ itemTotal, deliveryFee, platformFee, taxRate, discount, loyaltyPointsRedeemed, onRedeemPoints, availablePoints, initialRedeem=0 }) => {
-            const [redeem, setRedeem] = useState(initialRedeem);
-            const taxAmount = Math.round((itemTotal+deliveryFee+platformFee)*taxRate);
-            const grandTotal = Math.max(0, itemTotal+deliveryFee+platformFee+taxAmount-discount);
+        const CartItemRow = ({ item, onIncrement, onDecrement, onRemove }) => (<div className="bg-elevated rounded-card p-4 flex items-center gap-3 border border-border"><img src={item.image} className="w-14 h-14 rounded-lg object-cover flex-shrink-0" alt={item.name} onError={(e)=>e.target.src='https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=300&fit=crop'}/><div className="flex-1 min-w-0"><p className="font-semibold text-sm truncate cart-hd-text">{item.name}</p><p className="text-xs text-text-secondary">₹{item.unitPrice} each</p>{item.customizations && <p className="text-xs text-amber-600 dark:text-amber-400 mt-0.5">{item.customizations}</p>}</div><QuantityStepper qty={item.qty} onIncrement={()=>onIncrement(item.sku, item.customizations)} onDecrement={()=>onDecrement(item.sku, item.customizations)}/><span className="font-semibold text-sm w-16 text-right cart-hd-text">₹{(item.unitPrice*item.qty).toFixed(2)}</span><button onClick={()=>onRemove(item.sku, item.customizations)} className="text-error text-lg ml-1 p-1 hover:bg-error/10 rounded-full transition"><i className="fas fa-trash-alt"></i></button></div>);
+        const AddressBar = ({ address, fulfillmentMode, onEditAddress, onChangeFulfillment }) => { const isDelivery = fulfillmentMode==='delivery'; return (<div className="bg-elevated rounded-card p-4 mb-4 border border-border"><div className="flex items-center justify-between mb-3"><h3 className="font-display text-lg font-semibold">{isDelivery?'Delivery Address':'Pickup Location'}</h3>{isDelivery && <button onClick={onEditAddress} className="text-accent-primary text-sm font-semibold hover:underline">Edit / Change</button>}</div>{isDelivery?(<div className="flex items-start gap-3"><i className="fas fa-map-marker-alt text-2xl mt-1 text-accent-secondary"></i><div><p className="font-semibold cart-hd-text">{address?.label||'Home'}<span className="ml-2 text-xs bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-full font-medium">{address?.eta||'25-35 mins'}</span></p><p className="text-sm text-text-secondary mt-0.5">{address?.address || 'No address provided.'}</p></div></div>):(<div className="flex items-start gap-3"><i className="fas fa-store text-2xl mt-1 text-accent-secondary"></i><div><p className="font-semibold cart-hd-text">Heaven's Kitchen<span className="ml-2 text-xs bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-full font-medium">Ready in 15-20 mins</span></p><p className="text-sm text-text-secondary mt-0.5">789, Food Street, Indiranagar, Bangalore 560038</p></div></div>)}<div className="flex mt-4 bg-surface rounded-btn p-1 border border-border"><button onClick={()=>onChangeFulfillment('delivery')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${isDelivery?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-truck mr-1"></i> Doorstep Delivery</button><button onClick={()=>onChangeFulfillment('pickup')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${!isDelivery?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-utensils mr-1"></i> Self-Pickup</button></div></div>); };
+        const BillSplitCard = ({ itemTotal, deliveryFee, taxRate, discount, loyaltyPointsRedeemed, onRedeemPoints, availablePoints }) => {
+            const [redeem, setRedeem] = useState(0);
+            const taxAmount = Math.round((itemTotal+deliveryFee)*taxRate);
+            const grandTotal = Math.max(0, itemTotal+deliveryFee+taxAmount-discount);
             useEffect(() => { onRedeemPoints(redeem); }, [redeem]);
             const maxRedeem = Math.min(availablePoints, 50);
             const canRedeem = availablePoints >= 10;
-            return (
-                <div className="bg-elevated rounded-card p-5 mb-4 border border-border">
-                    <h3 className="font-display text-lg font-semibold mb-4">Bill Details</h3>
-                    <div className="space-y-2 text-sm">
-                        <div className="flex justify-between"><span className="text-text-secondary">Item Total</span><span className="font-medium cart-hd-text">₹{itemTotal.toFixed(2)}</span></div>
-                        <div className="flex justify-between"><span className="text-text-secondary">Delivery Fee</span><span className="font-medium">{deliveryFee===0?(<span className="text-success font-semibold">FREE</span>):`₹${deliveryFee.toFixed(2)}`}</span></div>
-                        <div className="flex justify-between"><span className="text-text-secondary">Platform Fee</span><span className="font-medium">₹{platformFee.toFixed(2)}</span></div>
-                        <div className="flex justify-between"><span className="text-text-secondary">GST ({(taxRate*100).toFixed(0)}%)</span><span className="font-medium">₹{taxAmount.toFixed(2)}</span></div>
-                        {discount>0 && (
-                            <div className="flex justify-between text-success animate-coin-pulse">
-                                <span>Loyalty Discount ({loyaltyPointsRedeemed} pts)</span>
-                                <span className="font-semibold">− ₹{discount.toFixed(2)}</span>
-                            </div>
-                        )}
-                        <div className="border-t border-border pt-2 mt-2"></div>
-                        <div className="flex justify-between text-base"><span className="font-display font-bold">Grand Total</span><span className="font-display font-bold cart-total-hd">₹{grandTotal.toFixed(2)}</span></div>
-                    </div>
-                    <div className="mt-4 pt-3 border-t border-border">
-                        <p className="text-xs text-text-secondary mb-2">
-                            {canRedeem 
-                                ? t.redeemNote 
-                                : `Need ${10 - availablePoints} more coin${availablePoints === 9 ? '' : 's'} to redeem`
-                            }
-                        </p>
-                        <input 
-                            type="range" 
-                            min="0" 
-                            max={maxRedeem} 
-                            step="10" 
-                            value={redeem} 
-                            onChange={e=>setRedeem(Number(e.target.value))} 
-                            disabled={!canRedeem}
-                            className={`w-full ${!canRedeem ? 'opacity-50 cursor-not-allowed' : ''}`} 
-                        />
-                        <div className="flex justify-between text-xs text-text-secondary mt-1">
-                            <span>0 pts</span>
-                            <span>{canRedeem ? `${maxRedeem} pts` : `${availablePoints} pts`}</span>
-                        </div>
-                    </div>
-                </div>
-            );
+            return (<div className="bg-elevated rounded-card p-5 mb-4 border border-border"><h3 className="font-display text-lg font-semibold mb-4">Bill Details</h3><div className="space-y-2 text-sm"><div className="flex justify-between"><span>Item Total</span><span>₹{itemTotal.toFixed(2)}</span></div><div className="flex justify-between"><span>Delivery Fee</span><span>{deliveryFee===0?(<span className="text-success font-semibold">FREE</span>):`₹${deliveryFee.toFixed(2)}`}</span></div><div className="flex justify-between"><span>GST ({(taxRate*100).toFixed(0)}%)</span><span>₹{taxAmount.toFixed(2)}</span></div>{discount>0 && <div className="flex justify-between text-success animate-coin-pulse"><span>Loyalty Discount ({loyaltyPointsRedeemed} pts)</span><span>− ₹{discount.toFixed(2)}</span></div>}<div className="border-t pt-2 mt-2"></div><div className="flex justify-between text-base"><span className="font-display font-bold">Grand Total</span><span className="font-display font-bold cart-total-hd">₹{grandTotal.toFixed(2)}</span></div></div><div className="mt-4 pt-3 border-t"><p className="text-xs mb-2">{canRedeem ? t.redeemNote : `Need ${10 - availablePoints} more coin${availablePoints===9?'':'s'} to redeem`}</p><input type="range" min="0" max={maxRedeem} step="10" value={redeem} onChange={e=>setRedeem(Number(e.target.value))} disabled={!canRedeem} className={`w-full ${!canRedeem?'opacity-50 cursor-not-allowed':''}`}/><div className="flex justify-between text-xs mt-1"><span>0 pts</span><span>{canRedeem?`${maxRedeem} pts`:`${availablePoints} pts`}</span></div></div></div>);
         };
-        const PaymentMethodSelector = ({ paymentMode, onPaymentModeChange, selectedMethod, onSelectMethod, fulfillmentMode }) => { const isDelivery = fulfillmentMode==='delivery'; const onlineMethods = [ { id:'card1', label:'Visa •••• 4242', icon:'fab fa-cc-visa', detail:'Expires 12/26' }, { id:'upi', label:'UPI / Google Pay', icon:'fas fa-mobile-alt', detail:'Instant payment' } ]; const doorstepMethods = [ { id:'cod', label:'Cash on Delivery', icon:'fas fa-money-bill-wave', detail:'Pay when you receive' }, { id:'cardAtDoor', label:'Card at Door', icon:'fas fa-credit-card', detail:'Swipe/Insert card on delivery' } ]; const methods = paymentMode==='online'?onlineMethods:doorstepMethods; return ( <div className="bg-elevated rounded-card p-5 mb-4 border border-border"> <h3 className="font-display text-lg font-semibold mb-4">Payment Method</h3> <div className="flex bg-surface rounded-btn p-1 mb-4 border border-border"> <button onClick={()=>onPaymentModeChange('online')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${paymentMode==='online'?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-globe mr-1"></i> Pay Online</button> <button onClick={()=>onPaymentModeChange('doorstep')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${paymentMode==='doorstep'?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-hand-holding-usd mr-1"></i> {isDelivery?'Pay at Doorstep':'Pay at Counter'}</button> </div> <div className="space-y-2"> {methods.map(method=> ( <div key={method.id} onClick={()=>onSelectMethod(method)} className={`flex items-center gap-3 p-3 rounded-card cursor-pointer border transition ${selectedMethod?.id===method.id?'border-accent-primary bg-accent-primary/5':'border-border hover:border-accent-secondary/50'}`}> <i className={`${method.icon} text-2xl`}></i> <div className="flex-1"><p className="font-semibold text-sm cart-hd-text">{method.label}</p><p className="text-xs text-text-secondary">{method.detail}</p></div> <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedMethod?.id===method.id?'border-accent-primary':'border-border'}`}> {selectedMethod?.id===method.id && <div className="w-3 h-3 rounded-full bg-accent-primary"></div>} </div> </div> ))} </div> </div> ); };
-        const StickyBottomCTA = ({ grandTotal, isProcessing, disabled, onPlaceOrder }) => ( <div className="sticky bottom-0 z-20 bg-elevated border-t border-border px-4 py-4 shadow-elevated"> <div className="max-w-lg mx-auto"> <button onClick={onPlaceOrder} disabled={disabled||isProcessing} className={`w-full font-semibold py-4 px-6 rounded-btn text-base transition flex items-center justify-center gap-2 ${disabled?'bg-border text-text-secondary cursor-not-allowed':'bg-accent-primary text-white hover:brightness-110 active:scale-[0.98]'}`}> {isProcessing?(<><span className="spinner"></span> Processing...</>):`Proceed to Pay ₹${grandTotal.toFixed(2)}`} </button> {disabled && !isProcessing && <p className="text-xs text-error text-center mt-2">⚠️ Please select a payment method</p>} </div> </div> );
-        const AnimatedCheckmark = () => (
-            <svg className="w-24 h-24" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
-                <circle className="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="#3C6E47" strokeWidth="3" />
-                <path className="checkmark-check" fill="none" stroke="#3C6E47" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" d="M14 27l7 7 16-16" />
-            </svg>
-        );
-        const OrderConfirmation = ({ order, coinsEarned, onBack }) => {
-            const [showTracking, setShowTracking] = useState(false);
-            const [progress, setProgress] = useState(0);
-            const etaMatch = order.eta.match(/(\d+)/);
-            const etaMinutes = etaMatch ? parseInt(etaMatch[0], 10) : 30;
-            const totalDuration = etaMinutes * 60000;
-            useEffect(() => { const timer = setTimeout(() => setShowTracking(true), 3000); return () => clearTimeout(timer); }, []);
-            useEffect(() => { if (!showTracking) return; const stepMs = 100; const totalSteps = totalDuration / stepMs; let currentStep = 0; const interval = setInterval(() => { currentStep++; const pct = Math.min(100, (currentStep / totalSteps) * 100); setProgress(pct); if (currentStep >= totalSteps) clearInterval(interval); }, stepMs); return () => clearInterval(interval); }, [showTracking, totalDuration]);
-            const getStatusText = () => { if (progress < 25) return t.confirmed; if (progress < 50) return t.preparing; if (progress < 75) return t.out; return t.delivered; };
-            const items = order.items || [];
-            const total = order.total || 0;
-            return (
-                <div className="min-h-screen bg-base p-6 flex flex-col items-center justify-center">
-                    <div className="max-w-lg w-full bg-elevated rounded-card p-8 shadow-card border border-border text-center">
-                        <div className="flex justify-center mb-4"><AnimatedCheckmark /></div>
-                        <h2 className="font-display text-3xl font-bold text-text-primary mb-2">{t.orderSuccess}</h2>
-                        <p className="text-success font-semibold text-lg mb-6">+{coinsEarned} Coins earned</p>
-                        <div className="text-left space-y-3 mb-6">
-                            {items.map((item, idx) => (
-                                <div key={idx} className="flex items-center gap-3 p-2 glass-card rounded-xl">
-                                    <img src={item.image} className="w-12 h-12 rounded-lg object-cover" alt={item.name} />
-                                    <div className="flex-1"><p className="font-semibold text-sm">{item.name} x {item.qty}</p><p className="text-xs text-text-secondary">₹{item.unitPrice} each</p></div>
-                                    <p className="font-semibold">₹{(item.unitPrice * item.qty).toFixed(2)}</p>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="border-t border-border pt-3 mb-6 flex justify-between font-bold"><span>Total Bill</span><span className="cart-total-hd">₹{total.toFixed(2)}</span></div>
-                        {showTracking && (
-                            <div className="animate-fade-in">
-                                <h3 className="font-display text-xl font-semibold mb-4">Delivery Status</h3>
-                                <div className="flex items-center gap-4 bg-surface rounded-card p-4 border border-border mb-6">
-                                    <i className="fas fa-motorcycle text-3xl text-accent-primary"></i>
-                                    <div className="text-left"><p className="font-bold text-text-primary">{getStatusText()}</p><p className="text-sm text-text-secondary">ETA: <strong className="text-accent-primary">{order.eta}</strong></p></div>
-                                </div>
-                                <div className="w-full bg-border rounded-full h-3 mb-3 overflow-hidden"><div className="bg-success h-full rounded-full transition-all duration-300 ease-linear" style={{width:`${progress}%`}}></div></div>
-                                <div className="flex justify-between text-xs text-text-secondary"><span>Placed</span><span>Preparing</span><span>On the way</span><span>Delivered</span></div>
-                            </div>
-                        )}
-                        <button onClick={onBack} className="mt-6 w-full py-3 bg-velvet-red text-white rounded-xl font-semibold hover:bg-red-velvet transition">Back to Menu</button>
-                    </div>
-                </div>
-            );
-        };
-        const FloatingItems = () => {
-            const items = useMemo(() => [
-                { icon: "fa-burger", left: "5%", delay: "0s", duration: "8s" },
-                { icon: "fa-french-fries", left: "20%", delay: "1s", duration: "9s" },
-                { icon: "fa-mug-saucer", left: "45%", delay: "2s", duration: "7.5s" },
-                { icon: "fa-pizza-slice", left: "70%", delay: "0.5s", duration: "10s" },
-                { icon: "fa-taco", left: "85%", delay: "1.5s", duration: "8.5s" },
-                { icon: "fa-ice-cream", left: "15%", delay: "2.5s", duration: "9.5s" },
-                { icon: "fa-drumstick-bite", left: "60%", delay: "3s", duration: "7s" },
-                { icon: "fa-carrot", left: "40%", delay: "0.8s", duration: "8.2s" }
-            ], []);
-            return <>{items.map((item, idx) => <div key={idx} className="floating-item" style={{ left: item.left, animationDelay: item.delay, animationDuration: item.duration }}><i className={`fas ${item.icon}`}></i></div>)}</>;
-        };
-        const OurStory = () => {
-            const [ref, inView] = useInView(0.2);
-            return (
-                <section ref={ref} className="w-full max-w-7xl mx-auto px-6 py-16 md:py-24">
-                    <div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
-                        <div className="relative order-2 md:order-1">
-                            <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl image-hover-zoom float-frame">
-                                <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80" alt="Chef plating a gourmet dish" className="w-full h-full object-cover" />
-                            </div>
-                            <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-velvet-red/20 rounded-3xl -z-10 hidden lg:block"></div>
-                            <div className="absolute -top-6 -left-6 w-28 h-28 bg-soft-beige rounded-3xl -z-10 hidden lg:block"></div>
-                        </div>
-                        <div className="order-1 md:order-2">
-                            <p className="text-velvet-red uppercase tracking-[0.25em] text-sm font-semibold mb-4">Our Story</p>
-                            <h2 className="font-display text-4xl md:text-5xl font-bold text-dark-chocolate dark:text-cream mb-6 leading-tight">Redefining Gourmet <span className="italic text-velvet-red">Delivery</span></h2>
-                            <p className="text-dark-chocolate/70 dark:text-cream/70 leading-relaxed mb-5 text-lg">Founded in 2021, Cloud Kitchen Co. was born from a passion for exceptional food and a desire to make fine dining accessible at home.</p>
-                            <p className="text-dark-chocolate/70 dark:text-cream/70 leading-relaxed mb-8 text-lg">Our team of award‑winning chefs sources the finest ingredients and crafts menus that blend global techniques with local flavours.</p>
-                            <div className="grid grid-cols-3 gap-6 pt-4">
-                                <div className="text-center"><p className="font-display text-3xl lg:text-4xl font-bold text-velvet-red">10k+</p><p className="text-sm text-dark-chocolate/60 dark:text-cream/60 mt-1">Orders Delivered</p></div>
-                                <div className="text-center"><p className="font-display text-3xl lg:text-4xl font-bold text-velvet-red">4.9</p><p className="text-sm text-dark-chocolate/60 dark:text-cream/60 mt-1">Average Rating</p></div>
-                                <div className="text-center"><p className="font-display text-3xl lg:text-4xl font-bold text-velvet-red">5</p><p className="text-sm text-dark-chocolate/60 dark:text-cream/60 mt-1">Cities Served</p></div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            );
-        };
-        const TestimonialsSlider = () => {
-            const testimonials = [
-                { name: 'Riya & Arjun Mehta', location: 'Mumbai', text: 'The food from Cloud Kitchen Co. rivals any fine dining restaurant. Every bite was a revelation!', image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80' },
-                { name: 'Vikram Singh', location: 'Delhi', text: 'I ordered the truffle risotto for a date night at home – perfection. Delivery was prompt and hot.', image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80' },
-                { name: 'Ananya Patel', location: 'Bangalore', text: 'Their event catering transformed our anniversary dinner. Five stars! Unforgettable experience.', image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80' }
-            ];
-            const [current, setCurrent] = useState(0);
-            const trackStyle = { transform: `translateX(-${current * 100}%)`, transition: 'transform 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1)' };
-            useEffect(() => { const interval = setInterval(() => { setCurrent((prev) => (prev + 1) % testimonials.length); }, 5000); return () => clearInterval(interval); }, [testimonials.length]);
-            return (
-                <section className="w-full max-w-5xl mx-auto px-6 py-16 md:py-24 text-center">
-                    <p className="text-velvet-red uppercase tracking-[0.25em] text-sm font-semibold mb-4">Testimonials</p>
-                    <h2 className="font-display text-4xl md:text-5xl font-bold text-dark-chocolate dark:text-cream mb-12">What Our <span className="italic text-velvet-red">Customers</span> Say</h2>
-                    <div className="relative overflow-hidden min-h-[320px]">
-                        <div className="testimonial-track" style={trackStyle}>
-                            {testimonials.map((t, idx) => (
-                                <div key={idx} className="testimonial-slide">
-                                    <div className="glass-card rounded-3xl p-8 md:p-10 max-w-2xl mx-auto float-frame">
-                                        <div className="flex justify-center mb-4 text-velvet-red text-2xl">{"★".repeat(5)}</div>
-                                        <p className="text-dark-chocolate/80 dark:text-cream/80 text-lg leading-relaxed italic mb-6">&ldquo;{t.text}&rdquo;</p>
-                                        <div className="flex items-center justify-center gap-4">
-                                            <img src={t.image} alt={t.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-velvet-red/40" />
-                                            <div className="text-left"><p className="font-semibold text-dark-chocolate dark:text-cream">{t.name}</p><p className="text-sm text-dark-chocolate/50 dark:text-cream/50">{t.location}</p></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="flex justify-center gap-3 mt-8">
-                        {testimonials.map((_, idx) => (<div key={idx} className={`dot ${idx === current ? 'active' : ''}`} onClick={() => setCurrent(idx)}></div>))}
-                    </div>
-                </section>
-            );
-        };
-        const HamburgerMenu = ({ isOpen, onClose, darkMode, onToggleDarkMode, onNavigate, userName, loyaltyPoints }) => {
-            const [closing, setClosing] = useState(false);
-            const handleClose = useCallback(() => { setClosing(true); setTimeout(() => { setClosing(false); onClose(); }, 280); }, [onClose]);
-            useEffect(() => { document.body.style.overflow = isOpen ? 'hidden' : ''; return () => { document.body.style.overflow = ''; }; }, [isOpen]);
-            if (!isOpen && !closing) return null;
-            const greeting = () => { const hour = new Date().getHours(); if (hour < 12) return 'Good Morning'; if (hour < 17) return 'Good Afternoon'; return 'Good Evening'; };
-            return ( <div className="fixed inset-0 z-50 flex"> <div className={`absolute inset-0 bg-black/60 ${closing ? 'backdrop-exit' : 'backdrop-enter'}`} onClick={handleClose}></div> <div className={`relative slim-sidebar h-full overflow-y-auto shadow-2xl flex flex-col ${closing ? 'drawer-exit' : 'drawer-enter'}`} style={{ backgroundColor: darkMode ? '#2d221f' : '#FFF5E6', color: darkMode ? '#e8e4df' : '#2C2420' }}> <button onClick={handleClose} className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-surface hover:bg-border transition text-text-primary text-xl"><i className="fas fa-times"></i></button> <div className="px-5 pt-10 pb-6 border-b border-gray-300 dark:border-gray-700"> <div className="flex items-center gap-3"> <div className="relative"><div className="w-12 h-12 rounded-full bg-velvet-red flex items-center justify-center text-white text-lg font-bold">{userName?.charAt(0)||'G'}</div><div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-accent-secondary flex items-center justify-center text-[10px] font-bold text-dark-chocolate border-2 border-white"><i className="fas fa-star text-[8px]"></i></div></div> <div><p className="font-display text-base font-semibold">{greeting()}, {userName||'Guest'}</p><span className="inline-block mt-0.5 text-[10px] font-semibold bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-full">Gold • {loyaltyPoints} pts</span></div> </div> </div> <nav className="px-3 mt-5 flex-1 space-y-0.5"> {[{action:'orders', label:t.prevOrders, icon:'fas fa-clipboard-list'},{action:'loyalty', label:t.loyalty, icon:'fas fa-coins'},{action:'fav', label:t.fav, icon:'fas fa-heart'}].map((link,i)=> ( <div key={link.action} style={{ animationDelay:`${i*70}ms` }} className="opacity-100"> <button onClick={()=>{ onNavigate(link.action); handleClose(); }} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition text-left"> <i className={`${link.icon} text-base w-5`}></i><span className="font-body text-sm font-medium cart-hd-text">{link.label}</span><i className="fas fa-chevron-right ml-auto text-text-secondary text-xs"></i> </button> </div> ))} </nav> <div className="px-4 py-5 border-t border-gray-300 dark:border-gray-700 mt-auto space-y-2"> <button onClick={onToggleDarkMode} className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-white/30 dark:bg-black/20 hover:bg-white/40 transition text-sm"> <span className="flex items-center gap-2"><i className={`fas ${darkMode?'fa-sun':'fa-moon'} text-base`}></i><span className="font-medium text-sm cart-hd-text">{t.darkMode}</span></span> <div className={`w-9 h-5 rounded-full relative transition ${darkMode?'bg-velvet-red':'bg-gray-400'}`}><div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition ${darkMode?'left-4':'left-0.5'}`}></div></div> </button> <button onClick={()=>{ onNavigate('signout'); handleClose(); }} className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-white/20 transition text-sm"><i className="fas fa-sign-out-alt text-sm"></i><span>{t.signOut}</span></button> </div> </div> </div> );
-        };
-        const FeatureModal = ({ type, onClose, orders, coins, favorites }) => { let content = null; if (type === 'orders') { content = ( <div className="max-h-[70vh] overflow-y-auto pr-2"><h3 className="font-display text-2xl font-bold mb-4">{t.prevOrders}</h3>{orders.length === 0 ? <p>{t.noOrders}</p> : orders.map(order => (<div key={order.id} className="glass-card rounded-2xl p-3 flex gap-3 mb-3"><img src={order.items?.[0]?.image} className="w-14 h-14 rounded-xl object-cover" /><div className="flex-1"><p className="font-semibold cart-hd-text">{order.items?.map(i=>i.name).join(', ')} (₹{order.total})</p><p className="text-xs">{new Date(order.created_at).toLocaleTimeString()}</p></div></div>))}</div> ); } else if (type === 'loyalty') { content = ( <div className="text-center py-6"><h3 className="font-display text-3xl font-bold mb-4">{t.loyalty}</h3><p className="text-6xl font-bold text-velvet-red">{coins}</p><p className="mt-3">{t.coinsEarned}</p>{coins === 0 && <p className="text-sm mt-2">{t.noCoins}</p>}</div> ); } else if (type === 'fav') { const favDishes = menuDishes.filter(d => favorites.includes(d.id)); content = ( <div className="max-h-[70vh] overflow-y-auto"><h3 className="font-display text-2xl font-bold mb-4">{t.fav}</h3>{favDishes.length === 0 ? <p>{t.noFav}</p> : (<div className="grid grid-cols-1 gap-3">{favDishes.map(dish => (<div key={dish.id} className="glass-card rounded-xl p-2 flex gap-3"><img src={dish.image} className="w-16 h-16 rounded-lg object-cover" /><div><p className="font-bold cart-hd-text">{dish.title}</p><p className="text-velvet-red">₹{dish.price}</p></div></div>))}</div>)}</div> ); } return ( <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}> <div className="bg-cream dark:bg-dark-chocolate rounded-3xl p-6 max-w-lg w-full max-h-[85vh] animate-scale-in" onClick={e=>e.stopPropagation()}> {content} <button onClick={onClose} className="mt-5 w-full py-2 border rounded-xl">Close</button> </div> </div> ); };
-        const ToastContainer = ({ toasts }) => ( <div className="fixed bottom-24 left-4 z-50 space-y-2"> {toasts.map(toast => (<div key={toast.id} className="bg-velvet-red text-white px-4 py-2 rounded-full shadow-lg animate-slide-up text-sm cart-hd-text">{toast.msg}</div>))} </div> );
-        const Hero = () => { const [ref, inView] = useInView(0.1); return ( <section id="hero" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden"> <div className="absolute inset-0"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&q=80" className="w-full h-full object-cover"/><div className="absolute inset-0 bg-gradient-to-b from-dark-chocolate/80 to-dark-chocolate/90"></div></div> <div className="relative z-10 text-center px-6 max-w-4xl mx-auto"> <p className={`text-cream uppercase tracking-[0.3em] text-sm mb-6 transition-all ${inView?'opacity-100':'opacity-0 translate-y-6'}`}>{t.heroTag}</p> <h1 className={`font-display text-5xl md:text-7xl font-bold text-white mb-8 transition-all ${inView?'opacity-100':'opacity-0 translate-y-8'}`}>{t.heroTitle}</h1> <p className={`text-cream/80 text-lg mb-10 transition-all ${inView?'opacity-100':'opacity-0 translate-y-6'}`}>{t.heroSub}</p> <a href="#menu" className="px-10 py-4 bg-velvet-red text-white rounded-full font-semibold shadow-xl">{t.viewMenu}</a> </div> </section> ); };
-        
-        // *** UPDATED MenuGallery with ordered categories ***
+        const PaymentMethodSelector = ({ paymentMode, onPaymentModeChange, selectedMethod, onSelectMethod, fulfillmentMode }) => { const isDelivery = fulfillmentMode==='delivery'; const onlineMethods = [{ id:'card1', label:'Visa •••• 4242', icon:'fab fa-cc-visa', detail:'Expires 12/26' },{ id:'upi', label:'UPI / Google Pay', icon:'fas fa-mobile-alt', detail:'Instant payment' }]; const doorstepMethods = [{ id:'cod', label:'Cash on Delivery', icon:'fas fa-money-bill-wave', detail:'Pay when you receive' },{ id:'cardAtDoor', label:'Card at Door', icon:'fas fa-credit-card', detail:'Swipe/Insert card on delivery' }]; const methods = paymentMode==='online'?onlineMethods:doorstepMethods; return (<div className="bg-elevated rounded-card p-5 mb-4 border border-border"><h3 className="font-display text-lg font-semibold mb-4">Payment Method</h3><div className="flex bg-surface rounded-btn p-1 mb-4 border border-border"><button onClick={()=>onPaymentModeChange('online')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${paymentMode==='online'?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-globe mr-1"></i> Pay Online</button><button onClick={()=>onPaymentModeChange('doorstep')} className={`flex-1 py-2 px-3 rounded-btn text-sm font-semibold transition ${paymentMode==='doorstep'?'bg-accent-primary text-white shadow-sm':'text-text-secondary hover:text-text-primary'}`}><i className="fas fa-hand-holding-usd mr-1"></i> {isDelivery?'Pay at Doorstep':'Pay at Counter'}</button></div><div className="space-y-2">{methods.map(method=>(<div key={method.id} onClick={()=>onSelectMethod(method)} className={`flex items-center gap-3 p-3 rounded-card cursor-pointer border transition ${selectedMethod?.id===method.id?'border-accent-primary bg-accent-primary/5':'border-border hover:border-accent-secondary/50'}`}><i className={`${method.icon} text-2xl`}></i><div className="flex-1"><p className="font-semibold text-sm cart-hd-text">{method.label}</p><p className="text-xs text-text-secondary">{method.detail}</p></div><div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedMethod?.id===method.id?'border-accent-primary':'border-border'}`}>{selectedMethod?.id===method.id && <div className="w-3 h-3 rounded-full bg-accent-primary"></div>}</div></div>))}</div></div>); };
+        const StickyBottomCTA = ({ grandTotal, isProcessing, disabled, onPlaceOrder }) => (<div className="sticky bottom-0 z-20 bg-elevated border-t border-border px-4 py-4 shadow-elevated"><div className="max-w-lg mx-auto"><button onClick={onPlaceOrder} disabled={disabled||isProcessing} className={`w-full font-semibold py-4 px-6 rounded-btn text-base transition flex items-center justify-center gap-2 ${disabled?'bg-border text-text-secondary cursor-not-allowed':'bg-accent-primary text-white hover:brightness-110 active:scale-[0.98]'}`}>{isProcessing?(<><span className="spinner"></span> Processing...</>):`Proceed to Pay ₹${grandTotal.toFixed(2)}`}</button>{disabled && !isProcessing && <p className="text-xs text-error text-center mt-2">⚠️ Please select a payment method</p>}</div></div>);
+        const OrderConfirmation = ({ order, coinsEarned, onBack }) => { const [showTracking, setShowTracking] = useState(false); const [progress, setProgress] = useState(0); const etaMatch = order.eta.match(/(\d+)/); const etaMinutes = etaMatch ? parseInt(etaMatch[0],10) : 30; const totalDuration = etaMinutes*60000; useEffect(()=>{ const timer = setTimeout(()=>setShowTracking(true),3000); return ()=>clearTimeout(timer); },[]); useEffect(()=>{ if(!showTracking) return; const stepMs=100; const totalSteps=totalDuration/stepMs; let currentStep=0; const interval=setInterval(()=>{ currentStep++; const pct=Math.min(100,(currentStep/totalSteps)*100); setProgress(pct); if(currentStep>=totalSteps) clearInterval(interval); },stepMs); return ()=>clearInterval(interval); },[showTracking,totalDuration]); const getStatusText = () => { if(progress<25) return t.confirmed; if(progress<50) return t.preparing; if(progress<75) return t.out; return t.delivered; }; const items = order.items || []; const total = order.total || 0; return (<div className="min-h-screen bg-base p-6 flex flex-col items-center justify-center"><div className="max-w-lg w-full bg-elevated rounded-card p-8 shadow-card border border-border text-center"><div className="flex justify-center mb-4"><AnimatedCheckmark/></div><h2 className="font-display text-3xl font-bold mb-2">{t.orderSuccess}</h2><p className="text-success font-semibold text-lg mb-6">+{coinsEarned} Coins earned</p><div className="text-left space-y-3 mb-6">{items.map((item,idx)=>(<div key={idx} className="flex items-center gap-3 p-2 glass-card rounded-xl"><img src={item.image} className="w-12 h-12 rounded-lg object-cover" alt={item.name}/><div className="flex-1"><p className="font-semibold text-sm">{item.name} x {item.qty}</p><p className="text-xs text-text-secondary">₹{item.unitPrice} each</p></div><p className="font-semibold">₹{(item.unitPrice*item.qty).toFixed(2)}</p></div>))}</div><div className="border-t pt-3 mb-6 flex justify-between font-bold"><span>Total Bill</span><span className="cart-total-hd">₹{total.toFixed(2)}</span></div>{showTracking && (<div className="animate-fade-in"><h3 className="font-display text-xl font-semibold mb-4">Delivery Status</h3><div className="flex items-center gap-4 bg-surface rounded-card p-4 border border-border mb-6"><i className="fas fa-motorcycle text-3xl text-accent-primary"></i><div className="text-left"><p className="font-bold">{getStatusText()}</p><p className="text-sm">ETA: <strong className="text-accent-primary">{order.eta}</strong></p></div></div><div className="w-full bg-border rounded-full h-3 mb-3 overflow-hidden"><div className="bg-success h-full rounded-full transition-all duration-300 ease-linear" style={{width:`${progress}%`}}></div></div><div className="flex justify-between text-xs text-text-secondary"><span>Placed</span><span>Preparing</span><span>On the way</span><span>Delivered</span></div></div>)}<button onClick={onBack} className="mt-6 w-full py-3 bg-velvet-red text-white rounded-xl font-semibold hover:bg-red-velvet transition">Back to Menu</button></div></div>); };
+
+        // ---------- Presentation Components ----------
+        const Hero = () => { const [ref, inView] = useInView(0.1); return (<section id="hero" ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden"><div className="absolute inset-0"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&q=80" className="w-full h-full object-cover"/><div className="absolute inset-0 bg-gradient-to-b from-dark-chocolate/80 to-dark-chocolate/90"></div></div><div className="relative z-10 text-center px-6 max-w-4xl mx-auto"><p className={`text-cream uppercase tracking-[0.3em] text-sm mb-6 transition-all ${inView?'opacity-100':'opacity-0 translate-y-6'}`}>{t.heroTag}</p><h1 className={`font-display text-5xl md:text-7xl font-bold text-white mb-8 transition-all ${inView?'opacity-100':'opacity-0 translate-y-8'}`}>{t.heroTitle}</h1><p className={`text-cream/80 text-lg mb-10 transition-all ${inView?'opacity-100':'opacity-0 translate-y-6'}`}>{t.heroSub}</p><a href="#menu" className="px-10 py-4 bg-velvet-red text-white rounded-full font-semibold shadow-xl">{t.viewMenu}</a></div></section>); };
+        const OurStory = () => { const [ref, inView] = useInView(0.2); return (<section ref={ref} className="w-full max-w-7xl mx-auto px-6 py-16 md:py-24"><div className="grid md:grid-cols-2 gap-12 lg:gap-20 items-center"><div className="relative order-2 md:order-1"><div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl image-hover-zoom float-frame"><img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80" alt="Chef" className="w-full h-full object-cover"/></div><div className="absolute -bottom-6 -right-6 w-32 h-32 bg-velvet-red/20 rounded-3xl -z-10 hidden lg:block"></div><div className="absolute -top-6 -left-6 w-28 h-28 bg-soft-beige rounded-3xl -z-10 hidden lg:block"></div></div><div className="order-1 md:order-2"><p className="text-velvet-red uppercase tracking-[0.25em] text-sm font-semibold mb-4">Our Story</p><h2 className="font-display text-4xl md:text-5xl font-bold mb-6 leading-tight">Redefining Gourmet <span className="italic text-velvet-red">Delivery</span></h2><p className="text-dark-chocolate/70 dark:text-cream/70 leading-relaxed mb-5 text-lg">Founded in 2021, Cloud Kitchen Co. was born from a passion for exceptional food and a desire to make fine dining accessible at home.</p><p className="text-dark-chocolate/70 dark:text-cream/70 leading-relaxed mb-8 text-lg">Our team of award‑winning chefs sources the finest ingredients and crafts menus that blend global techniques with local flavours.</p><div className="grid grid-cols-3 gap-6 pt-4"><div className="text-center"><p className="font-display text-3xl lg:text-4xl font-bold text-velvet-red">10k+</p><p className="text-sm opacity-60 mt-1">Orders Delivered</p></div><div className="text-center"><p className="font-display text-3xl lg:text-4xl font-bold text-velvet-red">4.9</p><p className="text-sm opacity-60 mt-1">Average Rating</p></div><div className="text-center"><p className="font-display text-3xl lg:text-4xl font-bold text-velvet-red">5</p><p className="text-sm opacity-60 mt-1">Cities Served</p></div></div></div></div></section>); };
+        const TestimonialsSlider = () => { const testimonials = [{ name:'Riya & Arjun Mehta', location:'Mumbai', text:'The food from Cloud Kitchen Co. rivals any fine dining restaurant. Every bite was a revelation!', image:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&q=80' },{ name:'Vikram Singh', location:'Delhi', text:'I ordered the truffle risotto for a date night at home – perfection. Delivery was prompt and hot.', image:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80' },{ name:'Ananya Patel', location:'Bangalore', text:'Their event catering transformed our anniversary dinner. Five stars!', image:'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80' }]; const [current, setCurrent] = useState(0); const trackStyle = { transform:`translateX(-${current*100}%)`, transition:'transform 0.7s cubic-bezier(0.2,0.9,0.4,1.1)' }; useEffect(()=>{ const interval = setInterval(()=>{ setCurrent((prev)=>(prev+1)%testimonials.length); },5000); return ()=>clearInterval(interval); },[testimonials.length]); return (<section className="w-full max-w-5xl mx-auto px-6 py-16 md:py-24 text-center"><p className="text-velvet-red uppercase tracking-[0.25em] text-sm font-semibold mb-4">Testimonials</p><h2 className="font-display text-4xl md:text-5xl font-bold mb-12">What Our <span className="italic text-velvet-red">Customers</span> Say</h2><div className="relative overflow-hidden min-h-[320px]"><div className="testimonial-track" style={trackStyle}>{testimonials.map((t,idx)=>(<div key={idx} className="testimonial-slide"><div className="glass-card rounded-3xl p-8 md:p-10 max-w-2xl mx-auto float-frame"><div className="flex justify-center mb-4 text-velvet-red text-2xl">{"★".repeat(5)}</div><p className="text-dark-chocolate/80 dark:text-cream/80 text-lg leading-relaxed italic mb-6">&ldquo;{t.text}&rdquo;</p><div className="flex items-center justify-center gap-4"><img src={t.image} alt={t.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-velvet-red/40"/><div className="text-left"><p className="font-semibold">{t.name}</p><p className="text-sm opacity-50">{t.location}</p></div></div></div></div>))}</div></div><div className="flex justify-center gap-3 mt-8">{testimonials.map((_,idx)=>(<div key={idx} className={`dot ${idx===current?'active':''}`} onClick={()=>setCurrent(idx)}></div>))}</div></section>); };
         const MenuGallery = ({ onOrder, favorites, toggleFavorite }) => {
-            const [filter, setFilter] = useState('All');
-            
-            // Build ordered category list based on the predefined order and existing categories in menuDishes
-            const orderedCategories = useMemo(() => {
-                const existing = new Set(menuDishes.map(d => d.category));
-                return categoryOrder.filter(c => existing.has(c));
+            const [filter, setFilter] = useState('');
+            const orderedCategories = useMemo(() => { const existing = new Set(menuDishes.map(d=>d.category)); return categoryOrder.filter(c=>existing.has(c)); }, []);
+            const filtered = useMemo(() => { if (!filter) return menuDishes; return menuDishes.filter(d=>d.category===filter); }, [filter]);
+            const handleCategoryClick = (cat) => { setFilter(prev => prev===cat ? '' : cat); };
+            return (<section id="menu" className="py-24 bg-soft-beige dark:bg-dark-chocolate/60 px-6"><div className="max-w-7xl mx-auto"><h2 className="font-display text-4xl font-bold text-center mb-8">{t.viewMenu}</h2><div className="flex flex-wrap justify-center gap-3 mb-10">{orderedCategories.map(c=>(<button key={c} onClick={()=>handleCategoryClick(c)} className={`category-tag px-6 py-2 rounded-full text-base font-semibold tracking-wide transition ${filter===c?'bg-velvet-red text-white':'bg-white dark:bg-dark-chocolate text-dark-chocolate dark:text-cream'}`}>{c}</button>))}</div><div className="masonry-grid">{filtered.map(dish=>(<div key={dish.id} className="masonry-item rounded-2xl overflow-hidden shadow-lg group float-frame"><div className="image-hover-zoom"><img src={dish.image} className="w-full h-56 object-cover"/></div><div className="menu-item-bar p-4 flex justify-between items-center"><div><h3 className="menu-item-title font-bold text-xl text-dark-chocolate dark:text-cream">{dish.title}</h3><p className="text-sm font-bold text-velvet-red">₹{dish.price}</p></div><div className="flex gap-2 items-center"><button onClick={()=>toggleFavorite(dish.id)} className="text-xl"><i className={`fas fa-heart ${favorites.includes(dish.id)?'text-velvet-red':'text-gray-500'}`}></i></button><button onClick={()=>onOrder(dish)} className="add-to-cart-btn px-4 py-1.5 rounded-full text-sm font-semibold shadow-md">{t.orderNow}</button></div></div></div>))}</div></div></section>);
+        };
+        const SignatureDishes = ({ specials, onOrder }) => (<section className="py-24 px-6"><h2 className="font-display text-4xl font-bold text-center mb-10">Chef's <span className="italic text-velvet-red">Specials</span></h2><div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">{specials.map(dish=>(<div key={dish.id} className="glass-card rounded-2xl overflow-hidden float-frame"><div className="image-hover-zoom h-64"><img src={dish.image} className="w-full h-full object-cover"/></div><div className="p-6"><h3 className="menu-item-title font-bold text-xl">{dish.title}</h3><p className="text-velvet-red font-bold text-lg">₹{dish.price}</p><button onClick={()=>onOrder(dish)} className="add-to-cart-btn mt-3 px-4 py-2 rounded-full text-sm font-semibold">{t.orderNow}</button></div></div>))}</div></section>);
+        const AISuggester = ({ onClose }) => { const [category, setCategory] = useState(''); const categories = ['All','Mojito','Milkshake','Fries','Special Fries','Burger','Sandwich','Wrap','Pizza','Sliders / Sides']; const [results, setResults] = useState([]); const handleSuggest = () => { if(!category||category==='All') setResults(menuDishes.slice(0,8)); else setResults(menuDishes.filter(d=>d.category===category)); }; return (<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}><div className="bg-cream dark:bg-dark-chocolate rounded-3xl p-6 max-w-md w-full animate-scale-in" onClick={e=>e.stopPropagation()}><h3 className="font-display text-2xl font-bold mb-4">{t.aiSuggester}</h3><div className="space-y-4"><select className="w-full p-2 rounded-xl bg-white dark:bg-dark-chocolate border" value={category} onChange={e=>setCategory(e.target.value)}><option value="">{t.cuisinePref}</option>{categories.map(c=><option key={c}>{c}</option>)}</select><button onClick={handleSuggest} className="w-full py-3 bg-velvet-red text-white rounded-xl font-semibold">{t.suggest}</button></div>{results.length>0 && (<div className="mt-4 space-y-2 max-h-48 overflow-auto">{results.map(dish=>(<div key={dish.id} className="flex gap-3 items-center p-2 glass-card rounded-xl"><img src={dish.image} className="w-12 h-12 rounded-lg object-cover"/><div><div className="font-semibold menu-item-title">{dish.title}</div><div className="text-xs">₹{dish.price}</div></div></div>))}</div>)}</div></div>); };
+        const HamburgerMenu = ({ isOpen, onClose, darkMode, onToggleDarkMode, onNavigate, userName, loyaltyPoints }) => { const [closing, setClosing] = useState(false); const handleClose = useCallback(()=>{ setClosing(true); setTimeout(()=>{ setClosing(false); onClose(); },280); },[onClose]); useEffect(()=>{ document.body.style.overflow = isOpen?'hidden':''; return ()=>{ document.body.style.overflow=''; }; },[isOpen]); if(!isOpen && !closing) return null; const greeting = ()=>{ const hour = new Date().getHours(); if(hour<12) return 'Good Morning'; if(hour<17) return 'Good Afternoon'; return 'Good Evening'; }; return (<div className="fixed inset-0 z-50 flex"><div className={`absolute inset-0 bg-black/60 ${closing?'backdrop-exit':'backdrop-enter'}`} onClick={handleClose}></div><div className={`relative slim-sidebar h-full overflow-y-auto shadow-2xl flex flex-col ${closing?'drawer-exit':'drawer-enter'}`} style={{ backgroundColor: darkMode?'#2d221f':'#FFF5E6', color: darkMode?'#e8e4df':'#2C2420' }}><button onClick={handleClose} className="absolute top-4 right-4 z-10 w-10 h-10 flex items-center justify-center rounded-full bg-surface hover:bg-border transition text-xl"><i className="fas fa-times"></i></button><div className="px-5 pt-10 pb-6 border-b border-gray-300 dark:border-gray-700"><div className="flex items-center gap-3"><div className="relative"><div className="w-12 h-12 rounded-full bg-velvet-red flex items-center justify-center text-white text-lg font-bold">{userName?.charAt(0)||'G'}</div><div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-accent-secondary flex items-center justify-center text-[10px] font-bold text-dark-chocolate border-2 border-white"><i className="fas fa-star text-[8px]"></i></div></div><div><p className="font-display text-base font-semibold">{greeting()}, {userName||'Guest'}</p><span className="inline-block mt-0.5 text-[10px] font-semibold bg-accent-secondary/20 text-accent-secondary px-2 py-0.5 rounded-full">Gold • {loyaltyPoints} pts</span></div></div></div><nav className="px-3 mt-5 flex-1 space-y-0.5">{[{action:'orders', label:t.prevOrders, icon:'fas fa-clipboard-list'},{action:'loyalty', label:t.loyalty, icon:'fas fa-coins'},{action:'fav', label:t.fav, icon:'fas fa-heart'}].map((link,i)=>(<div key={link.action} style={{ animationDelay:`${i*70}ms` }} className="opacity-100"><button onClick={()=>{ onNavigate(link.action); handleClose(); }} className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/20 dark:hover:bg-black/20 transition text-left"><i className={`${link.icon} text-base w-5`}></i><span className="font-body text-sm font-medium cart-hd-text">{link.label}</span><i className="fas fa-chevron-right ml-auto text-text-secondary text-xs"></i></button></div>))}</nav><div className="px-4 py-5 border-t border-gray-300 dark:border-gray-700 mt-auto space-y-2"><button onClick={onToggleDarkMode} className="w-full flex items-center justify-between px-3 py-2.5 rounded-xl bg-white/30 dark:bg-black/20 hover:bg-white/40 transition text-sm"><span className="flex items-center gap-2"><i className={`fas ${darkMode?'fa-sun':'fa-moon'} text-base`}></i><span className="font-medium text-sm cart-hd-text">{t.darkMode}</span></span><div className={`w-9 h-5 rounded-full relative transition ${darkMode?'bg-velvet-red':'bg-gray-400'}`}><div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition ${darkMode?'left-4':'left-0.5'}`}></div></div></button><button onClick={()=>{ onNavigate('signout'); handleClose(); }} className="w-full flex items-center gap-2 px-3 py-2.5 rounded-xl text-text-secondary hover:bg-white/20 transition text-sm"><i className="fas fa-sign-out-alt text-sm"></i><span>{t.signOut}</span></button></div></div></div>); };
+        const FeatureModal = ({ type, onClose, orders, coins, favorites }) => { let content; if(type==='orders') content = (<div className="max-h-[70vh] overflow-y-auto pr-2"><h3 className="font-display text-2xl font-bold mb-4">{t.prevOrders}</h3>{orders.length===0?<p>{t.noOrders}</p>:orders.map(order=>(<div key={order.id} className="glass-card rounded-2xl p-3 flex gap-3 mb-3"><img src={order.items?.[0]?.image} className="w-14 h-14 rounded-xl object-cover"/><div className="flex-1"><p className="font-semibold cart-hd-text">{order.items?.map(i=>i.name).join(', ')} (₹{order.total})</p><p className="text-xs">{new Date(order.created_at).toLocaleTimeString()}</p></div></div>))}</div>); else if(type==='loyalty') content = (<div className="text-center py-6"><h3 className="font-display text-3xl font-bold mb-4">{t.loyalty}</h3><p className="text-6xl font-bold text-velvet-red">{coins}</p><p className="mt-3">{t.coinsEarned}</p>{coins===0 && <p className="text-sm mt-2">{t.noCoins}</p>}</div>); else if(type==='fav') { const favDishes = menuDishes.filter(d=>favorites.includes(d.id)); content = (<div className="max-h-[70vh] overflow-y-auto"><h3 className="font-display text-2xl font-bold mb-4">{t.fav}</h3>{favDishes.length===0?<p>{t.noFav}</p>:(<div className="grid grid-cols-1 gap-3">{favDishes.map(dish=>(<div key={dish.id} className="glass-card rounded-xl p-2 flex gap-3"><img src={dish.image} className="w-16 h-16 rounded-lg object-cover"/><div><p className="font-bold cart-hd-text">{dish.title}</p><p className="text-velvet-red">₹{dish.price}</p></div></div>))}</div>)}</div>); } return (<div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}><div className="bg-cream dark:bg-dark-chocolate rounded-3xl p-6 max-w-lg w-full max-h-[85vh] animate-scale-in" onClick={e=>e.stopPropagation()}>{content}<button onClick={onClose} className="mt-5 w-full py-2 border rounded-xl">Close</button></div></div>); };
+        const MiniOrderTracker = ({ order }) => {
+            if (!order) return null;
+            const statuses = ['pending','accepted','preparing','ready','out_for_delivery','delivered'];
+            const idx = statuses.indexOf(order.status);
+            const progress = idx>=0 ? Math.round(((idx+1)/statuses.length)*100) : 0;
+            return (<div className="bg-elevated rounded-card p-3 mb-3 border border-border"><div className="flex items-center gap-2 mb-2"><i className="fas fa-motorcycle text-accent-primary"></i><span className="text-sm font-semibold">Order #{order.id.slice(0,6)}</span><span className="text-xs ml-auto">ETA {order.eta}</span></div><div className="w-full bg-border rounded-full h-2 mb-1 overflow-hidden"><div className="bg-success h-full rounded-full transition-all duration-500" style={{width:`${progress}%`}}></div></div><div className="flex justify-between text-xs text-text-secondary"><span>Placed</span><span>Delivered</span></div></div>);
+        };
+
+        // ---------- Admin Components ----------
+        const AdminDashboard = ({ onLogout, onBack }) => {
+            const [orders, setOrders] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState('');
+            const [filterStatus, setFilterStatus] = useState('all');
+            const [stats, setStats] = useState({ total:0, pending:0, todayRevenue:0, totalRevenue:0 });
+
+            const fetchOrders = useCallback(async () => {
+                try {
+                    let query = supabase.from('orders').select('id, created_at, total, items, eta, points_redeemed, status, user_id')
+                        .order('created_at', { ascending: false });
+                    if (filterStatus !== 'all') query = query.eq('status', filterStatus);
+                    const { data: rawOrders, error } = await query;
+                    if (error) throw error;
+                    const ordersData = rawOrders || [];
+                    const userIds = [...new Set(ordersData.map(o => o.user_id))];
+                    if (userIds.length > 0) {
+                        const { data: profiles } = await supabase.from('profiles').select('id, name, phone').in('id', userIds);
+                        const profileMap = {};
+                        if (profiles) profiles.forEach(p => { profileMap[p.id] = p; });
+                        const merged = ordersData.map(o => ({ ...o, profiles: profileMap[o.user_id] || null }));
+                        setOrders(merged);
+                    } else {
+                        setOrders(ordersData);
+                    }
+                } catch (err) { setError(err.message); } finally { setLoading(false); }
+            }, [filterStatus]);
+
+            const fetchStats = useCallback(async () => {
+                try {
+                    const { data: allOrders } = await supabase.from('orders').select('total, created_at, status');
+                    if (!allOrders) return;
+                    const now = new Date();
+                    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+                    const todayOrders = allOrders.filter(o => o.created_at >= todayStart);
+                    const todayRevenue = todayOrders.reduce((s,o) => s + (o.total || 0), 0);
+                    const totalRevenue = allOrders.reduce((s,o) => s + (o.total || 0), 0);
+                    setStats({ total: allOrders.length, pending: allOrders.filter(o => o.status === 'pending').length, todayRevenue, totalRevenue });
+                } catch (err) { console.error(err); }
             }, []);
-            
-            const categories = ['All', ...orderedCategories];
-            
-            const filtered = useMemo(() => {
-                let dishes = filter === 'All' ? menuDishes : menuDishes.filter(d => d.category === filter);
-                // Sort by categoryOrder
-                return dishes.sort((a, b) => {
-                    const idxA = categoryOrder.indexOf(a.category);
-                    const idxB = categoryOrder.indexOf(b.category);
-                    return idxA - idxB;
-                });
-            }, [filter]);
-            
+
+            useEffect(() => { fetchOrders(); fetchStats(); }, [fetchOrders, fetchStats]);
+            useEffect(() => {
+                const channel = supabase.channel('admin-orders')
+                    .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, () => { fetchOrders(); fetchStats(); })
+                    .subscribe();
+                return () => { supabase.removeChannel(channel); };
+            }, [fetchOrders, fetchStats]);
+
+            const updateOrderStatus = async (orderId, newStatus) => {
+                try {
+                    const { error } = await supabase.from('orders').update({ status: newStatus }).eq('id', orderId);
+                    if (error) throw error;
+                    setOrders(prev => prev.map(o => o.id === orderId ? { ...o, status: newStatus } : o));
+                    fetchStats();
+                } catch (err) { alert('Failed to update status: ' + err.message); }
+            };
+
+            const statuses = ['pending','accepted','preparing','ready','out_for_delivery','delivered','cancelled'];
+            const statusColors = { pending:'bg-yellow-200 text-yellow-800', accepted:'bg-blue-200 text-blue-800', preparing:'bg-purple-200 text-purple-800', ready:'bg-indigo-200 text-indigo-800', out_for_delivery:'bg-orange-200 text-orange-800', delivered:'bg-green-200 text-green-800', cancelled:'bg-red-200 text-red-800' };
+            const formatItems = (items) => { if (!Array.isArray(items)) return 'N/A'; return items.map(i => `${i.name} x${i.qty}`).join(', '); };
+
+            const handleLogout = async () => { await supabase.auth.signOut(); onLogout(); };
+
             return (
-                <section id="menu" className="py-24 bg-soft-beige dark:bg-dark-chocolate/60 px-6">
-                    <div className="max-w-7xl mx-auto">
-                        <h2 className="font-display text-4xl font-bold text-center mb-8">{t.viewMenu}</h2>
-                        <div className="flex flex-wrap justify-center gap-3 mb-10">
-                            {categories.map(c => (
-                                <button key={c} onClick={()=>setFilter(c)} className={`category-tag px-6 py-2 rounded-full text-base font-semibold tracking-wide transition ${filter===c?'bg-velvet-red text-white':'bg-white dark:bg-dark-chocolate text-dark-chocolate dark:text-cream'}`}>
-                                    {c}
-                                </button>
-                            ))}
-                        </div>
-                        <div className="masonry-grid">
-                            {filtered.map(dish => (
-                                <div key={dish.id} className="masonry-item rounded-2xl overflow-hidden shadow-lg group float-frame">
-                                    <div className="image-hover-zoom"><img src={dish.image} className="w-full h-56 object-cover"/></div>
-                                    <div className="menu-item-bar p-4 flex justify-between items-center">
-                                        <div><h3 className="menu-item-title font-bold text-xl text-dark-chocolate dark:text-cream">{dish.title}</h3><p className="text-sm font-bold text-velvet-red">₹{dish.price}</p></div>
-                                        <div className="flex gap-2 items-center"><button onClick={()=>toggleFavorite(dish.id)} className="text-xl"><i className={`fas fa-heart ${favorites.includes(dish.id)?'text-velvet-red':'text-gray-500'}`}></i></button><button onClick={()=>onOrder(dish)} className="add-to-cart-btn px-4 py-1.5 rounded-full text-sm font-semibold shadow-md">{t.orderNow}</button></div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
+                <div className="flex min-h-screen bg-[#f8f9fa] dark:bg-[#0f0f1a] text-gray-800 dark:text-gray-200">
+                    <aside className="admin-sidebar w-72 flex-shrink-0 p-6 flex flex-col text-white">
+                        <div className="mb-8"><h2 className="font-display text-2xl font-bold">CLOUD KITCHEN<span className="text-red-velvet">.</span></h2><p className="text-xs text-gray-400 mt-1">Admin Panel</p></div>
+                        <nav className="flex-1 space-y-1"><button className="sidebar-link active w-full text-left py-2.5 px-3 rounded-md text-sm flex items-center gap-3"><i className="fas fa-chart-pie w-5"></i> Dashboard</button></nav>
+                        <button onClick={handleLogout} className="mt-4 w-full py-2 bg-red-600/20 text-red-300 rounded-lg hover:bg-red-600/30 transition flex items-center justify-center gap-2 text-sm"><i className="fas fa-sign-out-alt"></i> Logout</button>
+                    </aside>
+                    <main className="flex-1 p-6 overflow-y-auto">
+                        <button onClick={onBack} className="mb-6 flex items-center gap-2 text-sm font-semibold text-accent-primary hover:underline"><i className="fas fa-arrow-left"></i> Back to Site</button>
+                        {loading ? (<div className="flex justify-center h-full"><div className="spinner border-t-accent-primary"></div></div>) : error ? (<div className="text-error text-center py-10">{error}</div>) : (<>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                                <div className="stat-card p-5 rounded-2xl shadow-sm"><div className="flex justify-between"><div><p className="text-gray-400 text-sm">Total Orders</p><h3 className="text-3xl font-bold mt-1">{stats.total}</h3></div><i className="fas fa-shopping-bag text-3xl text-accent-secondary opacity-50"></i></div></div>
+                                <div className="stat-card p-5 rounded-2xl shadow-sm"><div className="flex justify-between"><div><p className="text-gray-400 text-sm">Pending</p><h3 className="text-3xl font-bold mt-1 text-yellow-400">{stats.pending}</h3></div><i className="fas fa-clock text-3xl text-yellow-400 opacity-50"></i></div></div>
+                                <div className="stat-card p-5 rounded-2xl shadow-sm"><div className="flex justify-between"><div><p className="text-gray-400 text-sm">Today's Revenue</p><h3 className="text-3xl font-bold mt-1">₹{stats.todayRevenue.toLocaleString()}</h3></div><i className="fas fa-rupee-sign text-3xl text-green-400 opacity-50"></i></div></div>
+                                <div className="stat-card p-5 rounded-2xl shadow-sm"><div className="flex justify-between"><div><p className="text-gray-400 text-sm">Total Revenue</p><h3 className="text-3xl font-bold mt-1">₹{stats.totalRevenue.toLocaleString()}</h3></div><i className="fas fa-chart-line text-3xl text-blue-400 opacity-50"></i></div></div>
+                            </div>
+                            <div className="flex flex-wrap gap-3 mb-6">
+                                <button onClick={()=>setFilterStatus('all')} className={`px-4 py-1.5 rounded-full text-sm font-semibold transition ${filterStatus==='all'?'bg-accent-primary text-white':'bg-gray-200 dark:bg-gray-700'}`}>All</button>
+                                {statuses.map(st => (<button key={st} onClick={()=>setFilterStatus(st)} className={`px-4 py-1.5 rounded-full text-sm font-semibold capitalize transition ${filterStatus===st?'bg-accent-primary text-white':'bg-gray-200 dark:bg-gray-700'}`}>{st.replace(/_/g,' ')}</button>))}
+                            </div>
+                            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm overflow-x-auto border">
+                                <table className="w-full text-sm"><thead className="bg-gray-50 dark:bg-gray-700"><tr><th className="p-4 text-left">Order ID</th><th className="p-4 text-left">Customer</th><th className="p-4 text-left">Phone</th><th className="p-4 text-left">Items</th><th className="p-4 text-right">Total</th><th className="p-4 text-center">Status</th><th className="p-4 text-left">Date</th><th className="p-4 text-center">Actions</th></tr></thead>
+                                <tbody>
+                                    {orders.map(order => (<tr key={order.id} className="order-row border-t">
+                                        <td className="p-4 font-mono text-xs">{order.id.slice(0,8)}</td>
+                                        <td className="p-4 font-medium">{order.profiles?.name || 'N/A'}</td>
+                                        <td className="p-4">{order.profiles?.phone || 'N/A'}</td>
+                                        <td className="p-4 max-w-[200px] truncate" title={formatItems(order.items)}>{formatItems(order.items)}</td>
+                                        <td className="p-4 text-right font-semibold">₹{order.total}</td>
+                                        <td className="p-4 text-center"><span className={`status-badge capitalize ${statusColors[order.status]||'bg-gray-200'}`}>{order.status?.replace(/_/g,' ')||'pending'}</span></td>
+                                        <td className="p-4 whitespace-nowrap text-xs">{new Date(order.created_at).toLocaleDateString()}<br/>{new Date(order.created_at).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</td>
+                                        <td className="p-4"><select value={order.status} onChange={(e)=>updateOrderStatus(order.id,e.target.value)} className="bg-gray-100 dark:bg-gray-700 text-sm rounded-md px-2 py-1 border cursor-pointer">{statuses.map(st=><option key={st} value={st}>{st.replace(/_/g,' ')}</option>)}</select></td>
+                                    </tr>))}
+                                </tbody></table>
+                                {orders.length===0 && <div className="text-center py-10 text-gray-500">No orders found.</div>}
+                            </div>
+                        </>)}
+                    </main>
+                </div>
             );
         };
-        
-        const SignatureDishes = ({ specials, onOrder }) => { return ( <section className="py-24 px-6"><h2 className="font-display text-4xl font-bold text-center mb-10">Chef's <span className="italic text-velvet-red">Specials</span></h2><div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">{specials.map(dish=>(<div key={dish.id} className="glass-card rounded-2xl overflow-hidden float-frame"> <div className="image-hover-zoom h-64"><img src={dish.image} className="w-full h-full object-cover"/></div> <div className="p-6"><h3 className="menu-item-title font-bold text-xl">{dish.title}</h3><p className="text-velvet-red font-bold text-lg">₹{dish.price}</p><button onClick={()=>onOrder(dish)} className="add-to-cart-btn mt-3 px-4 py-2 rounded-full text-sm font-semibold">{t.orderNow}</button></div></div>))}</div></section> ); };
-        const Footer = () => ( <footer className="py-12 border-t text-center"><div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4"><a href="#hero" className="font-display text-2xl font-bold">CLOUD KITCHEN<span className="text-red-velvet">.</span></a><p>&copy; 2026 Cloud Kitchen Co.</p><div className="flex gap-6"><a href="#">Privacy</a><a href="#">Terms</a></div></div></footer> );
-        const AISuggester = ({ onClose }) => { const [category, setCategory] = useState(''); const categories = ['All','Mojito','Milkshake','Fries','Special Fries','Burger','Sandwich','Wrap','Pizza','Sliders / Sides']; const [results, setResults] = useState([]); const handleSuggest = () => { if(!category || category === 'All') setResults(menuDishes.slice(0,8)); else setResults(menuDishes.filter(d => d.category === category)); }; return ( <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}> <div className="bg-cream dark:bg-dark-chocolate rounded-3xl p-6 max-w-md w-full animate-scale-in" onClick={e=>e.stopPropagation()}> <h3 className="font-display text-2xl font-bold mb-4">{t.aiSuggester}</h3> <div className="space-y-4"> <select className="w-full p-2 rounded-xl bg-white dark:bg-dark-chocolate border" value={category} onChange={e=>setCategory(e.target.value)}> <option value="">{t.cuisinePref}</option> {categories.map(c=><option key={c}>{c}</option>)} </select> <button onClick={handleSuggest} className="w-full py-3 bg-velvet-red text-white rounded-xl font-semibold">{t.suggest}</button> </div> {results.length>0 && (<div className="mt-4 space-y-2 max-h-48 overflow-auto"> {results.map(dish => (<div key={dish.id} className="flex gap-3 items-center p-2 glass-card rounded-xl"><img src={dish.image} className="w-12 h-12 rounded-lg object-cover" /><div><div className="font-semibold menu-item-title">{dish.title}</div><div className="text-xs">₹{dish.price}</div></div></div>))} </div>)} </div> </div> ); };
-        
-        const MainApp = ({ darkMode, toggleDarkMode, onSignOut, requestLogin, weatherGreeting, userName, userId }) => {
+
+        const AdminLogin = ({ onLogin, onBack }) => {
+            const [email, setEmail] = useState('');
+            const [password, setPassword] = useState('');
+            const [error, setError] = useState('');
+            const [loading, setLoading] = useState(false);
+            const [showSignUp, setShowSignUp] = useState(false);
+            const [adminExists, setAdminExists] = useState(true);
+            const [signUpForm, setSignUpForm] = useState({ email:'', password:'', name:'' });
+            useEffect(()=>{ (async()=>{ const { count } = await supabase.from('admins').select('*',{count:'exact',head:true}); setAdminExists(count>0); })(); },[]);
+            const handleLogin = async (e) => { e.preventDefault(); setError(''); setLoading(true); try { const { data: authData, error: authError } = await supabase.auth.signInWithPassword({email,password}); if(authError) throw authError; const { data: adminData } = await supabase.from('admins').select('*').eq('user_id',authData.user.id).single(); if(!adminData) { await supabase.auth.signOut(); throw new Error('Access denied.'); } onLogin(authData.user); } catch(err) { setError(err.message); } finally { setLoading(false); } };
+            const handleSignUp = async (e) => { e.preventDefault(); setError(''); setLoading(true); try { const { count } = await supabase.from('admins').select('*',{count:'exact',head:true}); if(count>0) throw new Error('Admin already exists.'); const { data: authData, error: authError } = await supabase.auth.signUp({email:signUpForm.email,password:signUpForm.password}); if(authError) throw authError; if(!authData.user) throw new Error('Sign-up failed.'); await supabase.from('admins').insert([{user_id:authData.user.id}]); setAdminExists(true); onLogin(authData.user); } catch(err) { setError(err.message); } finally { setLoading(false); } };
+            return (
+                <div className="min-h-screen bg-cream dark:bg-dark-chocolate flex items-center justify-center p-4 relative">
+                    <button onClick={onBack} className="absolute top-4 left-4 text-sm font-semibold text-accent-primary hover:underline flex items-center gap-2"><i className="fas fa-arrow-left"></i> Back to Site</button>
+                    <div className="glass-card rounded-3xl p-8 w-full max-w-md shadow-2xl animate-scale-in">
+                        <h2 className="font-display text-3xl font-bold text-center mb-6">{showSignUp?'Create Admin Account':'Admin Login'}<span className="text-red-velvet">.</span></h2>
+                        {error && <div className="bg-error/20 text-error p-3 rounded-lg mb-4 text-sm">{error}</div>}
+                        {!showSignUp?(
+                            <form onSubmit={handleLogin} className="space-y-4">
+                                <div><label className="block text-sm font-bold">Email</label><input type="email" value={email} onChange={e=>setEmail(e.target.value)} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border" required/></div>
+                                <div><label className="block text-sm font-bold">Password</label><input type="password" value={password} onChange={e=>setPassword(e.target.value)} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border" required minLength={6}/></div>
+                                <button type="submit" disabled={loading} className={`w-full py-3.5 rounded-xl font-semibold shadow-lg transition ${loading?'bg-gray-400':'bg-velvet-red text-white hover:bg-red-velvet'}`}>{loading?'Logging in...':'Login'}</button>
+                                {!adminExists && <div className="text-center mt-3"><button type="button" onClick={()=>setShowSignUp(true)} className="text-sm text-velvet-red hover:underline">Create first admin account</button></div>}
+                            </form>
+                        ):(
+                            <form onSubmit={handleSignUp} className="space-y-4">
+                                <div><label className="block text-sm font-bold">Name</label><input type="text" value={signUpForm.name} onChange={e=>setSignUpForm({...signUpForm,name:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border" required/></div>
+                                <div><label className="block text-sm font-bold">Email</label><input type="email" value={signUpForm.email} onChange={e=>setSignUpForm({...signUpForm,email:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border" required/></div>
+                                <div><label className="block text-sm font-bold">Password</label><input type="password" value={signUpForm.password} onChange={e=>setSignUpForm({...signUpForm,password:e.target.value})} className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-dark-chocolate/60 border" required minLength={6}/></div>
+                                <button type="submit" disabled={loading} className={`w-full py-3.5 rounded-xl font-semibold shadow-lg transition ${loading?'bg-gray-400':'bg-velvet-red text-white hover:bg-red-velvet'}`}>{loading?'Creating...':'Create Admin Account'}</button>
+                                <button type="button" onClick={()=>setShowSignUp(false)} className="w-full text-sm text-dark-chocolate/70 dark:text-cream/70 hover:underline">Back to login</button>
+                            </form>
+                        )}
+                    </div>
+                </div>
+            );
+        };
+
+        const AdminView = ({ onBack }) => { const [adminUser, setAdminUser] = useState(null); useEffect(()=>{ supabase.auth.getSession().then(({data:{session}})=>{ if(session){ supabase.from('admins').select('*').eq('user_id',session.user.id).single().then(({data})=>{ if(data) setAdminUser(session.user); else supabase.auth.signOut(); }); } }); },[]); if(adminUser) return <AdminDashboard onLogout={()=>setAdminUser(null)} onBack={onBack}/>; return <AdminLogin onLogin={(user)=>setAdminUser(user)} onBack={onBack}/>; };
+
+        const Footer = ({ onAdminClick }) => (<footer className="py-12 border-t text-center"><div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4"><a href="#hero" className="font-display text-2xl font-bold">CLOUD KITCHEN<span className="text-red-velvet">.</span></a><p>&copy; 2026 Cloud Kitchen Co.</p><div className="flex gap-6 items-center"><a href="#">Privacy</a><a href="#">Terms</a><button onClick={onAdminClick} className="text-sm text-dark-chocolate/60 dark:text-cream/60 hover:text-accent-primary transition underline">Admin Panel</button></div></div></footer>);
+
+        // ---------- Main App ----------
+        const MainApp = ({ darkMode, toggleDarkMode, onSignOut, requestLogin, weatherGreeting, userName, userId, onAdminClick }) => {
             const [sidebarOpen, setSidebarOpen] = useState(false);
             const [cartOpen, setCartOpen] = useState(false);
             const [customizeModal, setCustomizeModal] = useState(null);
@@ -499,194 +463,78 @@
             const [toasts, setToasts] = useState([]);
             const [featureModal, setFeatureModal] = useState(null);
             const [orders, setOrders] = useState([]);
-            const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem('ck_fav')) || []);
+            const [favorites, setFavorites] = useState(()=>JSON.parse(localStorage.getItem('ck_fav'))||[]);
             const [coins, setCoins] = useState(0);
             const [cartItems, setCartItems] = useState([]);
             const [checkoutActive, setCheckoutActive] = useState(false);
             const [trackingOrder, setTrackingOrder] = useState(null);
-            
             const [fulfillmentMode, setFulfillmentMode] = useState('delivery');
-            const [selectedAddress, setSelectedAddress] = useState({ id:'addr1', label:'Home', address:'123, MG Road, Indiranagar, Bangalore 560038', eta:'25-35 mins' });
+            const [selectedAddress, setSelectedAddress] = useState({ id:'user', label:'Home', address:'', eta:'25-35 mins' });
             const [addressSheetOpen, setAddressSheetOpen] = useState(false);
             const [paymentMode, setPaymentMode] = useState('online');
             const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
             const [redeemPoints, setRedeemPoints] = useState(0);
             const [isProcessing, setIsProcessing] = useState(false);
-            
-            const savedAddresses = [
-                { id:'addr1', label:'Home', address:'123, MG Road, Indiranagar, Bangalore 560038', eta:'25-35 mins' },
-                { id:'addr2', label:'Work', address:'456, Koramangala 5th Block, Bangalore 560034', eta:'30-40 mins' }
-            ];
+            const [latestOrder, setLatestOrder] = useState(null);
 
-            const fetchUserData = useCallback(async () => {
-                if (!userId) return;
-                try {
-                    const [{ data: profile }, { data: orderData }, { data: favData }] = await Promise.all([
-                        supabase.from('profiles').select('loyalty_coins').eq('id', userId).single(),
-                        supabase.from('orders').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
-                        supabase.from('favourites').select('dish_id').eq('user_id', userId)
-                    ]);
-                    if (profile) setCoins(profile.loyalty_coins);
-                    else setCoins(0);
-                    if (orderData) setOrders(orderData);
-                    else setOrders([]);
-                    if (favData) {
-                        const ids = favData.map(row => row.dish_id);
-                        setFavorites(ids);
-                        localStorage.setItem('ck_fav', JSON.stringify(ids));
-                    }
-                } catch (err) {
-                    console.error('Error fetching user data:', err);
-                    setToasts(prev => [...prev, {id:Date.now(), msg:'Failed to load data.'}]);
-                }
-            }, [userId]);
+            const fetchLatestOrder = useCallback(async ()=>{ if(!userId) return; try { const { data } = await supabase.from('orders').select('*').eq('user_id',userId).not('status','in','("delivered","cancelled")').order('created_at',{ascending:false}).limit(1).maybeSingle(); setLatestOrder(data); } catch(err) { console.error(err); } },[userId]);
 
-            useEffect(() => {
-                fetchUserData();
-            }, [fetchUserData]);
+            const fetchUserData = useCallback(async ()=>{ if(!userId) return; try { const [{data:profile},{data:orderData},{data:favData}] = await Promise.all([ supabase.from('profiles').select('loyalty_coins, address').eq('id',userId).single(), supabase.from('orders').select('*').eq('user_id',userId).order('created_at',{ascending:false}), supabase.from('favourites').select('dish_id').eq('user_id',userId) ]); if(profile) { setCoins(profile.loyalty_coins); setSelectedAddress(prev=>({...prev, address: profile.address || '' })); } if(orderData) setOrders(orderData); if(favData) { const ids = favData.map(r=>r.dish_id); setFavorites(ids); localStorage.setItem('ck_fav',JSON.stringify(ids)); } } catch(err) { console.error(err); setToasts(prev=>[...prev,{id:Date.now(),msg:'Failed to load data.'}]); } },[userId]);
 
-            useEffect(() => {
-                localStorage.setItem('ck_fav', JSON.stringify(favorites));
-            }, [favorites]);
+            useEffect(()=>{ fetchUserData(); fetchLatestOrder(); },[fetchUserData,fetchLatestOrder]);
+            useEffect(()=>{ localStorage.setItem('ck_fav',JSON.stringify(favorites)); },[favorites]);
+            useEffect(()=>{ if(!userId) return; const channel = supabase.channel('user-order-updates').on('postgres_changes',{event:'*',schema:'public',table:'orders',filter:`user_id=eq.${userId}`},()=>{ fetchLatestOrder(); fetchUserData(); }).subscribe(); return ()=>{ supabase.removeChannel(channel); }; },[fetchLatestOrder, fetchUserData, userId]);
 
-            const addToCart = (dish, customizations, finalPrice) => {
-                const toastId = Date.now();
-                setCartItems(prev => {
-                    const existing = prev.find(i => i.sku === dish.id && i.customizations === customizations);
-                    if(existing) return prev.map(i => i.sku === dish.id && i.customizations === customizations ? {...i, qty: i.qty+1} : i);
-                    return [...prev, { sku: dish.id, name: dish.title, image: dish.image, unitPrice: finalPrice, qty: 1, customizations: customizations || 'Standard' }];
-                });
-                setToasts(prev => [...prev, {id: toastId, msg: `${dish.title} added to cart`}]);
-                setTimeout(() => setToasts(prev => prev.filter(t => t.id !== toastId)), 2500);
-            };
-            const updateQuantity = (sku, delta, customKey) => { setCartItems(prev => prev.map(i => (i.sku === sku && i.customizations === customKey) ? {...i, qty: Math.max(1, i.qty+delta)} : i)); };
-            const removeItem = (sku, customKey) => { setCartItems(prev => prev.filter(i => !(i.sku === sku && i.customizations === customKey))); };
-            
-            const itemTotal = cartItems.reduce((s,i)=>s + i.unitPrice * i.qty, 0);
-            const cartDisplayTotal = itemTotal;
-            
-            const proceedToCheckout = () => {
-                if (!userId) {
-                    requestLogin();
-                    return;
-                }
-                setCartOpen(false);
-                setCheckoutActive(true);
-            };
-            
-            const deliveryFee = fulfillmentMode === 'pickup' ? 0 : (itemTotal >= 300 ? 0 : 40);
-            const platformFee = 10;
-            const taxRate = 0.05;
-            const taxAmount = Math.round((itemTotal+deliveryFee+platformFee)*taxRate);
-            const discount = redeemPoints;
-            const grandTotal = Math.max(0, itemTotal+deliveryFee+platformFee+taxAmount-discount);
-            
-            const handlePlaceOrder = async () => {
-                if (!selectedPaymentMethod || !userId) return;
-                setIsProcessing(true);
-                try {
-                    const orderPayload = {
-                        user_id: userId,
-                        items: cartItems.map(i => ({
-                            name: i.name,
-                            image: i.image,
-                            unitPrice: i.unitPrice,
-                            qty: i.qty,
-                            customizations: i.customizations
-                        })),
-                        total: itemTotal,
-                        points_redeemed: redeemPoints,
-                        eta: fulfillmentMode === 'delivery' ? '25-35 mins' : '15-20 mins'
-                    };
-                    const { data: newOrder, error } = await supabase.from('orders').insert(orderPayload).select().single();
-                    if (error) throw error;
+            useEffect(() => { if (checkoutActive && userId && !selectedAddress.address) { const loadAddress = async () => { try { const { data } = await supabase.from('profiles').select('address').eq('id',userId).single(); if(data) setSelectedAddress(prev=>({...prev, address: data.address || '' })); } catch(e) { console.error(e); } }; loadAddress(); } }, [checkoutActive, userId, selectedAddress.address]);
 
-                    setTimeout(() => fetchUserData(), 500);
-                    setOrders(prev => [newOrder, ...prev]);
-                    setCartItems([]);
-                    setCheckoutActive(false);
-                    setTrackingOrder({ order: { ...newOrder, total: itemTotal }, coinsEarned: 10 });
-                    setRedeemPoints(0);
-                } catch (err) {
-                    console.error('Order failed:', err);
-                    setToasts(prev => [...prev, { id: Date.now(), msg: 'Order failed. Please try again.' }]);
-                } finally {
-                    setIsProcessing(false);
-                }
-            };
-            
-            const toggleFavorite = async (dishId) => {
-                const isFav = favorites.includes(dishId);
-                const newFavs = isFav ? favorites.filter(id => id !== dishId) : [...favorites, dishId];
-                setFavorites(newFavs);
-                localStorage.setItem('ck_fav', JSON.stringify(newFavs));
-                if (!userId) return;
-                try {
-                    if (isFav) {
-                        await supabase.from('favourites').delete().eq('user_id', userId).eq('dish_id', dishId);
-                    } else {
-                        await supabase.from('favourites').insert({ user_id: userId, dish_id: dishId });
-                    }
-                } catch (err) {
-                    console.error('Favourite toggle failed:', err);
-                    setFavorites(favorites);
-                }
-            };
-
-            const handleNavigate = (action) => {
-                if (action === 'orders') setFeatureModal('orders');
-                else if (action === 'loyalty') setFeatureModal('loyalty');
-                else if (action === 'fav') setFeatureModal('fav');
-                else if (action === 'signout') onSignOut();
-            };
+            const addToCart = (dish, customizations, finalPrice) => { const toastId=Date.now(); setCartItems(prev=>{ const existing = prev.find(i=>i.sku===dish.id && i.customizations===customizations); if(existing) return prev.map(i=>i.sku===dish.id && i.customizations===customizations?{...i,qty:i.qty+1}:i); return [...prev, { sku:dish.id, name:dish.title, image:dish.image, unitPrice:finalPrice, qty:1, customizations:customizations||'Standard' }]; }); setToasts(prev=>[...prev,{id:toastId,msg:`${dish.title} added to cart`}]); setTimeout(()=>setToasts(prev=>prev.filter(t=>t.id!==toastId)),2500); };
+            const updateQuantity = (sku, delta, customKey) => { setCartItems(prev=>prev.map(i=>(i.sku===sku && i.customizations===customKey)?{...i,qty:Math.max(1,i.qty+delta)}:i)); };
+            const removeItem = (sku, customKey) => { setCartItems(prev=>prev.filter(i=>!(i.sku===sku && i.customizations===customKey))); };
+            const itemTotal = cartItems.reduce((s,i)=>s+i.unitPrice*i.qty,0);
+            const deliveryFee = fulfillmentMode==='pickup'?0:(itemTotal>=300?0:40);
+            const taxRate = 0.05; const discount = redeemPoints;
+            const taxAmount = Math.round((itemTotal+deliveryFee)*taxRate);
+            const grandTotal = Math.max(0, itemTotal+deliveryFee+taxAmount-discount);
+            const proceedToCheckout = () => { if(!userId){ requestLogin(); return; } setCartOpen(false); setCheckoutActive(true); };
+            const handlePlaceOrder = async () => { if(!selectedPaymentMethod||!userId) return; setIsProcessing(true); try { const orderPayload = { user_id:userId, items:cartItems.map(i=>({name:i.name,image:i.image,unitPrice:i.unitPrice,qty:i.qty,customizations:i.customizations})), total:itemTotal, points_redeemed:redeemPoints, eta:fulfillmentMode==='delivery'?'25-35 mins':'15-20 mins', status:'pending' }; const { data:newOrder, error } = await supabase.from('orders').insert(orderPayload).select().single(); if(error) throw error; setTimeout(()=>fetchUserData(),500); setOrders(prev=>[newOrder,...prev]); setCartItems([]); setCheckoutActive(false); setTrackingOrder({order:{...newOrder,total:itemTotal},coinsEarned:10}); setRedeemPoints(0); } catch(err) { console.error(err); setToasts(prev=>[...prev,{id:Date.now(),msg:'Order failed.'}]); } finally { setIsProcessing(false); } };
+            const toggleFavorite = async (dishId) => { const isFav = favorites.includes(dishId); const newFavs = isFav?favorites.filter(id=>id!==dishId):[...favorites,dishId]; setFavorites(newFavs); localStorage.setItem('ck_fav',JSON.stringify(newFavs)); if(!userId) return; try { if(isFav) await supabase.from('favourites').delete().eq('user_id',userId).eq('dish_id',dishId); else await supabase.from('favourites').insert({user_id:userId,dish_id:dishId}); } catch(err) { console.error(err); setFavorites(favorites); } };
+            const handleNavigate = (action) => { if(action==='orders') setFeatureModal('orders'); else if(action==='loyalty') setFeatureModal('loyalty'); else if(action==='fav') setFeatureModal('fav'); else if(action==='signout') onSignOut(); };
             const cartCount = cartItems.reduce((s,i)=>s+i.qty,0);
-            
-            if (trackingOrder) return <OrderConfirmation order={trackingOrder.order} coinsEarned={trackingOrder.coinsEarned} onBack={() => { setTrackingOrder(null); fetchUserData(); }} />;
-            if (checkoutActive) {
-                return (
-                    <div className="min-h-screen bg-base relative">
-                        <header className="sticky top-0 z-10 bg-elevated border-b border-border px-4 py-3">
-                            <div className="max-w-lg mx-auto flex items-center justify-between">
-                                <button onClick={() => setCheckoutActive(false)} className="text-accent-primary font-semibold text-sm"><i className="fas fa-arrow-left mr-1"></i> Back to Cart</button>
-                                <span className="font-display text-xl font-bold text-accent-primary">Checkout</span>
-                                <div className="w-8"></div>
-                            </div>
-                        </header>
-                        <main className="max-w-lg mx-auto px-4 py-6 pb-24">
-                            {cartItems.length === 0 ? (
-                                <div className="text-center py-12"><p className="text-text-secondary mb-4">Your cart is empty.</p><button onClick={()=>setCheckoutActive(false)} className="bg-accent-primary text-white py-2 px-6 rounded-btn">Back to Menu</button></div>
-                            ) : (
-                                <>
-                                    <AddressBar address={selectedAddress} fulfillmentMode={fulfillmentMode} onEditAddress={()=>setAddressSheetOpen(true)} onChangeFulfillment={setFulfillmentMode} />
-                                    <div className="mb-4 space-y-2">{cartItems.map(item=> <CartItemRow key={item.sku+item.customizations} item={item} onIncrement={(sku,custom)=>updateQuantity(sku,1,custom)} onDecrement={(sku,custom)=>updateQuantity(sku,-1,custom)} onRemove={removeItem} />)}</div>
-                                    <BillSplitCard itemTotal={itemTotal} deliveryFee={deliveryFee} platformFee={platformFee} taxRate={taxRate} discount={discount} loyaltyPointsRedeemed={redeemPoints} onRedeemPoints={setRedeemPoints} availablePoints={coins} initialRedeem={0} />
-                                    <PaymentMethodSelector paymentMode={paymentMode} onPaymentModeChange={setPaymentMode} selectedMethod={selectedPaymentMethod} onSelectMethod={setSelectedPaymentMethod} fulfillmentMode={fulfillmentMode} />
-                                    <StickyBottomCTA grandTotal={grandTotal} isProcessing={isProcessing} disabled={!selectedPaymentMethod} onPlaceOrder={handlePlaceOrder} />
-                                </>
-                            )}
-                            {addressSheetOpen && (
-                                <div className="fixed inset-0 z-40 flex items-end sm:items-center justify-center">
-                                    <div className="absolute inset-0 bg-black/50" onClick={()=>setAddressSheetOpen(false)}></div>
-                                    <div className="relative bg-elevated rounded-t-2xl sm:rounded-2xl w-full max-w-md p-5 shadow-elevated border border-border animate-slide-up">
-                                        <h4 className="font-display text-lg font-semibold mb-3">Saved Addresses</h4>
-                                        {savedAddresses.map(addr=> (<div key={addr.id} onClick={()=>{setSelectedAddress(addr); setAddressSheetOpen(false);}} className={`p-3 rounded-card cursor-pointer mb-2 border transition ${selectedAddress?.id===addr.id?'border-accent-primary bg-accent-primary/5':'border-border hover:border-accent-secondary/50'}`}><p className="font-semibold text-sm cart-hd-text">{addr.label}{addr.isDefault&&<span className="ml-2 text-xs text-accent-secondary">Default</span>}</p><p className="text-xs text-text-secondary mt-0.5">{addr.address}</p><p className="text-xs text-accent-secondary mt-1">ETA: {addr.eta}</p></div>))}
-                                        <button onClick={()=>setAddressSheetOpen(false)} className="w-full mt-3 py-3 text-sm font-semibold text-text-secondary hover:text-text-primary transition">Cancel</button>
-                                    </div>
-                                </div>
-                            )}
-                        </main>
-                    </div>
-                );
-            }
-            
-            return ( <div className="relative"> <FloatingItems /> <header className="fixed top-0 left-0 right-0 z-30 glass shadow-lg py-3"><div className="max-w-7xl mx-auto px-6 flex items-center justify-between"><div className="flex items-center gap-4"><button onClick={()=>setSidebarOpen(true)} className="p-2 rounded-full glass-card focus:outline-none"><div className="hamburger-icon"><span className="hamburger-line"></span><span className="hamburger-line"></span><span className="hamburger-line"></span></div></button><a href="#hero" className="font-display text-2xl font-bold">CLOUD KITCHEN<span className="text-red-velvet">.</span></a></div><div className="flex items-center gap-4"><span className="text-sm italic hidden sm:inline cart-hd-text">{weatherGreeting}</span><button onClick={()=>setCartOpen(true)} className="relative p-2 rounded-full glass-card"><i className="fas fa-shopping-cart text-xl"></i>{cartCount>0 && <span className="absolute -top-1 -right-1 bg-red-velvet text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">{cartCount}</span>}</button></div></div></header> <HamburgerMenu isOpen={sidebarOpen} onClose={()=>setSidebarOpen(false)} darkMode={darkMode} onToggleDarkMode={toggleDarkMode} onNavigate={handleNavigate} userName={userName} loyaltyPoints={coins} /> <div className={`fixed inset-0 z-50 flex justify-end ${cartOpen ? 'visible' : 'invisible'}`}> {cartOpen && <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={()=>setCartOpen(false)}></div>} <div className={`relative w-full max-w-md bg-cream dark:bg-dark-chocolate shadow-2xl h-full flex flex-col ${cartOpen ? 'cart-drawer-enter' : ''}`}> <div className="flex justify-between items-center p-5 border-b border-border"> <h2 className="font-display text-2xl font-bold flex items-center gap-2"><i className="fas fa-shopping-bag"></i> {t.cart} <span className="text-sm font-normal">({cartCount})</span></h2> <button onClick={()=>setCartOpen(false)} className="text-2xl"><i className="fas fa-times"></i></button> </div> <div className="flex-1 overflow-y-auto p-4 space-y-3"> {cartItems.length===0 ? <p className="text-center text-text-secondary py-8 cart-hd-text">{t.emptyCart}</p> : cartItems.map(item=> ( <div key={item.sku+item.customizations} className="bg-elevated rounded-card p-3 flex gap-3 items-center border border-border"> <img src={item.image} className="w-16 h-16 rounded-lg object-cover" /> <div className="flex-1"><p className="font-semibold cart-hd-text">{item.name}</p><p className="text-sm text-velvet-red">₹{item.unitPrice}</p><p className="text-xs text-text-secondary">{item.customizations || ''}</p></div> <div className="flex items-center gap-2"><button onClick={()=>updateQuantity(item.sku, -1, item.customizations)} className="w-7 h-7 rounded-full bg-soft-beige dark:bg-dark-chocolate/60 font-bold">−</button><span>{item.qty}</span><button onClick={()=>updateQuantity(item.sku, 1, item.customizations)} className="w-7 h-7 rounded-full bg-soft-beige dark:bg-dark-chocolate/60 font-bold">+</button></div> <button onClick={()=>removeItem(item.sku, item.customizations)} className="text-error text-lg"><i className="fas fa-trash-alt"></i></button> </div> )) } </div>
-                <div className="p-5 border-t border-border space-y-3">
-                    <div className="flex justify-between font-bold text-lg cart-hd-text"><span>{t.itemTotal}</span><span className="cart-total-hd">₹{cartDisplayTotal.toFixed(2)}</span></div>
-                    <button onClick={proceedToCheckout} disabled={cartItems.length===0} className="w-full py-3 bg-velvet-red text-white rounded-xl font-semibold disabled:opacity-50 transition hover:brightness-110">{t.checkout}</button>
+
+            if(trackingOrder) return <OrderConfirmation order={trackingOrder.order} coinsEarned={trackingOrder.coinsEarned} onBack={()=>{ setTrackingOrder(null); fetchUserData(); }}/>;
+            if(checkoutActive) return (
+                <div className="min-h-screen bg-base relative">
+                    <header className="sticky top-0 z-10 bg-elevated border-b border-border px-4 py-3"><div className="max-w-lg mx-auto flex items-center justify-between"><button onClick={()=>setCheckoutActive(false)} className="text-accent-primary font-semibold text-sm"><i className="fas fa-arrow-left mr-1"></i> Back to Cart</button><span className="font-display text-xl font-bold text-accent-primary">Checkout</span><div className="w-8"></div></div></header>
+                    <main className="max-w-lg mx-auto px-4 py-6 pb-24">
+                        {cartItems.length===0 ? (<div className="text-center py-12"><p className="mb-4">Your cart is empty.</p><button onClick={()=>setCheckoutActive(false)} className="bg-accent-primary text-white py-2 px-6 rounded-btn">Back to Menu</button></div>) : (<>
+                            <AddressBar address={selectedAddress} fulfillmentMode={fulfillmentMode} onEditAddress={()=>setAddressSheetOpen(true)} onChangeFulfillment={setFulfillmentMode} />
+                            <div className="mb-4 space-y-2">{cartItems.map(item=><CartItemRow key={item.sku+item.customizations} item={item} onIncrement={(sku,custom)=>updateQuantity(sku,1,custom)} onDecrement={(sku,custom)=>updateQuantity(sku,-1,custom)} onRemove={removeItem}/>)}</div>
+                            <BillSplitCard itemTotal={itemTotal} deliveryFee={deliveryFee} taxRate={taxRate} discount={discount} loyaltyPointsRedeemed={redeemPoints} onRedeemPoints={setRedeemPoints} availablePoints={coins}/>
+                            <PaymentMethodSelector paymentMode={paymentMode} onPaymentModeChange={setPaymentMode} selectedMethod={selectedPaymentMethod} onSelectMethod={setSelectedPaymentMethod} fulfillmentMode={fulfillmentMode}/>
+                            <StickyBottomCTA grandTotal={grandTotal} isProcessing={isProcessing} disabled={!selectedPaymentMethod} onPlaceOrder={handlePlaceOrder}/>
+                        </>)}
+                        {addressSheetOpen && (<div className="fixed inset-0 z-40 flex items-end sm:items-center justify-center"><div className="absolute inset-0 bg-black/50" onClick={()=>setAddressSheetOpen(false)}></div><div className="relative bg-elevated rounded-t-2xl sm:rounded-2xl w-full max-w-md p-5 shadow-elevated border animate-slide-up"><h4 className="font-display text-lg font-semibold mb-3">Your Address</h4><div className="p-3 rounded-card cursor-pointer mb-2 border border-accent-primary bg-accent-primary/5"><p className="font-semibold text-sm cart-hd-text">{selectedAddress.label}</p><p className="text-xs text-text-secondary mt-0.5">{selectedAddress.address || 'No address saved.'}</p></div><button onClick={()=>setAddressSheetOpen(false)} className="w-full mt-3 py-3 text-sm font-semibold text-text-secondary hover:text-text-primary transition">Cancel</button></div></div>)}
+                    </main>
                 </div>
-            </div> </div> {customizeModal && <CustomizeModal dish={customizeModal} onClose={()=>setCustomizeModal(null)} onAddToCart={addToCart} />} {showAI && <AISuggester onClose={()=>setShowAI(false)} />} {featureModal && <FeatureModal type={featureModal} onClose={()=>setFeatureModal(null)} orders={orders} coins={coins} favorites={favorites} />} <ToastContainer toasts={toasts} /> <main className="pt-20"><Hero /><OurStory /><MenuGallery onOrder={(dish)=>setCustomizeModal(dish)} favorites={favorites} toggleFavorite={toggleFavorite} /><SignatureDishes specials={specialsDishes} onOrder={(dish)=>setCustomizeModal(dish)} /><TestimonialsSlider /><Footer /></main> <button onClick={()=>setShowAI(true)} className="fixed bottom-8 right-8 z-40 bg-velvet-red text-white p-4 rounded-full shadow-2xl hover:bg-red-velvet animate-pulse-soft"><i className="fas fa-robot text-xl"></i></button> </div> );
+            );
+
+            return (
+                <div className="relative">
+                    <FloatingItems/>
+                    <header className="fixed top-0 left-0 right-0 z-30 glass shadow-lg py-3"><div className="max-w-7xl mx-auto px-6 flex items-center justify-between"><div className="flex items-center gap-4"><button onClick={()=>setSidebarOpen(true)} className="p-2 rounded-full glass-card focus:outline-none"><div className="hamburger-icon"><span className="hamburger-line"></span><span className="hamburger-line"></span><span className="hamburger-line"></span></div></button><a href="#hero" className="font-display text-2xl font-bold">CLOUD KITCHEN<span className="text-red-velvet">.</span></a></div><div className="flex items-center gap-4"><span className="text-sm italic hidden sm:inline cart-hd-text">{weatherGreeting}</span><button onClick={()=>setCartOpen(true)} className="relative p-2 rounded-full glass-card"><i className="fas fa-shopping-cart text-xl"></i>{cartCount>0 && <span className="absolute -top-1 -right-1 bg-red-velvet text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">{cartCount}</span>}</button></div></div></header>
+                    <HamburgerMenu isOpen={sidebarOpen} onClose={()=>setSidebarOpen(false)} darkMode={darkMode} onToggleDarkMode={toggleDarkMode} onNavigate={handleNavigate} userName={userName} loyaltyPoints={coins}/>
+                    <div className={`fixed inset-0 z-50 flex justify-end ${cartOpen?'visible':'invisible'}`}>{cartOpen && <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={()=>setCartOpen(false)}></div>}<div className={`relative w-full max-w-md bg-cream dark:bg-dark-chocolate shadow-2xl h-full flex flex-col ${cartOpen?'cart-drawer-enter':''}`}><div className="flex justify-between items-center p-5 border-b border-border"><h2 className="font-display text-2xl font-bold flex items-center gap-2"><i className="fas fa-shopping-bag"></i> {t.cart} <span className="text-sm font-normal">({cartCount})</span></h2><button onClick={()=>setCartOpen(false)} className="text-2xl"><i className="fas fa-times"></i></button></div><div className="flex-1 overflow-y-auto p-4 space-y-3">{latestOrder && <MiniOrderTracker order={latestOrder}/>}{cartItems.length===0 ? <p className="text-center text-text-secondary py-8 cart-hd-text">{t.emptyCart}</p> : cartItems.map(item=>(<div key={item.sku+item.customizations} className="bg-elevated rounded-card p-3 flex gap-3 items-center border border-border"><img src={item.image} className="w-16 h-16 rounded-lg object-cover"/><div className="flex-1"><p className="font-semibold cart-hd-text">{item.name}</p><p className="text-sm text-velvet-red">₹{item.unitPrice}</p><p className="text-xs text-text-secondary">{item.customizations||''}</p></div><div className="flex items-center gap-2"><button onClick={()=>updateQuantity(item.sku,-1,item.customizations)} className="w-7 h-7 rounded-full bg-soft-beige dark:bg-dark-chocolate/60 font-bold">−</button><span>{item.qty}</span><button onClick={()=>updateQuantity(item.sku,1,item.customizations)} className="w-7 h-7 rounded-full bg-soft-beige dark:bg-dark-chocolate/60 font-bold">+</button></div><button onClick={()=>removeItem(item.sku,item.customizations)} className="text-error text-lg"><i className="fas fa-trash-alt"></i></button></div>))}</div><div className="p-5 border-t border-border space-y-3"><div className="flex justify-between font-bold text-lg cart-hd-text"><span>{t.itemTotal}</span><span className="cart-total-hd">₹{itemTotal.toFixed(2)}</span></div><button onClick={proceedToCheckout} disabled={cartItems.length===0} className="w-full py-3 bg-velvet-red text-white rounded-xl font-semibold disabled:opacity-50 transition hover:brightness-110">{t.checkout}</button></div></div></div>
+                    {customizeModal && <CustomizeModal dish={customizeModal} onClose={()=>setCustomizeModal(null)} onAddToCart={addToCart}/>}
+                    {showAI && <AISuggester onClose={()=>setShowAI(false)}/>}
+                    {featureModal && <FeatureModal type={featureModal} onClose={()=>setFeatureModal(null)} orders={orders} coins={coins} favorites={favorites}/>}
+                    <ToastContainer toasts={toasts}/>
+                    <main className="pt-20"><Hero/><OurStory/><MenuGallery onOrder={(dish)=>setCustomizeModal(dish)} favorites={favorites} toggleFavorite={toggleFavorite}/><SignatureDishes specials={specialsDishes} onOrder={(dish)=>setCustomizeModal(dish)}/><TestimonialsSlider/><Footer onAdminClick={onAdminClick}/></main>
+                    <button onClick={()=>setShowAI(true)} className="fixed bottom-8 right-8 z-40 bg-velvet-red text-white p-4 rounded-full shadow-2xl hover:bg-red-velvet animate-pulse-soft"><i className="fas fa-robot text-xl"></i></button>
+                </div>
+            );
         };
 
+        // ---------- Root App ----------
         const App = () => {
             const [darkMode, setDarkMode] = useState(false);
             const [loading, setLoading] = useState(true);
@@ -695,73 +543,43 @@
             const [userId, setUserId] = useState(null);
             const [weatherGreeting, setWeatherGreeting] = useState("");
             const [loginRequested, setLoginRequested] = useState(false);
+            const [adminMode, setAdminMode] = useState(false);
 
-            useEffect(() => { document.documentElement.classList.toggle('dark', darkMode); }, [darkMode]);
-            useEffect(() => {
-                supabase.auth.getSession().then(({ data: { session } }) => {
-                    if (session) {
+            useEffect(()=>{ document.documentElement.classList.toggle('dark',darkMode); },[darkMode]);
+            useEffect(()=>{
+                supabase.auth.getSession().then(({data:{session}})=>{
+                    if(session){
                         setUserId(session.user.id);
-                        supabase.from('profiles').select('name').eq('id', session.user.id).single()
-                            .then(({ data }) => {
-                                if (data) setUserName(data.name);
-                                setAuthenticated(true);
-                            })
-                            .catch(() => setLoading(false))
-                            .finally(() => setLoading(false));
-                    } else {
-                        setLoading(false);
-                    }
-                }).catch(() => setLoading(false));
-
-                const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-                    if (event === 'SIGNED_IN' && session) {
+                        supabase.from('profiles').select('name').eq('id',session.user.id).single()
+                            .then(({data})=>{ if(data) setUserName(data.name); setAuthenticated(true); })
+                            .catch(()=>setLoading(false))
+                            .finally(()=>setLoading(false));
+                    } else { setLoading(false); }
+                }).catch(()=>setLoading(false));
+                const { data:{subscription} } = supabase.auth.onAuthStateChange((event,session)=>{
+                    if(event==='SIGNED_IN' && session){
                         setUserId(session.user.id);
-                        supabase.from('profiles').select('name').eq('id', session.user.id).single()
-                            .then(({ data }) => {
-                                if (data) setUserName(data.name);
-                                setAuthenticated(true);
-                                setLoginRequested(false);
-                            });
-                    } else if (event === 'SIGNED_OUT') {
-                        setAuthenticated(false);
-                        setUserName('Guest');
-                        setUserId(null);
-                    }
+                        supabase.from('profiles').select('name').eq('id',session.user.id).single()
+                            .then(({data})=>{ if(data) setUserName(data.name); setAuthenticated(true); setLoginRequested(false); });
+                    } else if(event==='SIGNED_OUT'){ setAuthenticated(false); setUserName('Guest'); setUserId(null); }
                 });
+                return ()=>subscription?.unsubscribe();
+            },[]);
 
-                return () => subscription?.unsubscribe();
-            }, []);
+            const handleSkip = ()=>{ setAuthenticated(true); setUserName('Guest'); setUserId(null); setLoginRequested(false); };
+            const handleLogin = ()=>{ setLoginRequested(false); };
+            const requestLogin = ()=>{ setLoginRequested(true); };
+            const handleSignOut = async ()=>{ await supabase.auth.signOut(); };
+            const enterAdminMode = async ()=>{ await supabase.auth.signOut(); setAuthenticated(false); setUserId(null); setAdminMode(true); };
 
-            const handleSkip = () => {
-                setAuthenticated(true);
-                setUserName('Guest');
-                setUserId(null);
-                setLoginRequested(false);
-            };
-
-            const handleLogin = () => {
-                setLoginRequested(false);
-            };
-
-            const requestLogin = () => {
-                setLoginRequested(true);
-            };
-
-            const handleSignOut = async () => {
-                await supabase.auth.signOut();
-            };
-
-            if (loginRequested) {
-                return <AuthScreen onLogin={handleLogin} onSkip={handleSkip} setUserName={setUserName} />;
-            }
-
-            if (loading) return <LoadingScreen onComplete={() => setLoading(false)} />;
-            if (!authenticated) return <AuthScreen onLogin={handleLogin} onSkip={handleSkip} setUserName={setUserName} />;
-            return <><Cursor /><MainApp darkMode={darkMode} toggleDarkMode={() => setDarkMode(!darkMode)} onSignOut={handleSignOut} requestLogin={requestLogin} weatherGreeting={weatherGreeting} userName={userName} userId={userId} /></>;
+            if(adminMode) return <AdminView onBack={()=>{ setAdminMode(false); }}/>;
+            if(loginRequested) return <AuthScreen onLogin={handleLogin} onSkip={handleSkip} setUserName={setUserName}/>;
+            if(loading) return <LoadingScreen onComplete={()=>setLoading(false)}/>;
+            if(!authenticated) return <AuthScreen onLogin={handleLogin} onSkip={handleSkip} setUserName={setUserName}/>;
+            return <><Cursor/><MainApp darkMode={darkMode} toggleDarkMode={()=>setDarkMode(!darkMode)} onSignOut={handleSignOut} requestLogin={requestLogin} weatherGreeting={weatherGreeting} userName={userName} userId={userId} onAdminClick={enterAdminMode}/></>;
         };
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
     </script>
 </body>
 </html>
