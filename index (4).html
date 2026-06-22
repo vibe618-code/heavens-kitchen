@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Heavenskitchen.</title>
+  <meta name="description" content="Gourmet cloud kitchen with cart, loyalty, admin dashboard, and live tracker." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍽️</text></svg>" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --cream:#fff5e6;--beige:#eadcc6;--red:#8b1e2d;--red2:#b0303a;--choc:#4a2c2a;--gold:#c5a55a;--green:#3c6e47;--error:#a23b3b;--surface:#faf9f6;--text:#2c2420;--muted:#6b625d;--card:#fffaf0;--border:rgba(74,44,42,.16);--shadow:0 18px 45px rgba(42,20,18,.16);
+    }
+    .dark{--cream:#2d221f;--beige:#3a1e1c;--surface:#211817;--text:#fff5e6;--muted:#cbbfb1;--card:#352724;--border:rgba(234,220,198,.16);--shadow:0 18px 45px rgba(0,0,0,.32)}
+    *{box-sizing:border-box;scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}a{color:inherit;text-decoration:none}.display{font-family:'Playfair Display',Georgia,'Times New Roman',serif}.hidden{display:none!important}.container{max-width:1180px;margin:auto;padding:0 22px}.btn{border:0;border-radius:999px;padding:12px 20px;font-weight:800;background:var(--red);color:#fff;box-shadow:0 10px 22px rgba(139,30,45,.2);transition:.2s}.btn:hover{background:var(--red2);transform:translateY(-1px)}.btn.secondary{background:var(--card);color:var(--text);border:1px solid var(--border);box-shadow:none}.btn.small{padding:8px 12px;font-size:13px}.iconbtn{width:42px;height:42px;border-radius:50%;border:1px solid var(--border);background:rgba(255,255,255,.42);color:var(--text);display:grid;place-items:center}.glass{background:rgba(255,245,230,.72);backdrop-filter:blur(18px);border:1px solid rgba(255,245,230,.5)}.dark .glass{background:rgba(45,34,31,.82);border-color:var(--border)}.card{background:var(--card);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow)}.muted{color:var(--muted)}.price{color:var(--red);font-weight:900}.topbar{position:fixed;top:0;left:0;right:0;z-index:30;padding:12px 0}.topbar .row{display:flex;align-items:center;justify-content:space-between;gap:14px}.brand{font-size:25px;font-weight:900;letter-spacing:.3px}.brand span{color:var(--red2)}.hamb{display:flex;flex-direction:column;gap:5px}.hamb i{display:block;width:20px;height:2px;background:currentColor;border-radius:2px}.cart-count{position:absolute;top:-4px;right:-4px;background:var(--red2);color:#fff;border-radius:50%;font-size:12px;width:20px;height:20px;display:grid;place-items:center;font-weight:900}.hero{position:relative;min-height:92vh;display:grid;place-items:center;text-align:center;overflow:hidden;background:radial-gradient(circle at 30% 20%,rgba(176,48,58,.28),transparent 28%),linear-gradient(135deg,#190c0b,#4a2c2a 55%,#160908)}.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.1),rgba(0,0,0,.45)),url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80') center/cover;opacity:.55}.hero-content{position:relative;padding:100px 22px 40px;color:#fff}.eyebrow{text-transform:uppercase;letter-spacing:.28em;font-size:13px;font-weight:800;color:#eadcc6}.hero h1{font-size:clamp(45px,8vw,92px);line-height:.95;margin:18px 0}.hero p{font-size:20px;color:rgba(255,245,230,.82);margin-bottom:30px}.section{padding:78px 0}.section-title{text-align:center;font-size:clamp(34px,5vw,54px);margin:0 0 34px}.story{display:grid;grid-template-columns:1fr 1fr;gap:42px;align-items:center}.story img{width:100%;height:520px;object-fit:cover;border-radius:28px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;text-align:center}.stat b{font-size:36px;color:var(--red);font-family:'Playfair Display',Georgia,serif}.filters{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:30px}.filter{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:999px;padding:9px 16px;font-weight:800}.filter.active{background:var(--red);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}.dish{overflow:hidden;transition:.25s}.dish:hover{transform:translateY(-5px)}.dish img{width:100%;height:190px;object-fit:cover;display:block}.dish-body{padding:16px}.dish h3{font-family:'Playfair Display',Georgia,serif;font-size:21px;margin:0 0 6px}.dish-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px}.heart{border:0;background:transparent;font-size:22px;color:#9a928b}.heart.active{color:var(--red2)}.drawer-bg,.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.58);backdrop-filter:blur(5px);z-index:50}.drawer{position:fixed;top:0;right:0;width:min(440px,100vw);height:100vh;background:var(--cream);z-index:51;box-shadow:-18px 0 50px rgba(0,0,0,.28);display:flex;flex-direction:column;animation:slideIn .25s ease-out}.side-drawer{left:0;right:auto;width:min(320px,86vw);animation:leftIn .25s ease-out}.drawer-head{padding:18px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}.drawer-body{padding:18px;overflow:auto;flex:1}.drawer-foot{border-top:1px solid var(--border);padding:18px}.cart-row{display:grid;grid-template-columns:64px 1fr auto;gap:12px;align-items:center;padding:12px;border-radius:16px;background:var(--card);border:1px solid var(--border);margin-bottom:10px}.cart-row img{width:64px;height:64px;object-fit:cover;border-radius:12px}.qty{display:flex;align-items:center;gap:7px}.qty button{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);font-weight:900}.modal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:60;width:min(520px,92vw);max-height:88vh;overflow:auto;background:var(--cream);border-radius:26px;padding:24px;border:1px solid var(--border);box-shadow:var(--shadow);animation:pop .18s ease-out}.field{display:grid;gap:6px;margin-bottom:13px}.field label{font-size:13px;font-weight:900}.field input,.field textarea,.field select{width:100%;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:14px;padding:12px}.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}.tab{border:1px solid var(--border);background:var(--card);border-radius:14px;padding:11px;font-weight:900;color:var(--text)}.tab.active{background:var(--red);color:#fff}.bill{padding:16px;border-radius:18px;background:var(--card);border:1px solid var(--border);display:grid;gap:10px}.bill div{display:flex;justify-content:space-between}.bill .total{border-top:1px solid var(--border);padding-top:10px;font-size:20px;font-weight:900}.success-screen{min-height:100vh;display:grid;place-items:center;padding:24px}.check{display:flex;justify-content:center;margin-bottom:16px}.checkmark-svg{width:90px;height:90px}.checkmark-circle{stroke-dasharray:166;stroke-dashoffset:166;animation:checkCircle .6s cubic-bezier(0.65,0,0.45,1) forwards}.checkmark-check{stroke-dasharray:48;stroke-dashoffset:48;animation:checkCheck .4s cubic-bezier(0.65,0,0.45,1) .6s forwards}@keyframes checkCircle{0%{stroke-dashoffset:166}100%{stroke-dashoffset:0}}@keyframes checkCheck{0%{stroke-dashoffset:48}100%{stroke-dashoffset:0}}.progress{height:10px;background:var(--border);border-radius:999px;overflow:hidden}.progress span{display:block;height:100%;background:var(--green);transition:width .35s}.progress-fill{display:block;height:100%;background:var(--green);border-radius:999px;width:0;animation:fillProgress 60s linear forwards}@keyframes fillProgress{0%{width:0%}100%{width:100%}}.status{border-radius:999px;padding:4px 9px;font-size:12px;font-weight:900;background:#333}.toast{position:fixed;bottom:22px;left:22px;background:var(--red);color:#fff;padding:11px 16px;border-radius:999px;z-index:80;box-shadow:var(--shadow);animation:pop .2s}.switch{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px;border:1px solid var(--border);border-radius:14px;margin:8px 0}.switch input{transform:scale(1.25)}
+
+    /* ===== Admin Panel Styles ===== */
+    .admin-panel-root {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: #1E1E24;
+      color: #e8e4df;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+    .admin-panel-root * { box-sizing: border-box; }
+    .admin-panel-root .font-display { font-family: 'Playfair Display', Georgia, serif; }
+
+    .admin-panel-root .ap-glass {
+      background: rgba(30, 30, 36, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(201, 169, 110, 0.12);
+      transition: all 0.3s;
+    }
+    .admin-panel-root .ap-glass:hover {
+      background: rgba(30, 30, 36, 0.8);
+      border-color: rgba(201, 169, 110, 0.25);
+    }
+
+    .admin-panel-root .ap-animate-scale { animation: ap-scaleIn 0.4s ease-out forwards; }
+    @keyframes ap-scaleIn { 0%{opacity:0;transform:scale(0.92)} 100%{opacity:1;transform:scale(1)} }
+    .admin-panel-root .ap-animate-fade { animation: ap-fadeIn 0.5s ease-out forwards; }
+    @keyframes ap-fadeIn { 0%{opacity:0;transform:translateY(8px)} 100%{opacity:1;transform:translateY(0)} }
+    @keyframes ap-slideUp { 0%{opacity:0;transform:translateY(20px)} 100%{opacity:1;transform:translateY(0)} }
+
+    .admin-panel-root ::-webkit-scrollbar { width:6px;height:6px }
+    .admin-panel-root ::-webkit-scrollbar-track { background:#2a2a30;border-radius:8px }
+    .admin-panel-root ::-webkit-scrollbar-thumb { background:#C9A96E;border-radius:8px }
+    .admin-panel-root ::-webkit-scrollbar-thumb:hover { background:#B8954F }
+
+    .admin-panel-root .ap-spinner {
+      border:3px solid rgba(201,169,110,0.15);
+      border-top-color:#C9A96E;
+      border-radius:50%;
+      width:24px;height:24px;
+      animation:ap-spin 0.7s linear infinite;
+      display:inline-block;
+      vertical-align:middle;
+    }
+    @keyframes ap-spin { to{transform:rotate(360deg)} }
+
+    .admin-panel-root input,
+    .admin-panel-root select,
+    .admin-panel-root textarea {
+      background:#2a2a30;
+      border:1px solid rgba(201,169,110,0.15);
+      color:#e8e4df;
+      border-radius:12px;
+      padding:10px 14px;
+      transition:border-color 0.2s,box-shadow 0.2s;
+      width:100%;
+      outline:none;
+      font-family:inherit;
+      font-size:0.9rem;
+      box-sizing:border-box;
+    }
+    .admin-panel-root input:focus,
+    .admin-panel-root select:focus,
+    .admin-panel-root textarea:focus {
+      border-color:#C9A96E;
+      box-shadow:0 0 0 3px rgba(201,169,110,0.1);
+    }
+    .admin-panel-root input::placeholder,
+    .admin-panel-root textarea::placeholder { color:#6a6a72; }
+    .admin-panel-root select { cursor:pointer; }
+    .admin-panel-root select option { background:#2a2a30;color:#e8e4df; }
+
+    .admin-panel-root .ap-btn-gold {
+      background:#C9A96E;color:#1E1E24;font-weight:600;
+      padding:10px 20px;border-radius:12px;transition:all 0.2s;
+      border:none;cursor:pointer;font-family:inherit;font-size:0.9rem;
+    }
+    .admin-panel-root .ap-btn-gold:hover { background:#B8954F;transform:scale(0.97) }
+    .admin-panel-root .ap-btn-gold:active { transform:scale(0.94) }
+    .admin-panel-root .ap-btn-gold:disabled { opacity:0.5;cursor:not-allowed;transform:none }
+
+    .admin-panel-root .ap-btn-ghost {
+      background:transparent;border:1px solid rgba(201,169,110,0.2);
+      color:#C9A96E;padding:10px 20px;border-radius:12px;
+      transition:all 0.2s;cursor:pointer;font-family:inherit;font-size:0.9rem;
+    }
+    .admin-panel-root .ap-btn-ghost:hover { background:rgba(201,169,110,0.08) }
+
+    .admin-panel-root .ap-stat {
+      background:rgba(30,30,36,0.6);border:1px solid rgba(201,169,110,0.08);
+      border-radius:16px;padding:20px 24px;transition:all 0.3s;
+    }
+    .admin-panel-root .ap-stat:hover { border-color:rgba(201,169,110,0.25);transform:translateY(-2px) }
+
+    .admin-panel-root .ap-table-wrap {
+      overflow-x:auto;border-radius:12px;border:1px solid rgba(201,169,110,0.06);
+    }
+    .admin-panel-root table { width:100%;border-collapse:collapse;font-size:0.9rem }
+    .admin-panel-root th {
+      text-align:left;padding:14px 16px;color:#C9A96E;font-weight:600;
+      border-bottom:1px solid rgba(201,169,110,0.08);background:rgba(30,30,36,0.4);white-space:nowrap;
+    }
+    .admin-panel-root td { padding:12px 16px;border-bottom:1px solid rgba(201,169,110,0.04) }
+    .admin-panel-root tr:hover td { background:rgba(201,169,110,0.03) }
+
+    .admin-panel-root .ap-badge {
+      display:inline-block;padding:2px 12px;border-radius:20px;
+      font-size:0.7rem;font-weight:600;letter-spacing:0.02em;text-transform:uppercase;
+    }
+    .admin-panel-root .ap-badge-gold { background:rgba(201,169,110,0.15);color:#C9A96E }
+    .admin-panel-root .ap-badge-green { background:rgba(163,181,168,0.15);color:#A3B5A8 }
+    .admin-panel-root .ap-badge-rose { background:rgba(183,109,104,0.15);color:#B76D68 }
+    .admin-panel-root .ap-badge-blue { background:rgba(100,149,237,0.15);color:#6495ED }
+
+    .admin-panel-root .ap-sidebar {
+      width:240px;flex-shrink:0;background:#16161a;
+      border-right:1px solid rgba(201,169,110,0.06);
+      height:100vh;overflow-y:auto;position:sticky;top:0;
+      display:flex;flex-direction:column;
+    }
+    .admin-panel-root .ap-main {
+      flex:1;overflow-y:auto;height:100vh;padding:28px 32px;
+    }
+    @media(max-width:768px){
+      .admin-panel-root .ap-sidebar { width:60px;padding:0 }
+      .admin-panel-root .ap-sidebar .ap-label { display:none }
+      .admin-panel-root .ap-sidebar .ap-icon { font-size:1.2rem }
+      .admin-panel-root .ap-main { padding:16px }
+      .admin-panel-root .ap-sidebar .ap-logo-text { display:none }
+      .admin-panel-root .ap-sidebar .ap-logo-short { display:block!important }
+      .admin-panel-root .ap-sidebar .ap-nav-link { justify-content:center;padding:10px }
+      .admin-panel-root .ap-sidebar .ap-footer-text { display:none }
+    }
+    .admin-panel-root .ap-sidebar .ap-logo-short { display:none }
+
+    .admin-panel-root .ap-nav-link {
+      display:flex;align-items:center;gap:12px;padding:10px 16px;
+      border-radius:10px;color:#8a8a92;transition:all 0.2s;cursor:pointer;
+      font-size:0.9rem;font-weight:500;text-decoration:none;width:100%;
+      border:none;background:transparent;font-family:inherit;text-align:left;
+    }
+    .admin-panel-root .ap-nav-link:hover { background:rgba(201,169,110,0.06);color:#e8e4df }
+    .admin-panel-root .ap-nav-link.active { background:rgba(201,169,110,0.12);color:#C9A96E }
+    .admin-panel-root .ap-nav-link i { width:20px;text-align:center;font-size:1rem;flex-shrink:0 }
+
+    .admin-panel-root .ap-modal-bg {
+      position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);
+      display:flex;align-items:center;justify-content:center;z-index:300;padding:20px;
+      animation:ap-fadeIn 0.25s ease-out;
+    }
+    .admin-panel-root .ap-modal-box {
+      background:#1E1E24;border:1px solid rgba(201,169,110,0.12);
+      border-radius:20px;padding:28px 32px;max-width:520px;width:100%;
+      max-height:90vh;overflow-y:auto;animation:ap-scaleIn 0.3s ease-out;
+    }
+    .admin-panel-root .ap-modal-box h3 {
+      font-family:'Playfair Display',Georgia,serif;font-size:1.5rem;
+      font-weight:700;margin:0 0 16px;color:#C9A96E;
+    }
+
+    .admin-panel-root .ap-confirm-bg {
+      position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);
+      display:flex;align-items:center;justify-content:center;z-index:350;padding:20px;
+      animation:ap-fadeIn 0.2s ease-out;
+    }
+    .admin-panel-root .ap-confirm-box {
+      background:#1E1E24;border:1px solid rgba(201,169,110,0.15);
+      border-radius:16px;padding:24px 28px;max-width:380px;width:100%;
+      animation:ap-scaleIn 0.25s ease-out;text-align:center;
+    }
+
+    .admin-panel-root .ap-toast-wrap {
+      position:fixed;top:20px;right:20px;z-index:400;
+      display:flex;flex-direction:column;gap:8px;pointer-events:none;
+    }
+    .admin-panel-root .ap-toast {
+      background:#2a2a30;border:1px solid rgba(201,169,110,0.2);
+      border-radius:12px;padding:12px 20px;color:#e8e4df;font-size:0.85rem;
+      animation:ap-slideUp 0.3s ease-out;pointer-events:auto;
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);display:flex;align-items:center;gap:8px;
+    }
+    .admin-panel-root .ap-toast-success { border-left:3px solid #A3B5A8 }
+    .admin-panel-root .ap-toast-error { border-left:3px solid #B76D68 }
+    .admin-panel-root .ap-toast-info { border-left:3px solid #C9A96E }
+
+    .admin-panel-root .ap-dish-img {
+      width:56px;height:56px;border-radius:12px;object-fit:cover;flex-shrink:0;background:#2a2a30;
+    }
+    .admin-panel-root .ap-dish-img-fallback {
+      width:56px;height:56px;border-radius:12px;flex-shrink:0;background:#2a2a30;
+      display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+    }
+
+    @keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}
+    @keyframes leftIn{from{transform:translateX(-100%)}to{transform:none}}
+    @keyframes pop{from{opacity:0;transform:translate(-50%,-48%) scale(.98)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+    @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.story{grid-template-columns:1fr}.story img{height:390px}}
+    @media(max-width:560px){.grid{grid-template-columns:1fr}.hero p{font-size:17px}.section{padding:56px 0}.stats{grid-template-columns:1fr}.cart-row{grid-template-columns:54px 1fr}.cart-row .qty{grid-column:2}.dish img{height:220px}}
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="admin-root"></div>
+
+  <script>
+    'use strict';
+
+    /* ========================================
+       Utility Helpers
+    ======================================== */
+    const $ = (sel, root = document) => root.querySelector(sel);
+    const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+    const money = n => `₹${Number(n || 0).toFixed(2)}`;
+    const safeId = () => `ord_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`;
+
+    /* ========================================
+       localStorage Wrapper (with fallback)
+    ======================================== */
+    const memoryStore = {};
+    const storage = {
+      getItem(key) {
+        try { return window.localStorage.getItem(key); }
+        catch { return Object.prototype.hasOwnProperty.call(memoryStore, key) ? memoryStore[key] : null; }
+      },
+      setItem(key, value) {
+        try { window.localStorage.setItem(key, value); }
+        catch { memoryStore[key] = String(value); }
+      },
+      removeItem(key) {
+        try { window.localStorage.removeItem(key); }
+        catch { delete memoryStore[key]; }
+      }
+    };
+    const getLocal = (key, fallback) => {
+      try { const v = storage.getItem(key); return v ? JSON.parse(v) : fallback; }
+      catch { return fallback; }
+    };
+    const setLocal = (key, value) => storage.setItem(key, JSON.stringify(value));
+
+    /* ========================================
+       Image Assets
+    ======================================== */
+    const IMG = {
+      Mojito:'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=80',
+      Milkshake:'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=600&q=80',
+      Fries:'https://images.unsplash.com/photo-1585109649139-366815a0d713?w=600&q=80',
+      Special:'https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=600&q=80',
+      Burger:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80',
+      Sandwich:'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=600&q=80',
+      Wrap:'https://images.unsplash.com/photo-1626700051175-6818013e1d4f?w=600&q=80',
+      Pizza:'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&q=80',
+      Sides:'https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=600&q=80'
+    };
+
+    /* ========================================
+       Build Menu
+    ======================================== */
+    function buildMenu() {
+      let id = 1;
+      const items = [];
+      const add = (category, title, price, image) => items.push({ id: id++, category, title, price, image });
+
+      ['Blue Curacao','Watermelon','Strawberry','Virgin'].forEach(n => add('Mojito', `${n} Mojito`, 70, IMG.Mojito));
+      [['Vanilla',90],['Strawberry',100],['Butter Scotch',100],['Black Current',100],['Chocolate',110],['Oreo',120]].forEach(([n,p]) => add('Milkshake', `${n} Milkshake`, p, IMG.Milkshake));
+
+      add('Fries','Salted Fries (Regular)',70,IMG.Fries);
+      add('Fries','Salted Fries (Large)',100,IMG.Fries);
+      add('Fries','Peri Peri Fries (Regular)',90,IMG.Fries);
+      add('Fries','Peri Peri Fries (Large)',130,IMG.Fries);
+
+      [['Chicken Loaded Fries',160],['Chicken Cheesy Fries',180],['Full Chicken Loaded Fries',200],['Special Loaded Chicken',250]].forEach(([n,p]) => add('Special Fries', n, p, IMG.Special));
+      [['Chicken Burger',120],['Chicken Nuggets Burger',120],['Chicken Cheesy Burger',130],['Chicken Zinger Burger',130],['Chicken Loaded Burger',150],['Chicken Cheesy Loaded',190]].forEach(([n,p]) => add('Burger', n, p, IMG.Burger));
+      [['Veg Sandwich',70],['Veg Cheese Sandwich',90],['Chicken Sandwich',90],['BBQ Chicken Sandwich',100],['Chicken Cheesy Sandwich',110],['Heavens Sandwich',120]].forEach(([n,p]) => add('Sandwich', n, p, IMG.Sandwich));
+      [['Chicken Wrap',120],['Chicken BBQ Wrap',120],['Chicken Tandoori Wrap',120],['Chicken Nuggets Wrap',130],['Chicken Cheesy Wrap',130],['Chicken Zinger Wrap',130],['Chicken Loaded Wrap',160]].forEach(([n,p]) => add('Wrap', n, p, IMG.Wrap));
+      [['Veg Pizza 8"',170],['Margherita 8"',170],['Veg Heavens Pizza 8"',190],['Chicken Pizza 8"',190],['BBQ Chicken Pizza 8"',200],['Cheesy Chicken Pizza 8"',230],['Chicken Heavens Pizza 8"',240]].forEach(([n,p]) => add('Pizza', n, p, IMG.Pizza));
+      [['Chicken Nuggets (8 Pcs)',100],['Chicken Nuggets (15 Pcs)',170],['Chicken Popcorn (15 Pcs)',100],['Chicken Strips (5 Pcs)',200]].forEach(([n,p]) => add('Sliders / Sides', n, p, IMG.Sides));
+
+      return items;
+    }
+
+    const menu = buildMenu();
+    const specialNames = new Set(['Chicken Loaded Fries','Chicken Cheesy Fries','Full Chicken Loaded Fries','Special Loaded Chicken']);
+        const categories = ['Sandwich','Burger','Fries','Pizza','Wrap','Sliders / Sides','Milkshake','Mojito'];
+    const SAVED_ADDRESSES = [
+      { id: 'addr1', label: 'Home', address: '123, MG Road, Indiranagar, Bangalore 560038', eta: '25-35 mins' },
+      { id: 'addr2', label: 'Work', address: '456, Koramangala 5th Block, Bangalore 560034', eta: '30-40 mins' }
+    ];
+    const PLATFORM_FEE = 10;
+    const TAX_RATE = 0.05;
+    const MAX_LOYALTY_REDEEM = 50;
+    const MOCK_DISCOUNT_CODES = { 'SAVE10': 10, 'WELCOME': 15, 'HEAVEN20': 20 };
+
+    /* ========================================
+       App State
+    ======================================== */
+    const state = {
+      route: 'site',
+      dark: getLocal('hk_dark', false),
+      userId: storage.getItem('hk_current_user') || null,
+      cart: [],
+      filter: '',
+      modal: null,
+      sidebar: false,
+      cartOpen: false,
+      checkout: false,
+      orderDone: null,
+      authMode: 'login',
+      fulfillment: 'delivery',
+      paymentMode: 'online',
+      payment: '',
+      redeem: 0,
+      discountCode: '',
+      discountPercent: 0,
+      selectedAddressId: 'addr1',
+      addressSheetOpen: false
+    };
+    window.state = state;
+
+    /* ========================================
+       Data Accessors
+    ======================================== */
+    function currentUser() { return getLocal('hk_users', {})[state.userId] || null; }
+    function userName() { return currentUser()?.name || (state.userId === 'guest' ? 'Guest' : ''); }
+    function coins() { return currentUser()?.coins || 0; }
+    function favourites() { return getLocal(`hk_fav_${state.userId || 'guest'}`, []); }
+    function availability() { return getLocal('hk_availability', {}); }
+    function visibleMenu() {
+      const av = availability();
+      return menu.filter(d => !specialNames.has(d.title) && av[d.id] !== false && (!state.filter || d.category === state.filter));
+    }
+    function allOrders() { return getLocal('hk_orders', []); }
+    function userOrders() { return allOrders().filter(o => o.userId === state.userId); }
+    function cartCount() { return state.cart.reduce((s, i) => s + i.qty, 0); }
+    function itemTotal() { return state.cart.reduce((s, i) => s + i.price * i.qty, 0); }
+    function totals() {
+  const item = itemTotal();
+  const delivery = item >= 300 || state.fulfillment === 'pickup' ? 0 : 40;
+  const platformFee = PLATFORM_FEE;
+  const taxable = item + delivery + platformFee;
+  const tax = Math.round(taxable * TAX_RATE);
+  const redeem = Math.min(Number(state.redeem || 0), Math.min(coins(), MAX_LOYALTY_REDEEM));
+  const discountPercent = Number(state.discountPercent || 0);
+  const percentDiscount = Math.round(item * discountPercent / 100);
+  const totalDiscount = redeem + percentDiscount;
+  const grand = Math.max(0, taxable + tax - totalDiscount);
+  return { item, delivery, platformFee, tax, redeem, discountPercent, percentDiscount, totalDiscount, grand };
+}
+
+/* ========================================
+       Init & Helpers
+    ======================================== */
+    function init() {
+      state.fulfillment = 'delivery';
+      state.paymentMode = 'online';
+      state.payment = '';
+      state.redeem = 0;
+      if (!state.userId) state.route = 'auth';
+      applyTheme();
+      render();
+    }
+
+    function applyTheme() {
+      document.documentElement.classList.toggle('dark', state.dark);
+      setLocal('hk_dark', state.dark);
+    }
+
+    function rerender() { render(); }
+    window.rerender = rerender;
+
+    function toast(msg) {
+      const el = document.createElement('div');
+      el.className = 'toast';
+      el.textContent = msg;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 2200);
+    }
+
+    function imgFallback(ev) {
+      ev.target.src = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400"><rect width="100%" height="100%" fill="#eadcc6"/><text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#8b1e2d" font-family="serif" font-size="32">Heavenskitchen</text></svg>`);
+    }
+    window.imgFallback = imgFallback;
+
+    function greeting() {
+      const h = new Date().getHours();
+      return h < 12 ? 'Good Morning' : h < 17 ? 'Good Afternoon' : 'Good Evening';
+    }
+
+    /* ========================================
+       Main Render
+    ======================================== */
+    function render() {
+      const app = $('#app');
+      // Hide admin root when not in admin mode
+      const adminRoot = $('#admin-root');
+
+      if (state.route === 'admin') {
+        app.innerHTML = '';
+        adminRoot.style.display = 'block';
+        renderAdminPanel();
+        return;
+      } else {
+        adminRoot.style.display = 'none';
+        adminRoot.innerHTML = '';
+      }
+
+      if (state.route === 'auth') { app.innerHTML = authHTML(); return; }
+      if (state.orderDone) { app.innerHTML = successHTML(state.orderDone); animateSuccess(); return; }
+      if (state.checkout) { app.innerHTML = checkoutHTML(); return; }
+      app.innerHTML = siteHTML();
+      $$('.dish img, .cart-row img').forEach(img => img.onerror = imgFallback);
+    }
+
+    /* ========================================
+       Auth
+    ======================================== */
+    function authHTML() {
+      const signup = state.authMode === 'signup';
+      return `<main class="hero"><div class="hero-content card" style="width:min(440px,92vw);color:var(--text);padding:28px;text-align:left">
+        <h1 class="display" style="font-size:36px;margin:0 0 16px;text-align:center">${signup ? 'Create Account' : 'Welcome Back'}<span style="color:var(--red2)">.</span></h1>
+        <form onsubmit="return authSubmit(event)">
+          ${signup ? '<div class="field"><label>Name *</label><input name="name" required></div>' : ''}
+          <div class="field"><label>Phone *</label><input name="phone" type="tel" required></div>
+          ${signup ? '<div class="field"><label>Address *</label><textarea name="address" required></textarea></div>' : ''}
+          <div class="field"><label>Password *</label><input name="password" type="password" minlength="6" required></div>
+          <button class="btn" style="width:100%">${signup ? 'Sign Up' : 'Login'}</button>
+        </form>
+        <button class="btn secondary" style="width:100%;margin-top:12px" onclick="toggleAuthMode()">${signup ? 'Already have an account? Log in' : "Don't have an account? Sign up"}</button>
+        <button class="btn secondary" style="width:100%;margin-top:12px" onclick="skipLogin()">Skip for now</button>
+      </div></main>`;
+    }
+
+    window.toggleAuthMode = () => { state.authMode = state.authMode === 'signup' ? 'login' : 'signup'; rerender(); };
+    window.skipLogin = () => { state.userId = 'guest'; state.route = 'site'; rerender(); };
+    window.authSubmit = ev => {
+      ev.preventDefault();
+      const f = Object.fromEntries(new FormData(ev.target));
+      const users = getLocal('hk_users', {});
+      if (state.authMode === 'signup') {
+        if (users[f.phone]) return toast('Phone already registered.');
+        users[f.phone] = { name: f.name.trim(), address: f.address.trim(), password: f.password, coins: 0 };
+        setLocal('hk_users', users);
+        storage.setItem('hk_current_user', f.phone);
+        state.userId = f.phone;
+      } else {
+        if (!users[f.phone] || users[f.phone].password !== f.password) return toast('Invalid phone or password.');
+        storage.setItem('hk_current_user', f.phone);
+        state.userId = f.phone;
+      }
+      state.route = 'site';
+      state.authMode = 'login';
+      rerender();
+      return false;
+    };
+
+    /* ========================================
+       Site (Main Customer View)
+    ======================================== */
+    function siteHTML() {
+      const fav = favourites();
+      const dishes = visibleMenu().map(dishCard).join('');
+      const specials = menu.filter(d => specialNames.has(d.title) && availability()[d.id] !== false).map(dishCard).join('');
+
+      return `${headerHTML()}
+        <main>
+          <section id="hero" class="hero"><div class="hero-content"><p class="eyebrow">Premium Cloud Kitchen · Delivery Only</p><h1 class="display">Elevating Everyday Dining</h1><p>Flavor-packed meals from our kitchen to yours.</p><a class="btn" href="#menu">Full Menu</a></div></section>
+          <section class="section"><div class="container story"><img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=900&q=80" onerror="imgFallback(event)" alt="Chef"><div><p class="eyebrow" style="color:var(--red)">Our Story</p><h2 class="display" style="font-size:44px;margin:0 0 16px">Redefining Gourmet <em style="color:var(--red)">Delivery</em></h2><p class="muted" style="font-size:18px;line-height:1.7">Heavenskitchen was created to make restaurant-quality comfort food easy to enjoy at home. We cook fresh, pack carefully, and deliver fast.</p><div class="stats"><div class="stat"><b>10k+</b><p>Orders</p></div><div class="stat"><b>4.9</b><p>Rating</p></div><div class="stat"><b>5</b><p>Cities</p></div></div></div></div></section>
+          <section id="menu" class="section" style="background:var(--beige)"><div class="container"><h2 class="section-title display">Full Menu</h2><div class="filters">${categories.map(c => `<button class="filter ${state.filter === c ? 'active' : ''}" onclick="setFilter('${c.replace(/'/g, "\\'")}')">${c}</button>`).join('')}</div><div class="grid">${dishes || '<p>No items available.</p>'}</div></div></section>
+          <section class="section"><div class="container"><h2 class="section-title display">Chef's <em style="color:var(--red)">Specials</em></h2><div class="grid">${specials}</div></div></section>
+          <section class="section"><div class="container" style="text-align:center"><p class="eyebrow" style="color:var(--red)">Testimonials</p><h2 class="section-title display">What Customers Say</h2><div class="card" style="padding:34px;max-width:760px;margin:auto"><p style="font-size:20px;line-height:1.7">"Fresh, hot, and packed beautifully. The Chicken Loaded Fries and wraps are always perfect."</p><b>★★★★★</b><p class="muted">Riya M.</p></div></div></section>
+        </main>
+        <footer class="section" style="border-top:1px solid var(--border);padding:34px 0"><div class="container" style="display:flex;gap:16px;justify-content:space-between;align-items:center;flex-wrap:wrap"><a class="brand" href="#hero">HEAVENSKITCHEN<span>.</span></a><p>© 2026 Heaven's Kitchen Co.</p><button class="btn secondary small" onclick="enterAdmin()">Admin Panel</button></div></footer>
+        ${state.sidebar ? sidebarHTML() : ''}${state.cartOpen ? cartHTML() : ''}${state.modal ? customizeHTML(state.modal) : ''}`;
+
+      function dishCard(d) {
+        return `<article class="dish card"><img src="${d.image}" alt="${d.title}" onerror="imgFallback(event)"><div class="dish-body"><h3>${d.title}</h3><p class="price">₹${d.price}</p><div class="dish-actions"><button class="heart ${fav.includes(d.id) ? 'active' : ''}" onclick="toggleFav(${d.id})">♥</button><button class="btn small" onclick="openCustomize(${d.id})">Add to Cart</button></div></div></article>`;
+      }
+    }
+
+    function headerHTML() {
+      return `<header class="topbar glass"><div class="container row"><div style="display:flex;align-items:center;gap:12px"><button class="iconbtn" onclick="state.sidebar=true;rerender()"><span class="hamb"><i></i><i></i><i></i></span></button><a class="brand" href="#hero">HEAVENSKITCHEN<span>.</span></a></div><div style="display:flex;align-items:center;gap:12px"><span class="muted" style="font-size:14px">${greeting()}, ${userName()}</span><button class="iconbtn" style="position:relative" onclick="state.cartOpen=true;rerender()">🛒${cartCount() ? `<span class="cart-count">${cartCount()}</span>` : ''}</button></div></div></header>`;
+    }
+
+    window.setFilter = c => { state.filter = state.filter === c ? '' : c; rerender(); setTimeout(() => location.hash = 'menu', 0); };
+    window.openCustomize = id => { state.modal = menu.find(d => d.id === id); rerender(); };
+    window.toggleFav = id => { const key = `hk_fav_${state.userId || 'guest'}`; const fav = favourites(); setLocal(key, fav.includes(id) ? fav.filter(x => x !== id) : [...fav, id]); rerender(); };
+
+    /* ========================================
+       Customize Modal
+    ======================================== */
+    function customizeHTML(d) {
+      return `<div class="modal-bg" onclick="state.modal=null;rerender()"></div><div class="modal"><h2 class="display" style="margin-top:0">${d.title}</h2><p class="price" style="font-size:22px">₹${d.price}</p><form onsubmit="return addCustomized(event,${d.id})"><label class="switch"><span>Extra Cheese (+₹20)</span><input type="checkbox" name="cheese" value="20"></label><label class="switch"><span>Extra Sauce (+₹15)</span><input type="checkbox" name="sauce" value="15"></label><label class="switch"><span>No Onion</span><input type="checkbox" name="noOnion" value="0"></label><button class="btn" style="width:100%;margin-top:14px">Add to Cart</button><button type="button" class="btn secondary" style="width:100%;margin-top:10px" onclick="state.modal=null;rerender()">Cancel</button></form></div>`;
+    }
+
+    window.addCustomized = (ev, id) => {
+      ev.preventDefault();
+      const d = menu.find(x => x.id === id);
+      const data = new FormData(ev.target);
+      const extras = [];
+      let price = d.price;
+      if (data.has('cheese')) { extras.push('Extra Cheese'); price += 20; }
+      if (data.has('sauce')) { extras.push('Extra Sauce'); price += 15; }
+      if (data.has('noOnion')) extras.push('No Onion');
+      const custom = extras.join(', ') || 'Standard';
+      const found = state.cart.find(i => i.id === id && i.custom === custom);
+      if (found) found.qty++; else state.cart.push({ id, name: d.title, image: d.image, price, qty: 1, custom });
+      state.modal = null;
+      toast(`${d.title} added to cart`);
+      rerender();
+      return false;
+    };
+
+    /* ========================================
+       Sidebar
+    ======================================== */
+    function sidebarHTML() {
+      return `<div class="drawer-bg" onclick="state.sidebar=false;rerender()"></div><aside class="drawer side-drawer"><div class="drawer-head"><div><b class="display" style="font-size:22px">${greeting()}, ${userName()}</b><p class="muted" style="margin:4px 0">Gold · ${coins()} pts</p></div><button class="iconbtn" onclick="state.sidebar=false;rerender()">×</button></div><div class="drawer-body"><button class="btn secondary" style="width:100%;margin-bottom:10px" onclick="showPanel('orders')">Previous Orders (${userOrders().length})</button><button class="btn secondary" style="width:100%;margin-bottom:10px" onclick="showPanel('loyalty')">Loyalty Coins (${coins()})</button><button class="btn secondary" style="width:100%;margin-bottom:10px" onclick="showPanel('fav')">Favourites (${favourites().map(id => menu.find(d => d.id === id)).filter(Boolean).length})</button><button class="btn secondary" style="width:100%;margin-bottom:10px" onclick="toggleDark()">${state.dark ? 'Light' : 'Dark'} Mode</button><button class="btn secondary" style="width:100%" onclick="signOut()">Sign Out</button><div id="sidePanel" style="margin-top:18px"></div></div></aside>`;
+    }
+
+    window.showPanel = type => {
+      const p = $('#sidePanel');
+      if (!p) return;
+      if (type === 'orders') {
+        const orders = userOrders();
+        p.innerHTML = `<h3>Previous Orders</h3>${orders.length ? orders.map(o => `<div class="card" style="padding:12px;margin:8px 0"><b>#${o.id.slice(4, 12)}</b><p class="muted">${o.items.map(i => `${i.name} x${i.qty}`).join(', ')}</p><p>${money(o.grand)} · ${o.status}</p></div>`).join('') : '<p>No previous orders.</p>'}`;
+      }
+      if (type === 'loyalty') p.innerHTML = `<h3>Loyalty Coins</h3><p class="price" style="font-size:48px">${coins()}</p><p class="muted">10 pts = ₹10 off, max 50 pts.</p>`;
+      if (type === 'fav') {
+        const fav = favourites().map(id => menu.find(d => d.id === id)).filter(Boolean);
+        p.innerHTML = `<h3>Favourites</h3>${fav.length ? fav.map(d => `<p>♥ ${d.title} <b>${money(d.price)}</b></p>`).join('') : '<p>No favourites yet.</p>'}`;
+      }
+    };
+
+    window.toggleDark = () => { state.dark = !state.dark; applyTheme(); rerender(); };
+    window.signOut = () => { storage.removeItem('hk_current_user'); state.userId = null; state.route = 'auth'; state.sidebar = false; state.cart = []; rerender(); };
+
+    /* ========================================
+       Cart Drawer
+    ======================================== */
+    function cartHTML() {
+      return `<div class="drawer-bg" onclick="state.cartOpen=false;rerender()"></div><aside class="drawer"><div class="drawer-head"><h2 class="display">Cart (${cartCount()})</h2><button class="iconbtn" onclick="state.cartOpen=false;rerender()">×</button></div><div class="drawer-body">${state.cart.length ? state.cart.map(cartRow).join('') : '<p class="muted" style="text-align:center;padding:40px 0">Your cart is empty.</p>'}</div><div class="drawer-foot"><div style="display:flex;justify-content:space-between;font-size:20px;font-weight:900"><span>Item Total</span><span>${money(itemTotal())}</span></div><button class="btn" style="width:100%;margin-top:14px" ${state.cart.length ? '' : 'disabled'} onclick="goCheckout()">Proceed to Checkout</button></div></aside>`;
+    }
+
+    function cartRow(i, idx) {
+      return `<div class="cart-row"><img src="${i.image}" alt="${i.name}" onerror="imgFallback(event)"><div><b>${i.name}</b><p class="muted" style="margin:3px 0;font-size:13px">${i.custom}</p><p class="price" style="margin:0">${money(i.price)}</p></div><div class="qty"><button onclick="cartQty(${idx},-1)">−</button><b>${i.qty}</b><button onclick="cartQty(${idx},1)">+</button><button onclick="removeCart(${idx})">🗑</button></div></div>`;
+    }
+
+    window.cartQty = (idx, delta) => { state.cart[idx].qty = Math.max(1, state.cart[idx].qty + delta); rerender(); };
+    window.removeCart = idx => { state.cart.splice(idx, 1); rerender(); };
+    window.goCheckout = () => {
+  if (state.userId === 'guest') {
+    state.route = 'auth';
+    state.cartOpen = false;
+    toast('Please login to checkout.');
+  } else {
+    state.cartOpen = false;
+    state.checkout = true;
+    state.fulfillment = 'delivery';
+    state.paymentMode = 'online';
+    state.payment = '';
+    state.redeem = 0;
+    state.discountCode = '';
+    state.discountPercent = 0;
+    state.selectedAddressId = 'addr1';
+    state.addressSheetOpen = false;
+  }
+  rerender();
+};
+
+/* ========================================
+       Checkout
+    ======================================== */
+    function checkoutHTML() {
+  const t = totals();
+  const isDelivery = state.fulfillment === 'delivery';
+  const addresses = SAVED_ADDRESSES;
+  const selectedAddress = addresses.find(a => a.id === state.selectedAddressId) || addresses[0];
+  const onlineMethods = [
+    { id: 'card1', label: 'Visa •••• 4242', icon: 'fab fa-cc-visa' },
+    { id: 'upi', label: 'UPI / Google Pay', icon: 'fas fa-mobile-alt' }
+  ];
+  const doorstepMethods = [
+    { id: 'cod', label: isDelivery ? 'Cash on Delivery' : 'Cash at Counter', icon: 'fas fa-money-bill-wave' },
+    { id: 'card_door', label: isDelivery ? 'Card at Door' : 'Card at Counter', icon: 'fas fa-credit-card' }
+  ];
+  const methods = state.paymentMode === 'online' ? onlineMethods : doorstepMethods;
+  if (!methods.some(m => m.id === state.payment)) state.payment = '';
+  const canRedeem = coins() >= 10;
+  const maxRedeem = Math.min(coins(), MAX_LOYALTY_REDEEM);
+  const roundedMax = Math.floor(maxRedeem / 10) * 10;
+
+  return `${headerHTML()}
+    <main class="section" style="padding-top:104px">
+      <div class="container" style="max-width:620px">
+        <button type="button" class="btn secondary small" onclick="state.checkout=false;rerender()">← Back to Cart</button>
+        <h1 class="display" style="margin-top:12px">Checkout</h1>
+
+        <form onsubmit="return handleCheckoutSubmit(event)">
+          <div class="card" style="padding:18px;margin-bottom:16px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+              <h3 class="display" style="margin:0;font-size:20px">${isDelivery ? 'Delivery Address' : 'Pickup Location'}</h3>
+              ${isDelivery ? `<button type="button" onclick="state.addressSheetOpen=true;rerender()" style="background:none;border:none;color:var(--red);font-weight:800;cursor:pointer">Edit / Change</button>` : ''}
+            </div>
+            ${isDelivery ? `
+              <div style="display:flex;align-items:flex-start;gap:12px">
+                <i class="fas fa-map-marker-alt" style="font-size:24px;color:var(--gold);margin-top:4px"></i>
+                <div>
+                  <p style="font-weight:800;margin:0">${selectedAddress.label} <span style="font-size:12px;background:rgba(197,165,90,.2);color:var(--gold);padding:2px 8px;border-radius:999px">${selectedAddress.eta}</span></p>
+                  <p class="muted" style="margin:4px 0 0">${selectedAddress.address}</p>
+                </div>
+              </div>
+            ` : `
+              <div style="display:flex;align-items:flex-start;gap:12px">
+                <i class="fas fa-store" style="font-size:24px;color:var(--gold);margin-top:4px"></i>
+                <div>
+                  <p style="font-weight:800;margin:0">Heaven's Kitchen <span style="font-size:12px;background:rgba(197,165,90,.2);color:var(--gold);padding:2px 8px;border-radius:999px">Ready in 15-20 mins</span></p>
+                  <p class="muted" style="margin:4px 0 0">789, Food Street, Indiranagar, Bangalore 560038</p>
+                </div>
+              </div>
+            `}
+            <div style="display:flex;gap:8px;margin-top:16px;background:var(--surface);border-radius:12px;padding:4px;border:1px solid var(--border)">
+              <button type="button" onclick="setFulfillment('delivery')" class="tab ${isDelivery ? 'active' : ''}" style="flex:1" aria-pressed="${isDelivery}"><i class="fas fa-truck" style="margin-right:4px"></i>Doorstep</button>
+              <button type="button" onclick="setFulfillment('pickup')" class="tab ${!isDelivery ? 'active' : ''}" style="flex:1" aria-pressed="${!isDelivery}"><i class="fas fa-utensils" style="margin-right:4px"></i>Pickup</button>
+            </div>
+          </div>
+
+          ${state.cart.map((i, idx) => checkoutCartRow(i, idx)).join('')}
+
+          <div class="card" style="padding:18px;margin-bottom:16px">
+            <label for="discountCode" style="font-weight:800;display:block;margin-bottom:8px">Discount Code</label>
+            <div style="display:flex;gap:8px">
+              <input id="discountCode" type="text" value="${esc(state.discountCode)}" oninput="state.discountCode=this.value" placeholder="Enter code (SAVE10, WELCOME, HEAVEN20)" style="flex:1" />
+              <button type="button" class="btn" onclick="applyDiscountCode()">Apply</button>
+            </div>
+            ${t.percentDiscount > 0 ? `<p style="color:var(--green);font-size:13px;margin-top:8px;display:flex;justify-content:space-between">✅ ${state.discountPercent}% discount applied <button type="button" onclick="removeDiscountCode()" style="background:none;border:none;color:var(--error);cursor:pointer">Remove</button></p>` : ''}
+          </div>
+
+          <div class="bill" style="margin-bottom:16px">
+            <div><span>Item Total</span><span>${money(t.item)}</span></div>
+            <div><span>Delivery Fee</span><span>${t.delivery ? money(t.delivery) : 'FREE'}</span></div>
+            <div><span>Platform Fee</span><span>${money(t.platformFee)}</span></div>
+            <div><span>GST (5%)</span><span>${money(t.tax)}</span></div>
+            ${t.redeem ? `<div style="color:var(--green)"><span>Loyalty Discount (${t.redeem} pts)</span><span>- ${money(t.redeem)}</span></div>` : ''}
+            ${t.percentDiscount ? `<div style="color:var(--green)"><span>Promo Discount</span><span>- ${money(t.percentDiscount)}</span></div>` : ''}
+            <div class="total"><span>Grand Total</span><span>${money(t.grand)}</span></div>
+            <div style="margin-top:12px">
+              <p style="font-size:13px;color:var(--muted);margin:0 0 6px">${canRedeem ? '10 pts = ₹10 off (max 50 pts)' : `Need ${10 - coins()} more coins`}</p>
+              <input type="range" min="0" max="${roundedMax}" step="10" value="${state.redeem}" oninput="state.redeem=parseInt(this.value);rerender()" ${canRedeem ? '' : 'disabled'} style="width:100%" aria-label="Redeem loyalty points" />
+              <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:4px"><span>0 pts</span><span>${canRedeem ? roundedMax + ' pts' : coins() + ' pts'}</span></div>
+            </div>
+          </div>
+
+          <div class="bill" style="margin-bottom:16px">
+            <h3 class="display" style="margin:0 0 12px;font-size:18px">Payment Method</h3>
+            <div style="display:flex;gap:8px;margin-bottom:14px;background:var(--surface);border-radius:12px;padding:4px;border:1px solid var(--border)">
+              <button type="button" onclick="setPaymentMode('online')" class="tab ${state.paymentMode === 'online' ? 'active' : ''}" style="flex:1" aria-pressed="${state.paymentMode === 'online'}"><i class="fas fa-globe" style="margin-right:4px"></i>Pay Online</button>
+              <button type="button" onclick="setPaymentMode('doorstep')" class="tab ${state.paymentMode === 'doorstep' ? 'active' : ''}" style="flex:1" aria-pressed="${state.paymentMode === 'doorstep'}"><i class="fas fa-hand-holding-usd" style="margin-right:4px"></i>${isDelivery ? 'Pay at Doorstep' : 'Pay at Counter'}</button>
+            </div>
+            <div style="display:grid;gap:10px" role="radiogroup" aria-label="Choose a payment method">
+              ${methods.map(m => `
+                <label style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:16px;border:2px solid ${state.payment === m.id ? 'var(--red)' : 'var(--border)'};background:${state.payment === m.id ? 'rgba(139,30,45,.05)' : 'transparent'};cursor:pointer">
+                  <input type="radio" name="payment" value="${m.id}" ${state.payment === m.id ? 'checked' : ''} onchange="state.payment='${m.id}';rerender()" style="width:18px;height:18px;accent-color:var(--red)" />
+                  <i class="${m.icon}" style="font-size:24px;color:${state.payment === m.id ? 'var(--red)' : 'var(--muted)'}"></i>
+                  <div style="flex:1"><p style="font-weight:800;margin:0">${m.label}</p></div>
+                </label>
+              `).join('')}
+            </div>
+          </div>
+
+          <button type="submit" class="btn" style="width:100%;padding:16px" ${state.payment ? '' : 'disabled'}>Place Order ${money(t.grand)}</button>
+          ${!state.payment ? '<p style="color:var(--error);font-size:12px;text-align:center;margin-top:8px">⚠️ Please select a payment method</p>' : ''}
+        </form>
+      </div>
+    </main>
+    ${state.addressSheetOpen ? addressSheetHTML() : ''}`;
+}
+
+function checkoutCartRow(i, idx) {
+  return `<div class="card" style="padding:16px;display:flex;align-items:center;gap:12px;margin-bottom:10px">
+    <img src="${i.image}" alt="${esc(i.name)}" style="width:56px;height:56px;object-fit:cover;border-radius:12px;flex-shrink:0" onerror="imgFallback(event)" />
+    <div style="flex:1;min-width:0">
+      <p style="font-weight:800;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(i.name)}</p>
+      <p class="muted" style="font-size:12px;margin:2px 0">${esc(i.custom)}</p>
+      <p style="margin:0" class="price">${money(i.price)}</p>
+    </div>
+    <div class="qty">
+      <button type="button" onclick="cartQty(${idx},-1)" aria-label="Decrease quantity">−</button>
+      <b>${i.qty}</b>
+      <button type="button" onclick="cartQty(${idx},1)" aria-label="Increase quantity">+</button>
+    </div>
+    <span style="font-weight:800;min-width:60px;text-align:right">${money(i.price * i.qty)}</span>
+    <button type="button" onclick="removeCart(${idx})" aria-label="Remove ${esc(i.name)}" style="background:none;border:none;color:var(--error);font-size:18px;cursor:pointer">🗑</button>
+  </div>`;
+}
+
+function addressSheetHTML() {
+  const addresses = SAVED_ADDRESSES;
+  return `<div class="drawer-bg" onclick="state.addressSheetOpen=false;rerender()" role="dialog" aria-modal="true" aria-label="Select address"></div>
+    <div class="drawer side-drawer" style="animation:leftIn .25s ease-out">
+      <div class="drawer-head">
+        <h2 class="display">Select Address</h2>
+        <button type="button" class="iconbtn" onclick="state.addressSheetOpen=false;rerender()" aria-label="Close address sheet">×</button>
+      </div>
+      <div class="drawer-body">
+        ${addresses.map(addr => `
+          <button type="button" onclick="setAddress('${addr.id}')" style="width:100%;text-align:left;padding:16px;border-radius:16px;border:2px solid ${state.selectedAddressId === addr.id ? 'var(--red)' : 'var(--border)'};background:${state.selectedAddressId === addr.id ? 'rgba(139,30,45,.05)' : 'var(--card)'};margin-bottom:10px;cursor:pointer">
+            <p style="font-weight:800;margin:0">${addr.label}</p>
+            <p class="muted" style="font-size:13px;margin:4px 0">${addr.address}</p>
+            <p style="font-size:12px;color:var(--gold);margin:0">ETA: ${addr.eta}</p>
+          </button>
+        `).join('')}
+        <button type="button" style="width:100%;padding:12px;border:2px dashed var(--border);border-radius:16px;color:var(--red);font-weight:800;background:transparent;cursor:pointer">
+          <i class="fas fa-plus" style="margin-right:6px"></i> Add New Address
+        </button>
+      </div>
+    </div>`;
+}
+
+window.setFulfillment = mode => { state.fulfillment = mode; state.payment = ''; rerender(); };
+window.setPaymentMode = mode => { state.paymentMode = mode; state.payment = ''; rerender(); };
+window.setAddress = id => { state.selectedAddressId = id; state.addressSheetOpen = false; rerender(); };
+window.applyDiscountCode = () => {
+  const code = state.discountCode.trim().toUpperCase();
+  const codes = { ...MOCK_DISCOUNT_CODES, ...getLocal('hk_discounts', {}) };
+  const pct = codes[code];
+  if (pct) {
+    state.discountPercent = pct;
+    toast(`✅ Discount code applied: ${pct}% off`);
+  } else {
+    state.discountPercent = 0;
+    toast('❌ Invalid discount code');
+  }
+  rerender();
+};
+window.removeDiscountCode = () => {
+  state.discountCode = '';
+  state.discountPercent = 0;
+  rerender();
+};
+window.handleCheckoutSubmit = ev => {
+  ev.preventDefault();
+  if (!state.payment || state.cart.length === 0) return false;
+  placeOrder();
+  return false;
+};
+
+window.placeOrder = () => {
+  const t = totals();
+  const selectedAddress = SAVED_ADDRESSES.find(a => a.id === state.selectedAddressId) || SAVED_ADDRESSES[0];
+  const order = {
+    id: safeId(),
+    userId: state.userId,
+    items: state.cart.map(i => ({ ...i })),
+    itemTotal: t.item,
+    grand: t.grand,
+    redeemed: t.redeem,
+    discountPercent: t.discountPercent,
+    discountAmount: t.percentDiscount,
+    status: 'pending',
+    fulfillment: state.fulfillment,
+    paymentMode: state.paymentMode,
+    paymentMethod: state.payment,
+    addressId: state.fulfillment === 'delivery' ? state.selectedAddressId : null,
+    addressLabel: state.fulfillment === 'delivery' ? selectedAddress.label : "Heaven's Kitchen",
+    eta: state.fulfillment === 'pickup' ? '15-20 mins' : '25-35 mins',
+    createdAt: new Date().toISOString()
+  };
+  const orders = allOrders();
+  orders.push(order);
+  setLocal('hk_orders', orders);
+  const users = getLocal('hk_users', {});
+  if (users[state.userId]) {
+    users[state.userId].coins = Math.max(0, (users[state.userId].coins || 0) - t.redeem) + 10;
+    setLocal('hk_users', users);
+  }
+  state.cart = [];
+  state.checkout = false;
+  state.orderDone = order;
+  state.redeem = 0;
+  state.discountPercent = 0;
+  state.discountCode = '';
+  state.payment = '';
+  state.paymentMode = 'online';
+  state.fulfillment = 'delivery';
+  rerender();
+};
+
+/* ========================================
+       Success Screen
+    ======================================== */
+    function successHTML(order) {
+  return `<main class="success-screen"><div class="card" style="padding:32px;max-width:620px;width:100%;text-align:center">
+    <div class="check">
+      <svg class="checkmark-svg" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none" stroke="var(--green)" stroke-width="3" />
+        <path class="checkmark-check" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M14 27l7 7 16-16" />
+      </svg>
+    </div>
+    <h1 class="display">Order Placed Successfully!</h1>
+    <p style="color:var(--green);font-weight:800;font-size:20px">+10 Coins earned</p>
+    <p class="muted">Order ID: <b style="color:var(--text)">${order.id}</b> · ETA: <b style="color:var(--red)">${order.eta}</b></p>
+    <div class="bill" style="text-align:left;margin:20px 0">
+      ${order.items.map(i => `<div><span>${esc(i.name)} x${i.qty}</span><span>${money(i.price * i.qty)}</span></div>`).join('')}
+      ${order.redeemed ? `<div style="color:var(--green)"><span>Loyalty Discount (${order.redeemed} pts)</span><span>- ${money(order.redeemed)}</span></div>` : ''}
+      ${order.discountAmount ? `<div style="color:var(--green)"><span>Promo Discount (${order.discountPercent}%)</span><span>- ${money(order.discountAmount)}</span></div>` : ''}
+      <div class="total"><span>Total Paid</span><span>${money(order.grand)}</span></div>
+    </div>
+    <div class="progress" style="margin:24px 0"><span class="progress-fill"></span></div>
+    <p class="muted" id="orderStatusText">Confirmed → Preparing → Out for delivery → Delivered</p>
+    <button type="button" class="btn" onclick="state.orderDone=null;rerender()">Back to Menu</button>
+  </div></main>`;
+}
+
+function animateSuccess() {
+  const el = document.getElementById('orderStatusText');
+  if (!el) return;
+  const stages = ['Confirmed', 'Preparing', 'Out for delivery', 'Delivered'];
+  const duration = 60000;
+  const start = Date.now();
+  const interval = setInterval(() => {
+    const progress = Math.min(1, (Date.now() - start) / duration);
+    const idx = Math.min(stages.length - 1, Math.floor(progress * stages.length));
+    const before = stages.slice(0, idx).map(s => `<span style="opacity:.5">${s}</span>`).join(' → ');
+    const current = `<span style="color:var(--green);font-weight:800">${stages[idx]}</span>`;
+    const after = stages.slice(idx + 1).map(s => `<span style="opacity:.5">${s}</span>`).join(' → ');
+    const parts = [before, current, after].filter(Boolean);
+    el.innerHTML = parts.join(' → ');
+    if (progress >= 1) clearInterval(interval);
+  }, 100);
+}
+
+/* ========================================
+       Enter Admin — switches route
+    ======================================== */
+    window.enterAdmin = () => {
+      state.route = 'admin';
+      rerender();
+    };
+
+    /* ========================================
+       ███████████████████████████████████████
+       ██   ADMIN PANEL (Self-contained)   ██
+       ███████████████████████████████████████
+    ======================================== */
+
+    const adminState = {
+      authed: false,
+      passHash: getLocal('hk_admin_pass_hash', ''),
+      tab: 'dashboard',
+      dishSearch: '',
+      orderSearch: '',
+      editingDish: null,
+      showAddForm: false,
+      confirmAction: null,
+      newDish: { title: '', category: 'Sandwich', price: 100, dietary: 'non-veg', image: '', inStock: true },
+      toasts: [],
+      toastCounter: 0,
+      loaderBg: getLocal('hk_settings', {}).loaderBg || '',
+      storyImg: getLocal('hk_settings', {}).storyImg || '',
+      newCode: '',
+      newPercent: '',
+      uploadingLoader: false,
+      uploadingStory: false,
+      orderFilter: 'all',
+      // Change password
+      cpCurrent: '',
+      cpNew: '',
+      cpConfirm: '',
+      cpSaving: false,
+      // Setup
+      setupPass: '',
+      loginPass: '',
+      loginError: '',
+      loggingIn: false,
+    };
+
+    // Admin categories (includes Special Fries)
+    const adminCategories = ['Sandwich', 'Burger', 'Fries', 'Special Fries', 'Pizza', 'Wrap', 'Sliders / Sides', 'Milkshake', 'Mojito'];
+
+    /* --- Password hashing --- */
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password + '_hk_salt_2024');
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    /* --- Admin toast --- */
+    function adminToast(message, type = 'info', duration = 3000) {
+      const id = ++adminState.toastCounter;
+      adminState.toasts.push({ id, message, type });
+      renderAdminPanel();
+      setTimeout(() => {
+        adminState.toasts = adminState.toasts.filter(t => t.id !== id);
+        renderAdminPanel();
+      }, duration);
+    }
+
+    /* --- Admin data accessors (reads from same localStorage keys as customer site) --- */
+    function adminGetDishes() { return getLocal('hk_admin_dishes', menu.map((d, i) => ({ ...d, dietary: getDefaultDietary(d), inStock: availability()[d.id] !== false }))); }
+    function adminSetDishes(dishes) { setLocal('hk_admin_dishes', dishes); syncAvailability(dishes); }
+    function adminGetOrders() { return allOrders(); }
+    function adminSetOrders(orders) { setLocal('hk_orders', orders); }
+    function adminGetDiscounts() { return getLocal('hk_discounts', {}); }
+    function adminSetDiscounts(codes) { setLocal('hk_discounts', codes); }
+    function adminGetSettings() { return getLocal('hk_settings', { loaderBg: '', storyImg: '' }); }
+
+    // Sync admin dish availability back to hk_availability for customer site
+    function syncAvailability(dishes) {
+      const av = {};
+      dishes.forEach(d => { if (!d.inStock) av[d.id] = false; });
+      setLocal('hk_availability', av);
+    }
+
+    function getDefaultDietary(d) {
+      const vegCats = ['Mojito', 'Milkshake', 'Fries'];
+      const vegNames = ['Veg Sandwich', 'Veg Cheese Sandwich', 'Veg Pizza 8"', 'Margherita 8"', 'Veg Heavens Pizza 8"'];
+      if (vegCats.includes(d.category)) return 'veg';
+      if (vegNames.includes(d.title)) return 'veg';
+      return 'non-veg';
+    }
+
+    /* --- Initialize admin dishes if not yet saved --- */
+    function ensureAdminDishes() {
+      if (!storage.getItem('hk_admin_dishes')) {
+        const av = availability();
+        const dishes = menu.map(d => ({
+          ...d,
+          dietary: getDefaultDietary(d),
+          inStock: av[d.id] !== false
+        }));
+        adminSetDishes(dishes);
+      }
+    }
+
+    /* ========================================
+       Admin Panel Renderer
+    ======================================== */
+    function renderAdminPanel() {
+      const root = $('#admin-root');
+      if (!root) return;
+      ensureAdminDishes();
+
+      if (!adminState.authed) {
+        root.innerHTML = adminLoginScreen();
+        return;
+      }
+
+      root.innerHTML = adminDashboardScreen();
+    }
+
+    /* --- Admin Login Screen --- */
+    function adminLoginScreen() {
+      const isSetup = !adminState.passHash;
+      return `<div class="admin-panel-root" style="display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px">
+        <div class="ap-glass ap-animate-scale" style="border-radius:20px;padding:32px;width:100%;max-width:380px;border-color:rgba(201,169,110,0.1)">
+          <div style="text-align:center;margin-bottom:24px">
+            <div style="width:56px;height:56px;border-radius:16px;background:rgba(201,169,110,0.1);display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px">
+              <i class="fas fa-utensils" style="color:#C9A96E;font-size:1.2rem"></i>
+            </div>
+            <h1 class="font-display" style="font-size:1.8rem;font-weight:700;color:#C9A96E;margin:0">HK<span style="color:#FFF5E6">Admin</span></h1>
+            <p style="color:#6a6a72;font-size:0.85rem;margin-top:8px">${isSetup ? 'Create a password to secure your admin panel' : 'Enter your password to continue'}</p>
+          </div>
+          ${adminState.loginError ? `<div style="margin-bottom:14px;padding:10px 14px;border-radius:10px;font-size:0.85rem;background:rgba(183,109,104,0.1);border:1px solid rgba(183,109,104,0.2);color:#B76D68"><i class="fas fa-exclamation-circle" style="margin-right:6px"></i>${adminState.loginError}</div>` : ''}
+          ${isSetup ? `
+            <div style="margin-bottom:12px">
+              <input type="password" placeholder="New password (min 4 chars)" value="${esc(adminState.setupPass)}" oninput="adminState.setupPass=this.value;adminState.loginError=''" onkeydown="if(event.key==='Enter')adminSetupSubmit()" style="text-align:center" />
+            </div>
+            <button class="ap-btn-gold" style="width:100%" onclick="adminSetupSubmit()" ${adminState.loggingIn ? 'disabled' : ''}>
+              ${adminState.loggingIn ? '<span class="ap-spinner" style="width:16px;height:16px;margin-right:8px"></span>Setting up...' : 'Set Password & Enter'}
+            </button>
+          ` : `
+            <div style="margin-bottom:12px">
+              <input type="password" placeholder="Enter password" value="${esc(adminState.loginPass)}" oninput="adminState.loginPass=this.value;adminState.loginError=''" onkeydown="if(event.key==='Enter')adminLoginSubmit()" style="text-align:center" />
+            </div>
+            <button class="ap-btn-gold" style="width:100%" onclick="adminLoginSubmit()" ${adminState.loggingIn ? 'disabled' : ''}>
+              ${adminState.loggingIn ? '<span class="ap-spinner" style="width:16px;height:16px;margin-right:8px"></span>Verifying...' : '<i class="fas fa-lock" style="margin-right:8px"></i>Login'}
+            </button>
+          `}
+          <button class="ap-btn-ghost" style="width:100%;margin-top:10px" onclick="adminBackToSite()">← Back to Site</button>
+          <p style="color:#4a4a52;font-size:0.7rem;text-align:center;margin-top:18px"><i class="fas fa-shield-alt" style="margin-right:4px"></i>Secured · Local storage · Offline ready</p>
+        </div>
+        ${adminToastsHTML()}
+      </div>`;
+    }
+
+    // HTML escape helper
+    function esc(str) { return String(str || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+    window.adminSetupSubmit = async () => {
+      if (adminState.setupPass.length < 4) { adminState.loginError = 'Password must be at least 4 characters.'; renderAdminPanel(); return; }
+      adminState.loggingIn = true; renderAdminPanel();
+      const hash = await hashPassword(adminState.setupPass);
+      setLocal('hk_admin_pass_hash', hash);
+      adminState.passHash = hash;
+      adminState.authed = true;
+      adminState.loggingIn = false;
+      adminState.setupPass = '';
+      renderAdminPanel();
+    };
+
+    window.adminLoginSubmit = async () => {
+      if (!adminState.loginPass) { adminState.loginError = 'Please enter your password.'; renderAdminPanel(); return; }
+      adminState.loggingIn = true; adminState.loginError = ''; renderAdminPanel();
+      const hash = await hashPassword(adminState.loginPass);
+      if (hash === adminState.passHash) {
+        adminState.authed = true;
+        adminState.loginError = '';
+      } else {
+        adminState.loginError = 'Incorrect password. Try again.';
+      }
+      adminState.loggingIn = false;
+      renderAdminPanel();
+    };
+
+    window.adminBackToSite = () => {
+      if (!state.userId) { state.userId = 'guest'; }
+      state.route = 'site';
+      rerender();
+    };
+
+    /* --- Admin Dashboard Screen --- */
+    function adminDashboardScreen() {
+      return `<div class="admin-panel-root" style="display:flex;height:100vh;overflow:hidden">
+        ${adminSidebarHTML()}
+        <div class="ap-main">${adminTabContent()}</div>
+        ${adminState.showAddForm ? adminAddDishModal() : ''}
+        ${adminState.editingDish ? adminEditDishModal() : ''}
+        ${adminState.confirmAction ? adminConfirmDialog() : ''}
+        ${adminToastsHTML()}
+      </div>`;
+    }
+
+    function adminSidebarHTML() {
+      const tabs = [
+        { id: 'dashboard', icon: 'fa-chart-pie', label: 'Dashboard' },
+        { id: 'dishes', icon: 'fa-utensils', label: 'Dishes' },
+        { id: 'orders', icon: 'fa-clipboard-list', label: 'Orders' },
+        { id: 'discounts', icon: 'fa-tags', label: 'Discounts' },
+        { id: 'settings', icon: 'fa-cog', label: 'Settings' },
+      ];
+      return `<div class="ap-sidebar">
+        <div style="padding:20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(201,169,110,0.06)">
+          <span class="font-display ap-logo-text" style="font-size:1.2rem;font-weight:700;color:#C9A96E">HK<span style="color:#FFF5E6">Admin</span></span>
+          <span class="font-display ap-logo-short" style="font-size:1.5rem;font-weight:700;color:#C9A96E">HK</span>
+        </div>
+        <nav style="padding:12px;flex:1;display:flex;flex-direction:column;gap:2px">
+          ${tabs.map(t => `<button class="ap-nav-link ${adminState.tab === t.id ? 'active' : ''}" onclick="adminState.tab='${t.id}';renderAdminPanel()"><i class="fas ${t.icon} ap-icon"></i><span class="ap-label">${t.label}</span></button>`).join('')}
+          <hr style="border:none;border-top:1px solid rgba(201,169,110,0.06);margin:12px 0" />
+          <button class="ap-nav-link" style="color:rgba(183,109,104,0.6)" onclick="adminBackToSite()"><i class="fas fa-arrow-left ap-icon"></i><span class="ap-label">Back to Site</span></button>
+          <button class="ap-nav-link" style="color:rgba(183,109,104,0.6)" onclick="adminLogout()"><i class="fas fa-sign-out-alt ap-icon"></i><span class="ap-label">Logout</span></button>
+        </nav>
+        <div class="ap-footer-text" style="text-align:center;padding:16px;font-size:10px;color:#4a4a52">v2.0 · Heavenskitchen Admin</div>
+      </div>`;
+    }
+
+    window.adminLogout = () => { adminState.authed = false; adminState.loginPass = ''; adminState.loginError = ''; renderAdminPanel(); };
+
+    /* --- Admin Tab Content --- */
+    function adminTabContent() {
+      switch (adminState.tab) {
+        case 'dashboard': return adminDashboardTab();
+        case 'dishes': return adminDishesTab();
+        case 'orders': return adminOrdersTab();
+        case 'discounts': return adminDiscountsTab();
+        case 'settings': return adminSettingsTab();
+        default: return '';
+      }
+    }
+
+    /* ===== DASHBOARD TAB ===== */
+    function adminDashboardTab() {
+      const orders = adminGetOrders();
+      const dishes = adminGetDishes();
+      const totalRevenue = orders.reduce((s, o) => s + (o.grand || 0), 0);
+      const totalOrd = orders.length;
+      const delivered = orders.filter(o => o.status === 'delivered').length;
+      const avg = totalOrd ? Math.round(totalRevenue / totalOrd) : 0;
+      const users = getLocal('hk_users', {});
+      const methodName = id => ({ upi: 'UPI', card: 'Card', cod: 'Cash', card_door: 'Card@Door' })[id] || '—';
+
+      return `<div class="ap-animate-fade">
+        <h2 class="font-display" style="font-size:1.5rem;font-weight:700;color:#C9A96E;margin:0 0 24px">Dashboard</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px">
+          <div class="ap-stat">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(201,169,110,0.12);display:flex;align-items:center;justify-content:center"><i class="fas fa-indian-rupee-sign" style="color:#C9A96E;font-size:0.85rem"></i></div>
+              <span style="font-size:0.7rem;color:#8a8a92;text-transform:uppercase;letter-spacing:0.05em">Revenue</span>
+            </div>
+            <p style="font-size:1.8rem;font-weight:700;color:#C9A96E;margin:0">₹${totalRevenue.toLocaleString('en-IN')}</p>
+          </div>
+          <div class="ap-stat">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(255,245,230,0.08);display:flex;align-items:center;justify-content:center"><i class="fas fa-receipt" style="color:#FFF5E6;font-size:0.85rem"></i></div>
+              <span style="font-size:0.7rem;color:#8a8a92;text-transform:uppercase;letter-spacing:0.05em">Orders</span>
+            </div>
+            <p style="font-size:1.8rem;font-weight:700;color:#FFF5E6;margin:0">${totalOrd}</p>
+          </div>
+          <div class="ap-stat">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(163,181,168,0.12);display:flex;align-items:center;justify-content:center"><i class="fas fa-check-double" style="color:#A3B5A8;font-size:0.85rem"></i></div>
+              <span style="font-size:0.7rem;color:#8a8a92;text-transform:uppercase;letter-spacing:0.05em">Delivered</span>
+            </div>
+            <p style="font-size:1.8rem;font-weight:700;color:#A3B5A8;margin:0">${delivered}</p>
+          </div>
+          <div class="ap-stat">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+              <div style="width:36px;height:36px;border-radius:10px;background:rgba(201,169,110,0.08);display:flex;align-items:center;justify-content:center"><i class="fas fa-calculator" style="color:#C9A96E;font-size:0.85rem"></i></div>
+              <span style="font-size:0.7rem;color:#8a8a92;text-transform:uppercase;letter-spacing:0.05em">Avg. Order</span>
+            </div>
+            <p style="font-size:1.8rem;font-weight:700;color:#C9A96E;margin:0">₹${avg.toLocaleString('en-IN')}</p>
+          </div>
+        </div>
+
+        <div class="ap-glass" style="border-radius:16px;padding:20px;margin-bottom:24px">
+          <h3 class="font-display" style="font-size:1.1rem;font-weight:600;color:#C9A96E;margin:0 0 16px">Menu Overview</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px">
+            ${adminCategories.map(cat => {
+              const count = dishes.filter(d => d.category === cat).length;
+              const inStock = dishes.filter(d => d.category === cat && d.inStock).length;
+              return `<div style="text-align:center;padding:10px;border-radius:12px;background:rgba(201,169,110,0.04);border:1px solid rgba(201,169,110,0.06)"><p style="font-size:0.85rem;font-weight:600;margin:0">${cat}</p><p style="font-size:0.7rem;color:#8a8a92;margin:4px 0 0">${count} items · ${inStock} in stock</p></div>`;
+            }).join('')}
+          </div>
+        </div>
+
+        <div class="ap-glass" style="border-radius:16px;padding:20px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <h3 class="font-display" style="font-size:1.1rem;font-weight:600;color:#C9A96E;margin:0">Recent Orders</h3>
+            ${orders.length > 5 ? `<button style="font-size:0.75rem;color:#C9A96E;background:none;border:none;cursor:pointer" onclick="adminState.tab='orders';renderAdminPanel()">View all →</button>` : ''}
+          </div>
+          ${orders.length === 0 ? `<div style="text-align:center;padding:32px 0"><i class="fas fa-clipboard-list" style="font-size:2rem;color:#3a3a42;display:block;margin-bottom:10px"></i><p style="color:#6a6a72;margin:0">No orders yet.</p></div>` :
+            orders.slice(-5).reverse().map(o => `<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;border-bottom:1px solid rgba(201,169,110,0.05)">
+              <div style="display:flex;align-items:center;gap:10px"><span style="font-family:monospace;color:#C9A96E;font-size:0.85rem;font-weight:600">#${o.id.slice(4, 12)}</span><span style="font-size:0.85rem">${getLocal('hk_users', {})[o.userId]?.name || o.userId || 'Guest'}</span></div>
+              <div style="display:flex;align-items:center;gap:14px"><span style="font-size:0.85rem;font-weight:600">₹${(o.grand || 0).toLocaleString('en-IN')}</span><span class="ap-badge ${o.status === 'delivered' ? 'ap-badge-green' : o.status === 'out_for_delivery' ? 'ap-badge-blue' : 'ap-badge-gold'}">${(o.status || 'pending').replace(/_/g, ' ')}</span></div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    }
+
+    /* ===== DISHES TAB ===== */
+    function adminDishesTab() {
+      const dishes = adminGetDishes();
+      const filtered = dishes.filter(d => d.title.toLowerCase().includes(adminState.dishSearch.toLowerCase()));
+
+      return `<div class="ap-animate-fade">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px">
+          <h2 class="font-display" style="font-size:1.5rem;font-weight:700;color:#C9A96E;margin:0">Dishes <span style="font-size:0.85rem;font-weight:400;color:#6a6a72">(${filtered.length})</span></h2>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+            <div style="position:relative"><i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#6a6a72;font-size:0.8rem"></i><input placeholder="Search dishes..." value="${esc(adminState.dishSearch)}" oninput="adminState.dishSearch=this.value;renderAdminPanel()" style="padding-left:34px;width:200px;font-size:0.85rem" /></div>
+            <button class="ap-btn-gold" style="font-size:0.85rem" onclick="adminState.showAddForm=true;renderAdminPanel()"><i class="fas fa-plus" style="margin-right:4px"></i> Add Dish</button>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px">
+          ${filtered.map(d => `<div class="ap-glass" style="border-radius:14px;padding:14px;display:flex;align-items:flex-start;gap:12px">
+            ${d.image ? `<img src="${d.image}" alt="${esc(d.title)}" style="width:56px;height:56px;border-radius:12px;object-fit:cover;flex-shrink:0;background:#2a2a30" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="ap-dish-img-fallback" style="display:none"><i class="fas fa-utensils" style="color:#4a4a52"></i></div>` : `<div class="ap-dish-img-fallback"><i class="fas fa-utensils" style="color:#4a4a52"></i></div>`}
+            <div style="flex:1;min-width:0">
+              <p style="font-weight:600;font-size:0.85rem;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${esc(d.title)}">${esc(d.title)}</p>
+              <p style="font-size:0.75rem;color:#8a8a92;margin:3px 0">₹${d.price} · ${d.category}</p>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+                <span class="ap-badge ${d.dietary === 'veg' ? 'ap-badge-green' : 'ap-badge-rose'}">${d.dietary || 'non-veg'}</span>
+                <button style="font-size:0.75rem;background:none;border:none;cursor:pointer;color:${d.inStock ? '#A3B5A8' : '#B76D68'}" onclick="adminToggleStock(${d.id})">${d.inStock ? '✅ In Stock' : '⛔ Sold Out'}</button>
+              </div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0">
+              <button style="font-size:0.75rem;background:none;border:none;cursor:pointer;color:#C9A96E" onclick="adminEditDish(${d.id})"><i class="fas fa-pen" style="margin-right:3px"></i>Edit</button>
+              <button style="font-size:0.75rem;background:none;border:none;cursor:pointer;color:#B76D68" onclick="adminRequestDeleteDish(${d.id})"><i class="fas fa-trash" style="margin-right:3px"></i>Delete</button>
+            </div>
+          </div>`).join('')}
+          ${filtered.length === 0 ? `<div style="grid-column:1/-1;text-align:center;padding:48px 0"><i class="fas fa-search" style="font-size:2rem;color:#3a3a42;display:block;margin-bottom:10px"></i><p style="color:#6a6a72;margin:0">No dishes found.</p></div>` : ''}
+        </div>
+      </div>`;
+    }
+
+    window.adminToggleStock = (id) => {
+      const dishes = adminGetDishes();
+      const dish = dishes.find(d => d.id === id);
+      if (dish) {
+        dish.inStock = !dish.inStock;
+        adminSetDishes(dishes);
+        adminToast(dish.inStock ? `${dish.title} back In Stock` : `${dish.title} marked as Sold Out`, 'info');
+      }
+      renderAdminPanel();
+    };
+
+    window.adminEditDish = (id) => {
+      const dishes = adminGetDishes();
+      const dish = dishes.find(d => d.id === id);
+      if (dish) { adminState.editingDish = { ...dish }; renderAdminPanel(); }
+    };
+
+    window.adminRequestDeleteDish = (id) => {
+      const dishes = adminGetDishes();
+      const dish = dishes.find(d => d.id === id);
+      if (!dish) return;
+      adminState.confirmAction = {
+        message: `Are you sure you want to delete "${dish.title}"? This cannot be undone.`,
+        action: () => {
+          const updated = adminGetDishes().filter(d => d.id !== id);
+          adminSetDishes(updated);
+          adminState.confirmAction = null;
+          adminToast(`"${dish.title}" deleted.`, 'info');
+        }
+      };
+      renderAdminPanel();
+    };
+
+    window.adminAddDishSubmit = () => {
+      const nd = adminState.newDish;
+      if (!nd.title.trim()) { adminToast('Please enter a dish name.', 'error'); return; }
+      if (nd.price <= 0) { adminToast('Price must be greater than 0.', 'error'); return; }
+      const dishes = adminGetDishes();
+      dishes.push({ ...nd, title: nd.title.trim(), id: Date.now() });
+      adminSetDishes(dishes);
+      adminState.showAddForm = false;
+      adminState.newDish = { title: '', category: 'Sandwich', price: 100, dietary: 'non-veg', image: '', inStock: true };
+      adminToast('Dish created successfully!', 'success');
+      renderAdminPanel();
+    };
+
+    window.adminSaveDishEdit = () => {
+      const ed = adminState.editingDish;
+      if (!ed.title.trim()) { adminToast('Dish name cannot be empty.', 'error'); return; }
+      if (ed.price <= 0) { adminToast('Price must be greater than 0.', 'error'); return; }
+      const dishes = adminGetDishes().map(d => d.id === ed.id ? { ...ed, title: ed.title.trim() } : d);
+      adminSetDishes(dishes);
+      adminState.editingDish = null;
+      adminToast('Dish updated successfully!', 'success');
+      renderAdminPanel();
+    };
+
+    /* ===== ORDERS TAB ===== */
+    function adminOrdersTab() {
+      const orders = adminGetOrders();
+      const s = adminState.orderSearch.toLowerCase();
+      const users = getLocal('hk_users', {});
+      const filtered = orders.filter(o => {
+        if (s && !o.id.toString().includes(s) && !(users[o.userId]?.name || '').toLowerCase().includes(s)) return false;
+        if (adminState.orderFilter !== 'all' && o.status !== adminState.orderFilter) return false;
+        return true;
+      });
+      const statuses = ['all', 'pending', 'accepted', 'preparing', 'ready', 'out_for_delivery', 'delivered', 'cancelled'];
+      const statusCounts = {};
+      statuses.forEach(st => { statusCounts[st] = st === 'all' ? orders.length : orders.filter(o => o.status === st).length; });
+      const methodName = id => ({ upi: 'UPI / Google Pay', card: 'Card', cod: 'Cash', card_door: 'Card at Door' })[id] || '—';
+
+      return `<div class="ap-animate-fade">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px">
+          <h2 class="font-display" style="font-size:1.5rem;font-weight:700;color:#C9A96E;margin:0">Orders <span style="font-size:0.85rem;font-weight:400;color:#6a6a72">(${orders.length})</span></h2>
+          <div style="position:relative"><i class="fas fa-search" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#6a6a72;font-size:0.8rem"></i><input placeholder="Search by ID or customer..." value="${esc(adminState.orderSearch)}" oninput="adminState.orderSearch=this.value;renderAdminPanel()" style="padding-left:34px;width:240px;font-size:0.85rem" /></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px">
+          ${statuses.map(st => `<button class="ap-badge" style="cursor:pointer;padding:5px 14px;font-size:0.72rem;border:1px solid ${adminState.orderFilter === st ? '#C9A96E' : 'rgba(201,169,110,0.15)'};background:${adminState.orderFilter === st ? 'rgba(201,169,110,0.15)' : 'transparent'};color:${adminState.orderFilter === st ? '#C9A96E' : '#8a8a92'}" onclick="adminState.orderFilter='${st}';renderAdminPanel()">${st.replace(/_/g, ' ')} (${statusCounts[st]})</button>`).join('')}
+        </div>
+        <div class="ap-table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Customer</th><th>Items</th><th>Mode</th><th>Payment</th><th style="text-align:right">Total</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+            <tbody>
+              ${filtered.slice().reverse().map(o => `<tr>
+                <td style="font-family:monospace;color:#C9A96E;font-size:0.85rem;font-weight:600">#${o.id.slice(4, 12)}</td>
+                <td>${esc(users[o.userId]?.name || o.userId || 'Guest')}</td>
+                <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${esc(o.items.map(i => `${i.name} x${i.qty}`).join(', '))}">${o.items.map(i => `${esc(i.name)} x${i.qty}`).join(', ')}</td>
+                <td>${(o.fulfillment || 'delivery').replace(/_/g, ' ')}</td>
+                <td>${methodName(o.paymentMethod)}</td>
+                <td style="text-align:right;font-weight:600">₹${(o.grand || 0).toLocaleString('en-IN')}</td>
+                <td><span class="ap-badge ${o.status === 'delivered' ? 'ap-badge-green' : o.status === 'cancelled' ? 'ap-badge-rose' : o.status === 'out_for_delivery' ? 'ap-badge-blue' : 'ap-badge-gold'}">${(o.status || 'pending').replace(/_/g, ' ')}</span></td>
+                <td style="color:#8a8a92;font-size:0.8rem;white-space:nowrap">${o.createdAt ? new Date(o.createdAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '—'}</td>
+                <td><select value="${o.status}" onchange="adminSetOrderStatus('${o.id}',this.value)" style="font-size:0.75rem;width:auto;padding:5px 8px;border:1px solid rgba(201,169,110,0.2);border-radius:8px">
+                  ${['pending','accepted','preparing','ready','out_for_delivery','delivered','cancelled'].map(st => `<option value="${st}" ${o.status === st ? 'selected' : ''}>${st.replace(/_/g, ' ')}</option>`).join('')}
+                </select></td>
+              </tr>`).join('')}
+              ${filtered.length === 0 ? `<tr><td colspan="9" style="text-align:center;color:#6a6a72;padding:32px"><i class="fas fa-inbox" style="font-size:1.5rem;color:#3a3a42;display:block;margin-bottom:8px"></i>No orders match.</td></tr>` : ''}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+    }
+
+    window.adminSetOrderStatus = (id, status) => {
+      const orders = adminGetOrders().map(o => o.id === id ? { ...o, status } : o);
+      adminSetOrders(orders);
+      adminToast(`Order #${id.slice(4, 12)} → ${status.replace(/_/g, ' ')}`, 'success');
+      renderAdminPanel();
+    };
+
+    /* ===== DISCOUNTS TAB ===== */
+    function adminDiscountsTab() {
+      const codes = adminGetDiscounts();
+      return `<div class="ap-animate-fade">
+        <h2 class="font-display" style="font-size:1.5rem;font-weight:700;color:#C9A96E;margin:0 0 24px">Discount Codes</h2>
+        <div class="ap-glass" style="border-radius:16px;padding:20px;margin-bottom:24px">
+          <h3 class="font-display" style="font-size:1rem;font-weight:600;margin:0 0 12px">Create New Code</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end">
+            <div style="flex:1;min-width:140px"><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Code</label><input placeholder="e.g. SAVE10" value="${esc(adminState.newCode)}" oninput="adminState.newCode=this.value" style="font-size:0.85rem" /></div>
+            <div style="width:100px"><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">% Off</label><input type="number" min="1" max="100" placeholder="10" value="${esc(adminState.newPercent)}" oninput="adminState.newPercent=this.value" style="font-size:0.85rem" /></div>
+            <button class="ap-btn-gold" style="font-size:0.85rem;padding:10px 24px" onclick="adminAddDiscount()"><i class="fas fa-plus" style="margin-right:4px"></i> Add</button>
+          </div>
+        </div>
+        <div class="ap-table-wrap">
+          <table>
+            <thead><tr><th>Code</th><th style="text-align:center">Discount</th><th style="text-align:right">Action</th></tr></thead>
+            <tbody>
+              ${Object.entries(codes).map(([code, pct]) => `<tr>
+                <td style="font-family:monospace;color:#C9A96E;font-weight:600">${esc(code)}</td>
+                <td style="text-align:center"><span class="ap-badge ap-badge-green">${pct}% off</span></td>
+                <td style="text-align:right"><button style="font-size:0.8rem;background:none;border:none;cursor:pointer;color:#B76D68" onclick="adminRequestDeleteCode('${esc(code)}')"><i class="fas fa-trash" style="margin-right:3px"></i>Delete</button></td>
+              </tr>`).join('')}
+              ${Object.keys(codes).length === 0 ? `<tr><td colspan="3" style="text-align:center;color:#6a6a72;padding:32px"><i class="fas fa-tags" style="font-size:1.5rem;color:#3a3a42;display:block;margin-bottom:8px"></i>No discount codes yet.</td></tr>` : ''}
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+    }
+
+    window.adminAddDiscount = () => {
+      const code = adminState.newCode.trim().toUpperCase();
+      const pct = parseFloat(adminState.newPercent);
+      if (!code) { adminToast('Please enter a discount code.', 'error'); return; }
+      if (isNaN(pct) || pct <= 0 || pct > 100) { adminToast('Percentage must be between 1 and 100.', 'error'); return; }
+      const codes = adminGetDiscounts();
+      if (codes[code]) { adminToast(`Code "${code}" already exists.`, 'error'); return; }
+      codes[code] = pct;
+      adminSetDiscounts(codes);
+      adminState.newCode = '';
+      adminState.newPercent = '';
+      adminToast(`Discount code "${code}" (${pct}% off) created!`, 'success');
+      renderAdminPanel();
+    };
+
+    window.adminRequestDeleteCode = (code) => {
+      adminState.confirmAction = {
+        message: `Delete discount code "${code}"?`,
+        action: () => {
+          const codes = adminGetDiscounts();
+          delete codes[code];
+          adminSetDiscounts(codes);
+          adminState.confirmAction = null;
+          adminToast(`Code "${code}" deleted.`, 'info');
+          renderAdminPanel();
+        }
+      };
+      renderAdminPanel();
+    };
+
+    /* ===== SETTINGS TAB ===== */
+    function adminSettingsTab() {
+      return `<div class="ap-animate-fade" style="max-width:680px">
+        <h2 class="font-display" style="font-size:1.5rem;font-weight:700;color:#C9A96E;margin:0 0 24px">Site Settings</h2>
+        <div style="display:grid;gap:20px">
+
+          <div class="ap-glass" style="border-radius:16px;padding:20px">
+            <h3 class="font-display" style="font-size:1.1rem;font-weight:600;margin:0 0 4px">Loading Screen Background</h3>
+            <p style="font-size:0.75rem;color:#6a6a72;margin:0 0 12px">Shown while the site loads for the first time.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start">
+              <div style="flex:1;min-width:200px;display:grid;gap:8px">
+                <input placeholder="Paste image URL..." value="${esc(adminState.loaderBg)}" oninput="adminState.loaderBg=this.value" style="font-size:0.85rem" />
+                <label class="ap-btn-ghost" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:0.85rem;width:fit-content"><i class="fas fa-upload"></i> Upload Image<input type="file" accept="image/*" onchange="adminUploadImage(event,'loaderBg','uploadingLoader')" style="display:none" /></label>
+                ${adminState.uploadingLoader ? `<span style="font-size:0.75rem;color:#C9A96E;display:flex;align-items:center;gap:4px"><span class="ap-spinner" style="width:14px;height:14px"></span> uploading...</span>` : ''}
+              </div>
+              ${adminState.loaderBg ? `<div style="position:relative;flex-shrink:0"><img src="${adminState.loaderBg}" alt="Preview" style="width:80px;height:80px;object-fit:cover;border-radius:12px;border:1px solid rgba(201,169,110,0.2)" /><button onclick="adminState.loaderBg='';renderAdminPanel()" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#B76D68;border:none;color:#fff;font-size:0.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="fas fa-times"></i></button></div>` : ''}
+            </div>
+          </div>
+
+          <div class="ap-glass" style="border-radius:16px;padding:20px">
+            <h3 class="font-display" style="font-size:1.1rem;font-weight:600;margin:0 0 4px">Our Story Image</h3>
+            <p style="font-size:0.75rem;color:#6a6a72;margin:0 0 12px">Displayed in the "Our Story" section on the main page.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start">
+              <div style="flex:1;min-width:200px;display:grid;gap:8px">
+                <input placeholder="Paste image URL..." value="${esc(adminState.storyImg)}" oninput="adminState.storyImg=this.value" style="font-size:0.85rem" />
+                <label class="ap-btn-ghost" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:0.85rem;width:fit-content"><i class="fas fa-upload"></i> Upload Image<input type="file" accept="image/*" onchange="adminUploadImage(event,'storyImg','uploadingStory')" style="display:none" /></label>
+                ${adminState.uploadingStory ? `<span style="font-size:0.75rem;color:#C9A96E;display:flex;align-items:center;gap:4px"><span class="ap-spinner" style="width:14px;height:14px"></span> uploading...</span>` : ''}
+              </div>
+              ${adminState.storyImg ? `<div style="position:relative;flex-shrink:0"><img src="${adminState.storyImg}" alt="Preview" style="width:80px;height:80px;object-fit:cover;border-radius:12px;border:1px solid rgba(201,169,110,0.2)" /><button onclick="adminState.storyImg='';renderAdminPanel()" style="position:absolute;top:-6px;right:-6px;width:20px;height:20px;border-radius:50%;background:#B76D68;border:none;color:#fff;font-size:0.55rem;cursor:pointer;display:flex;align-items:center;justify-content:center"><i class="fas fa-times"></i></button></div>` : ''}
+            </div>
+          </div>
+
+          <div class="ap-glass" style="border-radius:16px;padding:20px">
+            <h3 class="font-display" style="font-size:1.1rem;font-weight:600;margin:0 0 4px">Change Password</h3>
+            <p style="font-size:0.75rem;color:#6a6a72;margin:0 0 12px">Update the admin panel password.</p>
+            <div style="display:grid;gap:10px">
+              <input type="password" placeholder="Current password" value="${esc(adminState.cpCurrent)}" oninput="adminState.cpCurrent=this.value" style="font-size:0.85rem" />
+              <input type="password" placeholder="New password (min 4 chars)" value="${esc(adminState.cpNew)}" oninput="adminState.cpNew=this.value" style="font-size:0.85rem" />
+              <input type="password" placeholder="Confirm new password" value="${esc(adminState.cpConfirm)}" oninput="adminState.cpConfirm=this.value" style="font-size:0.85rem" />
+              <button class="ap-btn-ghost" style="font-size:0.85rem;width:fit-content" onclick="adminChangePassword()" ${adminState.cpSaving ? 'disabled' : ''}>
+                ${adminState.cpSaving ? '<span class="ap-spinner" style="width:14px;height:14px;margin-right:6px"></span>Saving...' : '<i class="fas fa-key" style="margin-right:6px"></i>Change Password'}
+              </button>
+            </div>
+          </div>
+
+          <button class="ap-btn-gold" style="width:fit-content" onclick="adminSaveSettings()"><i class="fas fa-save" style="margin-right:8px"></i> Save Settings</button>
+        </div>
+      </div>`;
+    }
+
+    window.adminUploadImage = (e, stateKey, loadingKey) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { adminToast('Image must be under 5 MB.', 'error'); return; }
+      adminState[loadingKey] = true;
+      renderAdminPanel();
+      const reader = new FileReader();
+      reader.onload = (ev) => { adminState[stateKey] = ev.target.result; adminState[loadingKey] = false; adminToast('Image uploaded!', 'success'); renderAdminPanel(); };
+      reader.onerror = () => { adminState[loadingKey] = false; adminToast('Failed to read image.', 'error'); renderAdminPanel(); };
+      reader.readAsDataURL(file);
+    };
+
+    window.adminSaveSettings = () => {
+      const settings = { loaderBg: adminState.loaderBg, storyImg: adminState.storyImg };
+      setLocal('hk_settings', settings);
+      adminToast('Settings saved successfully!', 'success');
+    };
+
+    window.adminChangePassword = async () => {
+      if (!adminState.cpCurrent) { adminToast('Enter your current password.', 'error'); return; }
+      if (adminState.cpNew.length < 4) { adminToast('New password must be at least 4 characters.', 'error'); return; }
+      if (adminState.cpNew !== adminState.cpConfirm) { adminToast('Passwords do not match.', 'error'); return; }
+      adminState.cpSaving = true;
+      renderAdminPanel();
+      const currentHash = await hashPassword(adminState.cpCurrent);
+      if (currentHash !== adminState.passHash) {
+        adminToast('Current password is incorrect.', 'error');
+        adminState.cpSaving = false;
+        renderAdminPanel();
+        return;
+      }
+      const newHash = await hashPassword(adminState.cpNew);
+      setLocal('hk_admin_pass_hash', newHash);
+      adminState.passHash = newHash;
+      adminState.cpCurrent = '';
+      adminState.cpNew = '';
+      adminState.cpConfirm = '';
+      adminState.cpSaving = false;
+      adminToast('Password changed successfully!', 'success');
+      renderAdminPanel();
+    };
+
+    /* --- Modals & Confirm --- */
+    function adminAddDishModal() {
+      const nd = adminState.newDish;
+      return `<div class="ap-modal-bg" onclick="adminState.showAddForm=false;renderAdminPanel()"><div class="ap-modal-box" onclick="event.stopPropagation()">
+        <h3>🍽️ New Dish</h3>
+        <div style="display:grid;gap:10px">
+          <div><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Dish Name *</label><input placeholder="e.g. Chicken Burger" value="${esc(nd.title)}" oninput="adminState.newDish.title=this.value" /></div>
+          <div><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Category</label><select onchange="adminState.newDish.category=this.value">${adminCategories.map(c => `<option value="${c}" ${nd.category === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div>
+          <div><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Price (₹) *</label><input type="number" min="1" placeholder="100" value="${nd.price}" oninput="adminState.newDish.price=parseInt(this.value)||0" /></div>
+          <div><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Dietary</label><select onchange="adminState.newDish.dietary=this.value"><option value="veg" ${nd.dietary === 'veg' ? 'selected' : ''}>🥬 Veg</option><option value="non-veg" ${nd.dietary === 'non-veg' ? 'selected' : ''}>🍗 Non-Veg</option></select></div>
+          <div><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Image URL</label><input placeholder="https://..." value="${esc(nd.image)}" oninput="adminState.newDish.image=this.value" /></div>
+          <div style="display:flex;gap:10px;margin-top:6px">
+            <button class="ap-btn-gold" style="flex:1" onclick="adminAddDishSubmit()"><i class="fas fa-plus" style="margin-right:4px"></i> Create Dish</button>
+            <button class="ap-btn-ghost" style="flex:1" onclick="adminState.showAddForm=false;renderAdminPanel()">Cancel</button>
+          </div>
+        </div>
+      </div></div>`;
+    }
+
+    function adminEditDishModal() {
+      const ed = adminState.editingDish;
+      if (!ed) return '';
+      return `<div class="ap-modal-bg" onclick="adminState.editingDish=null;renderAdminPanel()"><div class="ap-modal-box" onclick="event.stopPropagation()">
+        <h3>✏️ Edit Dish</h3>
+        <div style="display:grid;gap:10px">
+          <div><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Dish Name *</label><input value="${esc(ed.title)}" oninput="adminState.editingDish.title=this.value" /></div>
+          <div><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Category</label><select onchange="adminState.editingDish.category=this.value">${adminCategories.map(c => `<option value="${c}" ${ed.category === c ? 'selected' : ''}>${c}</option>`).join('')}</select></div>
+          <div><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Price (₹) *</label><input type="number" min="1" value="${ed.price}" oninput="adminState.editingDish.price=parseInt(this.value)||0" /></div>
+          <div><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Dietary</label><select onchange="adminState.editingDish.dietary=this.value"><option value="veg" ${ed.dietary === 'veg' ? 'selected' : ''}>🥬 Veg</option><option value="non-veg" ${ed.dietary === 'non-veg' ? 'selected' : ''}>🍗 Non-Veg</option></select></div>
+          <div><label style="font-size:0.7rem;color:#8a8a92;display:block;margin-bottom:4px">Image URL</label><input value="${esc(ed.image)}" oninput="adminState.editingDish.image=this.value" /></div>
+          <div style="display:flex;gap:10px;margin-top:6px">
+            <button class="ap-btn-gold" style="flex:1" onclick="adminSaveDishEdit()"><i class="fas fa-check" style="margin-right:4px"></i> Save Changes</button>
+            <button class="ap-btn-ghost" style="flex:1" onclick="adminState.editingDish=null;renderAdminPanel()">Cancel</button>
+          </div>
+        </div>
+      </div></div>`;
+    }
+
+    function adminConfirmDialog() {
+      const c = adminState.confirmAction;
+      if (!c) return '';
+      return `<div class="ap-confirm-bg" onclick="adminState.confirmAction=null;renderAdminPanel()"><div class="ap-confirm-box" onclick="event.stopPropagation()">
+        <i class="fas fa-exclamation-triangle" style="color:#C9A96E;font-size:1.5rem;display:block;margin-bottom:12px"></i>
+        <p style="font-size:0.9rem;line-height:1.6;margin:0 0 18px">${c.message}</p>
+        <div style="display:flex;gap:10px;justify-content:center">
+          <button style="background:#B76D68;color:#fff;padding:8px 24px;border-radius:10px;border:none;cursor:pointer;font-size:0.85rem" onclick="adminState.confirmAction.action()">Yes, Delete</button>
+          <button class="ap-btn-ghost" style="padding:8px 24px;font-size:0.85rem" onclick="adminState.confirmAction=null;renderAdminPanel()">Cancel</button>
+        </div>
+      </div></div>`;
+    }
+
+    function adminToastsHTML() {
+      if (adminState.toasts.length === 0) return '';
+      return `<div class="ap-toast-wrap">${adminState.toasts.map(t => `<div class="ap-toast ap-toast-${t.type}">
+        ${t.type === 'success' ? '<i class="fas fa-check-circle" style="color:#A3B5A8"></i>' : ''}
+        ${t.type === 'error' ? '<i class="fas fa-exclamation-circle" style="color:#B76D68"></i>' : ''}
+        ${t.type === 'info' ? '<i class="fas fa-info-circle" style="color:#C9A96E"></i>' : ''}
+        ${esc(t.message)}
+      </div>`).join('')}</div>`;
+    }
+
+    /* ========================================
+       Initialize
+    ======================================== */
+    init();
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0f53cd5bc67b0aa',t:'MTc4MjA2ODIzMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0faa767795c5ef9',t:'MTc4MjEyNTAyNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
