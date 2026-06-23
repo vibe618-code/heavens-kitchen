@@ -210,8 +210,124 @@
     @keyframes slideIn{from{transform:translateX(100%)}to{transform:none}}
     @keyframes leftIn{from{transform:translateX(-100%)}to{transform:none}}
     @keyframes pop{from{opacity:0;transform:translate(-50%,-48%) scale(.98)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+    /* =====================================================================
+       POLISH & FIX PACK  (CSS-only · additive · does not alter desktop look)
+       ===================================================================== */
+
+    /* --- Robust text rendering & overflow safety --- */
+    html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+    body{ min-height:100vh; min-height:100dvh; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+    img{ max-width:100%; }
+    h1,h2,h3,p,a,b,span,.brand,.dish h3,.section-title{ overflow-wrap:anywhere; word-break:break-word; }
+    .brand{ overflow-wrap:normal; word-break:normal; } /* keep brand on one line */
+
+    /* --- Fixed-header anchor offset so #hero etc. aren't hidden under topbar --- */
+    [id]{ scroll-margin-top:84px; }
+
+    /* --- Graceful fallback when backdrop-filter is unsupported (no see-through bars) --- */
+    @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+      .glass{ background:var(--cream); }
+      .dark .glass{ background:var(--surface); }
+      .drawer-bg,.modal-bg{ background:rgba(0,0,0,.72); }
+    }
+
+    /* --- Accessible, visible keyboard focus on the customer site --- */
+    .btn:focus-visible,.iconbtn:focus-visible,.filter:focus-visible,.heart:focus-visible,
+    .tab:focus-visible,.qty button:focus-visible,a:focus-visible,
+    .field input:focus-visible,.field textarea:focus-visible,.field select:focus-visible,
+    .switch input:focus-visible{
+      outline:2px solid var(--red2);
+      outline-offset:2px;
+      border-radius:8px;
+    }
+    .field input:focus,.field textarea:focus,.field select:focus{
+      border-color:var(--red);
+      box-shadow:0 0 0 3px rgba(176,48,58,.15);
+    }
+    /* keep iconbtn focus ring circular */
+    .iconbtn:focus-visible,.heart:focus-visible,.qty button:focus-visible{ border-radius:50%; }
+
+    /* --- Smoother momentum scrolling inside drawers/modal on touch devices --- */
+    .drawer-body,.modal{ -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+
+    /* --- Status badge: readable text + per-status colours (was always grey) --- */
+    .status{ color:#fff; line-height:1.4; display:inline-block; white-space:nowrap; }
+    .status.pending,.status[data-status="pending"]{ background:var(--gold); color:#3a2a00; }
+    .status.accepted,.status[data-status="accepted"]{ background:#3b6ea2; }
+    .status.preparing,.status[data-status="preparing"]{ background:#b0303a; }
+    .status.ready,.status[data-status="ready"],
+    .status.out_for_delivery,.status[data-status="out_for_delivery"]{ background:#2f7da2; }
+    .status.delivered,.status[data-status="delivered"],
+    .status.completed,.status[data-status="completed"]{ background:var(--green); }
+    .status.cancelled,.status[data-status="cancelled"]{ background:var(--error); }
+
+    /* --- Disabled-button consistency for the round controls --- */
+    .qty button:disabled,.iconbtn:disabled,.filter:disabled{ opacity:.5; cursor:not-allowed; }
+
+    /* --- Hover affordance for interactive chips/cards (desktop pointers only) --- */
+    @media(hover:hover){
+      .filter:hover{ border-color:var(--red); }
+      .tab:hover{ border-color:var(--red); }
+      .iconbtn:hover{ background:rgba(176,48,58,.12); }
+    }
+
+    /* --- Prevent layout shift / image jump while remote images load --- */
+    .dish img,.story img,.cart-row img{ background:var(--beige); }
+
+    /* --- Print: clean receipt-style output, hide chrome --- */
+    @media print{
+      .topbar,.toast,.drawer,.drawer-bg,.modal-bg,.filters,.hero:before{ display:none!important; }
+      body{ background:#fff; color:#000; }
+      .card,.bill{ box-shadow:none; border-color:#999; }
+    }
+
+    /* --- Respect reduced-motion: disable non-essential animation/transition --- */
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        animation-duration:.001ms!important;
+        animation-iteration-count:1!important;
+        transition-duration:.001ms!important;
+        scroll-behavior:auto!important;
+      }
+      .dish:hover,.btn:hover{ transform:none; }
+      /* keep the order-progress bar fully filled instead of mid-animation */
+      .progress-fill{ width:100%!important; }
+    }
+
     @media(max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}.story{grid-template-columns:1fr}.story img{height:390px}}
     @media(max-width:560px){.grid{grid-template-columns:1fr}.hero p{font-size:17px}.section{padding:56px 0}.stats{grid-template-columns:1fr}.cart-row{grid-template-columns:54px 1fr}.cart-row .qty{grid-column:2}.dish img{height:220px}}
+
+    /* ===== Mobile / phone layout fixes (does NOT affect desktop) ===== */
+    @media(max-width:560px){
+      .container{padding:0 14px}
+      .topbar{padding:10px 0}
+      .topbar .row{gap:8px}
+      .brand{font-size:18px;letter-spacing:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .iconbtn{width:38px;height:38px;flex:0 0 auto}
+      .hamb i{width:18px}
+      /* push hero content below the fixed topbar so the top isn't clipped */
+      .hero-content{padding:120px 16px 40px}
+      .hero h1{margin:14px 0}
+      .section-title{margin:0 0 24px}
+      /* side menu / cart drawers fill the screen properly */
+      .drawer{width:100vw}
+      .side-drawer{width:min(320px,90vw)}
+      /* modal: give breathing room & allow scroll on short screens */
+      .modal{width:94vw;max-height:90vh;padding:18px;border-radius:20px}
+      .tabs{grid-template-columns:1fr 1fr;gap:6px}
+      .filters{gap:8px}
+      .filter{padding:8px 13px;font-size:13px}
+      .btn{padding:11px 16px}
+      .toast{left:14px;right:14px;text-align:center}
+    }
+    /* very small phones */
+    @media(max-width:380px){
+      .brand{font-size:16px}
+      .iconbtn{width:36px;height:36px}
+      .hero h1{font-size:38px}
+      .hero-content{padding:118px 14px 36px}
+      .tabs{grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
@@ -493,7 +609,7 @@
     }
 
     function headerHTML() {
-      return `<header class="topbar glass"><div class="container row"><div style="display:flex;align-items:center;gap:12px"><button class="iconbtn" onclick="state.sidebar=true;rerender()"><span class="hamb"><i></i><i></i><i></i></span></button><a class="brand" href="#hero">HEAVENSKITCHEN<span>.</span></a></div><div style="display:flex;align-items:center;gap:12px"><span class="muted" style="font-size:14px">${greeting()}, ${userName()}</span><button class="iconbtn" style="position:relative" onclick="state.cartOpen=true;rerender()">🛒${cartCount() ? `<span class="cart-count">${cartCount()}</span>` : ''}</button></div></div></header>`;
+      return `<header class="topbar glass"><div class="container row"><div style="display:flex;align-items:center;gap:12px"><button class="iconbtn" onclick="state.sidebar=true;rerender()"><span class="hamb"><i></i><i></i><i></i></span></button><a class="brand" href="#hero">HEAVENSKITCHEN<span>.</span></a></div><div style="display:flex;align-items:center;gap:12px"><button class="iconbtn" style="position:relative" onclick="state.cartOpen=true;rerender()">🛒${cartCount() ? `<span class="cart-count">${cartCount()}</span>` : ''}</button></div></div></header>`;
     }
 
     window.setFilter = c => { state.filter = state.filter === c ? '' : c; rerender(); setTimeout(() => location.hash = 'menu', 0); };
@@ -1515,5 +1631,5 @@ function animateSuccess() {
     ======================================== */
     init();
   </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0f53cd5bc67b0aa',t:'MTc4MjA2ODIzMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0faa767795c5ef9',t:'MTc4MjEyNTAyNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0f53cd5bc67b0aa',t:'MTc4MjA2ODIzMg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a0faa767795c5ef9',t:'MTc4MjEyNTAyNg=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script><script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a102e8f0ead62b45',t:'MTc4MjIxMTU5Ng=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
